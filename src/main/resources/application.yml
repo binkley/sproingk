@@ -1,3 +1,10 @@
+logging:
+  level:
+    root: WARN
+
 spring:
   application:
     name: Bob
+  output:
+    ansi:
+      enabled: always  # Lie because Spring does not grok Cygwin

@@ -1,21 +1,27 @@
 package hm.binkley.labs
 
 import org.slf4j.LoggerFactory
+import org.springframework.boot.Banner.Mode.OFF
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RestController
+
+val logger = LoggerFactory.getLogger(Application::class.java)
 
 @SpringBootApplication
 @RestController
 open class Application {
-    @RequestMapping("/")
+    @RequestMapping("/", method = arrayOf(GET))
     fun home(): String {
-        LoggerFactory.getLogger(Application::class.java).info("Hello, world!")
+        logger.warn("Hello, world!")
         return "Hello, world!"
     }
 }
 
 fun main(args: Array<String>) {
-    SpringApplication.run(Application::class.java, *args)
+    val app = SpringApplication(Application::class.java)
+    app.setBannerMode(OFF)
+    app.run(*args)
 }
