@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RestController
 
-val logger = LoggerFactory.getLogger(Application::class.java)
+val logger = LoggerFactory.getLogger(Application::class.java)!!
 
 @SpringBootApplication
 @RestController
