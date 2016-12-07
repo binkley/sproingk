@@ -30,16 +30,15 @@
         <generateBackupPoms>false</generateBackupPoms>
         <java.version>1.8</java.version>
         <kotlin.version>1.0.5-2</kotlin.version>
-        <maven-clean-plugin.version>2.6.1</maven-clean-plugin.version>
-        <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
+        <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
+        <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
-        <maven-testing-plugins.version>2.18.1</maven-testing-plugins.version>
-        <maven-jar-plugin.version>2.6</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
-        <maven-release-plugin.version>2.5.2</maven-release-plugin.version>
-        <maven-source-plugin.version>2.4</maven-source-plugin.version>
+        <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
+        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
         <spring-cloud.version>Camden.SR3</spring-cloud.version>
-        <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
+        <!-- TODO: Why is Sleuth version separate from cloud? -->
+        <spring-cloud-sleuth.version>1.1.0.RELEASE</spring-cloud-sleuth.version>
+        <versions-maven-plugin.version>2.3</versions-maven-plugin.version>
         <!-- @formatter:on -->
     </properties>
 
@@ -79,7 +78,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-sleuth</artifactId>
-                <version>1.1.0.BUILD-SNAPSHOT</version>
+                <version>${spring-cloud-sleuth.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -129,6 +128,7 @@
                 <artifactId>buildplan-maven-plugin</artifactId>
                 <version>${buildplan-maven-plugin.version}</version>
             </plugin>
+            <!-- TODO: Why does versions plugin *downgrade*?!
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
@@ -143,6 +143,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>${maven-clean-plugin.version}</version>
@@ -201,7 +202,12 @@
                 </executions>
             </plugin>
             <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+            </plugin>
+            <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>run-integration-tests</id>
