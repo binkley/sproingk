@@ -28,6 +28,7 @@
         <!-- @formatter:off -->
         <buildplan-maven-plugin.version>1.2</buildplan-maven-plugin.version>
         <generateBackupPoms>false</generateBackupPoms>
+        <java.charset>UTF-8</java.charset>
         <java.version>1.8</java.version>
         <kotlin.version>1.0.5-2</kotlin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
@@ -35,6 +36,9 @@
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
         <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <project.build.sourceEncoding>${java.charset}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
+        <spring-boot-ext-logback-access.version>1.6</spring-boot-ext-logback-access.version>
         <spring-cloud.version>Camden.SR3</spring-cloud.version>
         <!-- TODO: Why is Sleuth version separate from cloud? -->
         <spring-cloud-sleuth.version>1.1.0.RELEASE</spring-cloud-sleuth.version>
@@ -83,6 +87,12 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.rakugakibox.springbootext</groupId>
+            <artifactId>spring-boot-ext-logback-access</artifactId>
+            <version>${spring-boot-ext-logback-access.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
