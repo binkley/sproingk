@@ -38,7 +38,8 @@
         <spring-cloud.version>Camden.SR3</spring-cloud.version>
         <!-- TODO: Why is Sleuth version separate from cloud? -->
         <spring-cloud-sleuth.version>1.1.0.RELEASE</spring-cloud-sleuth.version>
-        <versions-maven-plugin.version>2.3</versions-maven-plugin.version>
+        <!-- Version 2.3 downgrades dependencies -->
+        <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
         <!-- @formatter:on -->
     </properties>
 
@@ -112,7 +113,6 @@
                 <artifactId>buildplan-maven-plugin</artifactId>
                 <version>${buildplan-maven-plugin.version}</version>
             </plugin>
-            <!-- TODO: Why does versions plugin *downgrade*?!
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
@@ -127,7 +127,6 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>${maven-clean-plugin.version}</version>
