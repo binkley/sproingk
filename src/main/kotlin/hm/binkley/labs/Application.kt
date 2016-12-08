@@ -16,7 +16,7 @@ open class Application {
     @RequestMapping("/", method = arrayOf(GET))
     fun home(): String {
         logger.warn("Hello, world!")
-        return "Hello, world!"
+        return "Hello, world!\n"
     }
 }
 
