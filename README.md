@@ -11,6 +11,10 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 * Sleuth
 * Integration test with Boot 1.4 features
 
+## Other features
+
+* JUnit 5
+
 ## Some reading
 
 * [Developing Spring Boot applications with Kotlin](https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin)
