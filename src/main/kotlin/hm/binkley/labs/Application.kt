@@ -17,7 +17,7 @@ val logger = LoggerFactory.getLogger(Application::class.java)!!
 open class Application {
     @RequestMapping("/", method = arrayOf(GET))
     fun home(): String {
-        logger.warn("Hello, world!")
+        logger.info("Hello, world!")
         return "Hello, world!\n"
     }
 }

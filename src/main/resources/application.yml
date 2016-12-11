@@ -1,6 +1,7 @@
 logging:
   level:
     root: WARN
+    hm.binkley.labs.Application: INFO
 
 spring:
   application:
