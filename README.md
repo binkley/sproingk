@@ -9,6 +9,7 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 * Actuator
 * Boot with REST
 * Sleuth
+* Integration test with Boot 1.4 features
 
 ## Some reading
 
