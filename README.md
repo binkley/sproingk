@@ -15,6 +15,10 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 
 * JUnit 5
 
+## Things to think about
+
+* Logging is still to noisy during tests.
+
 ## Some reading
 
 * [Developing Spring Boot applications with Kotlin](https://spring.io/blog/2016/02/15/developing-spring-boot-applications-with-kotlin)
