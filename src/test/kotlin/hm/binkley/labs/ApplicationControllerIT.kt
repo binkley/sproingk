@@ -11,7 +11,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT,
-        classes = arrayOf(Application::class))
+        classes = arrayOf(Application::class),
+        properties = arrayOf("spring.main.banner-mode=OFF"))
 internal open class ApplicationControllerIT {
     @Autowired lateinit var restTemplate: TestRestTemplate
 
