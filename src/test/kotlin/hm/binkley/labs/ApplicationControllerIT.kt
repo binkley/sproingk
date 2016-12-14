@@ -17,9 +17,6 @@ internal open class ApplicationControllerIT {
     @Autowired lateinit var restTemplate: TestRestTemplate
 
     @Test
-    fun shouldRespondCheerfully() {
-        val response = restTemplate.getForObject("/", String::class.java)
-
-        assertEquals("Hello, world!\n", response)
-    }
+    fun shouldRespondCheerfully() = assertEquals("Hello, world!\n",
+            restTemplate.getForObject("/", String::class.java))
 }
