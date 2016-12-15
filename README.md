@@ -30,3 +30,4 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 * [The Journey of a Spring Boot application from Java 8 to Kotlin: The Application Class](http://engineering.pivotal.io/post/spring-boot-application-with-kotlin/)
 * [Kotlin extensions for Spring projects](https://github.com/sdeleuze/spring-kotlin)
 * [JUnit 5 with Spring Boot (plus Kotlin)](https://objectpartners.com/2016/07/26/junit-5-with-spring-boot-plus-kotlin/)
+* [Testing improvements in Spring Boot 1.4](https://spring.io/blog/2016/04/15/testing-improvements-in-spring-boot-1-4)
