@@ -1,8 +1,7 @@
 package hm.binkley.labs
 
 import org.slf4j.LoggerFactory
-import org.springframework.boot.Banner.Mode.OFF
-import org.springframework.boot.SpringApplication
+import org.springframework.boot.SpringApplication.run
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,7 +22,5 @@ open class Application {
 }
 
 fun main(args: Array<String>) {
-    val app = SpringApplication(Application::class.java)
-    app.setBannerMode(OFF)
-    app.run(*args)
+    run(Application::class.java, *args)
 }
