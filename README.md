@@ -9,15 +9,19 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 * Actuator
 * Boot with REST
 * Sleuth
+* Unit test with Boot 1.4 features
 * Integration test with Boot 1.4 features
+* Shows git details with actuator `/info` endpoint
 
 ## Other features
 
 * JUnit 5
+* Quieter tests and runtime (always in progress!)
 
 ## Things to think about
 
 * Logging is still to noisy during tests.
+* Some "bleeding edge" difficulties, e.g., Spring REST docs + Spring 5 beta
 
 ## Some reading
 
