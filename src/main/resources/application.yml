@@ -17,5 +17,4 @@ spring:
 
 logging:
   level:
-    root: WARN
     hm.binkley.labs.Application: WARN
