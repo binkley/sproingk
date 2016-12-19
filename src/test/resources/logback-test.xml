@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Why is this here?  Because of load ordering for Spring+JUnit, and that
+     Spring is as noisy as a roomful of pre-teens, without this you get DEBUG
+     logging!  And fixing application.yml is too late. -->
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-    <logger name="org.springframework" level="WARN"/>
+    <logger name="ROOT" level="WARN"/>
 </configuration>
