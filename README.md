@@ -6,6 +6,7 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 
 ## Spring features
 
+* Latest Spring 5
 * Actuator
 * Boot with REST
 * Sleuth
@@ -15,12 +16,12 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 
 ## Other features
 
-* JUnit 5
+* Latest JUnit 5
 * Quieter tests and runtime (always in progress!)
 
 ## Things to think about
 
-* Logging is still to noisy during tests.
+* Logging is still to noisy during tests
 * Some "bleeding edge" difficulties, e.g., Spring REST docs + Spring 5 beta
 
 ## Some reading
