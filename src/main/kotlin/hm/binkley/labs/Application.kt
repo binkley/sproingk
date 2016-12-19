@@ -10,19 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RestController
 
-
 val logger = getLogger(Application::class.java)!!
 
 @EnableHystrixDashboard
 @SpringBootApplication
 @RestController
-open class Application : ApplicationListener<EmbeddedServletContainerInitializedEvent> {
-    @RequestMapping("/", method = arrayOf(GET))
-    fun home(): String = "Hello, world!\n"
-
+open class Application
+    : ApplicationListener<EmbeddedServletContainerInitializedEvent> {
     override fun onApplicationEvent(
             event: EmbeddedServletContainerInitializedEvent) = logger.info(
             "Ready on port ${event.embeddedServletContainer.port}")
+
+    @RequestMapping("/", method = arrayOf(GET))
+    fun home(): String = "Hello, world!\n"
 }
 
 fun main(args: Array<String>) {

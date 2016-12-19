@@ -233,6 +233,11 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <environmentVariables>
+                        <SPRING_PROFILES_ACTIVE>test</SPRING_PROFILES_ACTIVE>
+                    </environmentVariables>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.junit.platform</groupId>
@@ -254,6 +259,11 @@
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <environmentVariables>
+                        <SPRING_PROFILES_ACTIVE>test</SPRING_PROFILES_ACTIVE>
+                    </environmentVariables>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.junit.platform</groupId>

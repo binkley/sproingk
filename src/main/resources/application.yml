@@ -9,3 +9,13 @@ spring:
   output:
     ansi:
       enabled: always  # Lie because Spring does not grok Cygwin
+
+---
+
+spring:
+  profiles: test
+
+logging:
+  level:
+    root: WARN
+    hm.binkley.labs.Application: WARN
