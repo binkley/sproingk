@@ -1,24 +1,28 @@
 package hm.binkley.labs
 
-import org.slf4j.LoggerFactory
+import org.slf4j.LoggerFactory.getLogger
 import org.springframework.boot.SpringApplication.run
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
+import org.springframework.context.ApplicationListener
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RestController
 
-val logger = LoggerFactory.getLogger(Application::class.java)!!
+
+val logger = getLogger(Application::class.java)!!
 
 @EnableHystrixDashboard
 @SpringBootApplication
 @RestController
-open class Application {
+open class Application : ApplicationListener<EmbeddedServletContainerInitializedEvent> {
     @RequestMapping("/", method = arrayOf(GET))
-    fun home(): String {
-        logger.info("Hello, world!")
-        return "Hello, world!\n"
-    }
+    fun home(): String = "Hello, world!\n"
+
+    override fun onApplicationEvent(
+            event: EmbeddedServletContainerInitializedEvent) = logger.info(
+            "Ready on port ${event.embeddedServletContainer.port}")
 }
 
 fun main(args: Array<String>) {
