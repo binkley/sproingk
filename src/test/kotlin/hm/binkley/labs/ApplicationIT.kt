@@ -20,9 +20,11 @@ internal open class ApplicationIT {
     @DisplayName("WHEN root URL is called")
     @Nested
     inner class Root {
+        private val path = "/"
+
         @DisplayName("THEN it says 'Hello, world!'")
         @Test
         fun shouldRespondCheerfully() = assertEquals("Hello, world!\n",
-                restTemplate.getForObject("/", String::class.java))
+                restTemplate.getForObject(path, String::class.java))
     }
 }

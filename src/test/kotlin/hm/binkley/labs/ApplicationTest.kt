@@ -21,9 +21,11 @@ internal open class ApplicationTest {
     @DisplayName("WHEN root URL is called")
     @Nested
     inner class Root {
+        private val builder = get("/")
+
         @DisplayName("THEN it says 'Hello, world!'")
         @Test
-        fun shouldRespondCheerfully() = mvc.perform(get("/")).
+        fun shouldRespondCheerfully() = mvc.perform(builder).
                 andExpect(status().isOk).
                 andExpect(content().string("Hello, world!\n"))!!
     }
