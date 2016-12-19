@@ -2,6 +2,7 @@ package hm.binkley.labs
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,8 +17,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 internal open class ApplicationIT {
     @Autowired lateinit var restTemplate: TestRestTemplate
 
-    @DisplayName("WHEN root URL is called\nTHEN it says 'Hello, world!'")
-    @Test
-    fun shouldRespondCheerfully() = assertEquals("Hello, world!\n",
-            restTemplate.getForObject("/", String::class.java))
+    @DisplayName("WHEN root URL is called")
+    @Nested
+    inner class Root {
+        @DisplayName("THEN it says 'Hello, world!'")
+        @Test
+        fun shouldRespondCheerfully() = assertEquals("Hello, world!\n",
+                restTemplate.getForObject("/", String::class.java))
+    }
 }

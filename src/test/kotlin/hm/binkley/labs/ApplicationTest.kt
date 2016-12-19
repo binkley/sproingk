@@ -1,6 +1,7 @@
 package hm.binkley.labs
 
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,9 +18,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 internal open class ApplicationTest {
     @Autowired lateinit var mvc: MockMvc
 
-    @DisplayName("WHEN root URL is called\nTHEN it says 'Hello, world!'")
-    @Test
-    fun shouldRespondCheerfully() = mvc.perform(get("/")).
-            andExpect(status().isOk).
-            andExpect(content().string("Hello, world!\n"))!!
+    @DisplayName("WHEN root URL is called")
+    @Nested
+    inner class Root {
+        @DisplayName("THEN it says 'Hello, world!'")
+        @Test
+        fun shouldRespondCheerfully() = mvc.perform(get("/")).
+                andExpect(status().isOk).
+                andExpect(content().string("Hello, world!\n"))!!
+    }
 }
