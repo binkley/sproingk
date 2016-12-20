@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RestController
 
-val logger = getLogger(Application::class.java)!!
+private val logger = getLogger(Application::class.java)!!
 
 @EnableHystrixDashboard
 @SpringBootApplication
