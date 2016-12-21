@@ -15,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 internal open class ApplicationIT {
-    @Autowired lateinit var restTemplate: TestRestTemplate
+    @Autowired lateinit private var restTemplate: TestRestTemplate
 
     @DisplayName("WHEN root URL is called")
     @Nested
