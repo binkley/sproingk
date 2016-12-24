@@ -16,11 +16,9 @@ internal open class ApplicationIT : RestITBase() {
     @DisplayName("WHEN root URL is called")
     @Nested
     inner class Root {
-        private val path = "/"
-
         @DisplayName("THEN it says 'Hello, world!'")
         @Test
         fun shouldRespondCheerfully()
-                = assertEquals("Hello, world!\n", get(path))
+                = assertEquals("Hello, world!\n", get("/"))
     }
 }
