@@ -23,10 +23,10 @@ open class Application
             "Ready on port ${event.embeddedServletContainer.port}")
 
     @RequestMapping("/", method = arrayOf(GET))
-    fun home(): String = "Hello, world!\n"
+    fun home() = "Hello, world!\n"
 
     @RequestMapping("/{name}", method = arrayOf(GET))
-    fun home(@PathVariable name: String): String = "Hello, $name!\n"
+    fun home(@PathVariable name: String) = "Hello, $name!\n"
 }
 
 fun main(args: Array<String>) {
