@@ -5,21 +5,25 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
+import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @DisplayName("GIVEN a running application on a random port")
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-internal class ApplicationIT : RestITBase() {
+internal class ApplicationIT {
+    @Autowired lateinit private var restTemplate: TestRestTemplate
+
     @DisplayName("WHEN root URL is called")
     @Nested
     inner class Root {
         @DisplayName("THEN it says 'Hello, world!'")
         @Test
         fun shouldRespondCheerfully()
-                = assertEquals("Hello, world!\n", get("/"))
+                = assertEquals("Hello, world!", content("/"))
     }
 
     @DisplayName("WHEN name URL is called")
@@ -28,6 +32,9 @@ internal class ApplicationIT : RestITBase() {
         @DisplayName("THEN it says 'Hello, <name>!'")
         @Test
         fun shouldRespondCheerfully()
-                = assertEquals("Hello, Brian!\n", get("/Brian"))
+                = assertEquals("Hello, Brian!", content("/Brian"))
     }
+
+    private fun content(path: String) = restTemplate.getForObject(path,
+            Greeting::class.java).content
 }

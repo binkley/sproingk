@@ -9,7 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @DisplayName("GIVEN a mock MVC")
@@ -27,7 +27,7 @@ internal class ApplicationTest {
         @Test
         fun shouldRespondCheerfully() = mvc.perform(builder).
                 andExpect(status().isOk).
-                andExpect(content().string("Hello, world!\n"))!!
+                andExpect(jsonPath("$.content").value("Hello, world!"))!!
     }
 
     @DisplayName("WHEN name URL is called")
@@ -39,6 +39,6 @@ internal class ApplicationTest {
         @Test
         fun shouldRespondCheerfully() = mvc.perform(builder).
                 andExpect(status().isOk).
-                andExpect(content().string("Hello, Brian!\n"))!!
+                andExpect(jsonPath("$.content").value("Hello, Brian!"))!!
     }
 }
