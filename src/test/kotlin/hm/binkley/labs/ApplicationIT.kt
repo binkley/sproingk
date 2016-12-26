@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.http.HttpStatus.OK
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @DisplayName("GIVEN a running application on a random port")
@@ -22,8 +23,11 @@ internal class ApplicationIT {
     inner class Root {
         @DisplayName("THEN it says 'Hello, world!'")
         @Test
-        fun shouldRespondCheerfully()
-                = assertEquals("Hello, world!", content("/"))
+        fun shouldRespondCheerfully() {
+            val entity = entity("/")
+            assertEquals(OK, entity.statusCode)
+            assertEquals("Hello, world!", entity.body.content)
+        }
     }
 
     @DisplayName("WHEN name URL is called")
@@ -31,10 +35,13 @@ internal class ApplicationIT {
     inner class Name {
         @DisplayName("THEN it says 'Hello, <name>!'")
         @Test
-        fun shouldRespondCheerfully()
-                = assertEquals("Hello, Brian!", content("/Brian"))
+        fun shouldRespondCheerfully() {
+            val entity = entity("/Brian")
+            assertEquals(OK, entity.statusCode)
+            assertEquals("Hello, Brian!", entity.body.content)
+        }
     }
 
-    private fun content(path: String) = restTemplate.getForObject(path,
-            Greeting::class.java).content
+    private fun entity(path: String) = restTemplate.getForEntity(path,
+            Greeting::class.java)
 }
