@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @DisplayName("GIVEN a mock MVC")
 @ExtendWith(SpringExtension::class)
 @WebMvcTest
-internal open class ApplicationTest {
+internal class ApplicationTest {
     @Autowired lateinit var mvc: MockMvc
 
     @DisplayName("WHEN root URL is called")
@@ -28,5 +28,17 @@ internal open class ApplicationTest {
         fun shouldRespondCheerfully() = mvc.perform(builder).
                 andExpect(status().isOk).
                 andExpect(content().string("Hello, world!\n"))!!
+    }
+
+    @DisplayName("WHEN name URL is called")
+    @Nested
+    inner class Name {
+        private val builder = get("/Brian")
+
+        @DisplayName("THEN it says 'Hello, <name>!'")
+        @Test
+        fun shouldRespondCheerfully() = mvc.perform(builder).
+                andExpect(status().isOk).
+                andExpect(content().string("Hello, Brian!\n"))!!
     }
 }

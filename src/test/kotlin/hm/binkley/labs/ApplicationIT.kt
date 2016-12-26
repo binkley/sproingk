@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @DisplayName("GIVEN a running application on a random port")
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-internal open class ApplicationIT : RestITBase() {
+internal class ApplicationIT : RestITBase() {
     @DisplayName("WHEN root URL is called")
     @Nested
     inner class Root {
@@ -20,5 +20,14 @@ internal open class ApplicationIT : RestITBase() {
         @Test
         fun shouldRespondCheerfully()
                 = assertEquals("Hello, world!\n", get("/"))
+    }
+
+    @DisplayName("WHEN name URL is called")
+    @Nested
+    inner class Name {
+        @DisplayName("THEN it says 'Hello, <name>!'")
+        @Test
+        fun shouldRespondCheerfully()
+                = assertEquals("Hello, Brian!\n", get("/Brian"))
     }
 }

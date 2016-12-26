@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
 import org.springframework.context.ApplicationListener
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RestController
@@ -23,6 +24,9 @@ open class Application
 
     @RequestMapping("/", method = arrayOf(GET))
     fun home(): String = "Hello, world!\n"
+
+    @RequestMapping("/{name}", method = arrayOf(GET))
+    fun home(@PathVariable name: String): String = "Hello, $name!\n"
 }
 
 fun main(args: Array<String>) {
