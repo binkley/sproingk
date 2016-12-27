@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-open class GreetingController {
+open class GreetingController(private val repository: GreetingRepository) {
     @RequestMapping("/", method = arrayOf(GET))
     fun home() = Greeting("Hello, world!")
 

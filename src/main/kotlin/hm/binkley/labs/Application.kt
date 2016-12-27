@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
 import org.springframework.context.ApplicationListener
+import org.springframework.context.annotation.Bean
 
 private val logger = getLogger(Application::class.java)!!
 
@@ -16,6 +17,9 @@ open class Application
     override fun onApplicationEvent(
             event: EmbeddedServletContainerInitializedEvent) = logger.info(
             "Ready on port ${event.embeddedServletContainer.port}")
+
+    @Bean
+    open fun greetingRepository() = SlowGreetingRepository()
 }
 
 fun main(args: Array<String>) {
