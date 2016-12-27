@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @DisplayName("GIVEN a mock MVC")
 @ExtendWith(SpringExtension::class)
 @WebMvcTest
-internal class ApplicationTest {
+internal class GreetingControllerTest {
     @Autowired lateinit var mvc: MockMvc
 
     @DisplayName("WHEN root URL is called")

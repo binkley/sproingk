@@ -15,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @DisplayName("GIVEN a running application on a random port")
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-internal class ApplicationIT {
+internal class GreetingControllerIT {
     @Autowired lateinit private var restTemplate: TestRestTemplate
 
     @DisplayName("WHEN root URL is called")
