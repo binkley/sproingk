@@ -13,6 +13,7 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 * Unit test with Boot 1.4 features
 * Integration test with Boot 1.4 features
 * Shows git details with actuator `/info` endpoint
+* Example of REST batch round trip
 
 ## Other features
 
@@ -32,3 +33,4 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 * [Kotlin extensions for Spring projects](https://github.com/sdeleuze/spring-kotlin)
 * [JUnit 5 with Spring Boot (plus Kotlin)](https://objectpartners.com/2016/07/26/junit-5-with-spring-boot-plus-kotlin/)
 * [Testing improvements in Spring Boot 1.4](https://spring.io/blog/2016/04/15/testing-improvements-in-spring-boot-1-4)
+* [REST and long-running jobs](http://farazdagi.com/blog/2014/rest-long-running-jobs/)
