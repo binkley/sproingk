@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders.LOCATION
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
@@ -25,7 +26,7 @@ internal class GreetingControllerTest {
     inner class Root {
         @DisplayName("THEN it says 'Hello, world!'")
         @Test
-        fun shouldRespondCheerfully() = mvc.perform(get("/")).
+        fun shouldRespondCheerfully() = GET("/").
                 andExpect(status().isOk).
                 andExpect(content().string("Hello, world!\n"))!!
     }
@@ -35,7 +36,7 @@ internal class GreetingControllerTest {
     inner class Batch {
         @DisplayName("THEN it redirects to the queue for <name>")
         @Test
-        fun shouldRespondCheerfully() = mvc.perform(get("/batch/Brian")).
+        fun shouldRespondCheerfully() = GET("/batch/Brian").
                 andExpect(status().isTemporaryRedirect).
                 andExpect(header().string(LOCATION, "/queue/Brian"))!!
     }
@@ -48,7 +49,7 @@ internal class GreetingControllerTest {
         fun shouldRespondCheerfully() {
             repository.done = false
 
-            mvc.perform(get("/queue/Brian")).
+            GET("/queue/Brian").
                     andExpect(status().isOk)!!
         }
     }
@@ -61,7 +62,7 @@ internal class GreetingControllerTest {
         fun shouldRespondCheerfully() {
             repository.done = true
 
-            mvc.perform(get("/queue/Brian")).
+            GET("/queue/Brian").
                     andExpect(status().isSeeOther).
                     andExpect(header().string(LOCATION, "/ready/Brian"))!!
         }
@@ -72,8 +73,12 @@ internal class GreetingControllerTest {
     inner class Ready {
         @DisplayName("THEN it greets <name> warmly")
         @Test
-        fun shouldRespondCheerfully() = mvc.perform(get("/ready/Brian")).
-                andExpect(status().isOk).
-                andExpect(content().json("{\"content\":\"Brian\"}"))!!
+        fun shouldRespondCheerfully(): ResultActions {
+            return GET("/ready/Brian").
+                    andExpect(status().isOk).
+                    andExpect(content().json("{\"content\":\"Brian\"}"))!!
+        }
     }
+
+    private fun GET(path: String) = mvc.perform(get(path))
 }
