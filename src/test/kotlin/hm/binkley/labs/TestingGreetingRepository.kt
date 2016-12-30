@@ -25,4 +25,8 @@ class TestingGreetingRepository : GreetingRepository {
         COMPLETE -> Greeting(name)
         else -> throw IndexOutOfBoundsException(name)
     }
+
+    override fun delete(name: String) {
+        state = NONE
+    }
 }

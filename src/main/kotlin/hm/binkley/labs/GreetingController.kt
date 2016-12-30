@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity.ok
 import org.springframework.http.ResponseEntity.status
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod.DELETE
 import org.springframework.web.bind.annotation.RequestMethod.GET
 import org.springframework.web.bind.annotation.RestController
 import java.net.URI
@@ -46,4 +47,9 @@ open class GreetingController(private val repository: GreetingRepository) {
     } catch (_: IndexOutOfBoundsException) {
         status(NOT_FOUND).build()
     }!!
+
+    @RequestMapping("/queue/{name}", "/ready/{name}", method = arrayOf(DELETE))
+    fun delete(@PathVariable name: String) {
+        repository.delete(name)
+    }
 }

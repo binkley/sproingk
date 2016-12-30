@@ -110,6 +110,20 @@ internal class GreetingControllerIT {
         }
     }
 
+    @DisplayName("WHEN queue URL is called for <name> AND is deleted")
+    @Nested
+    inner class QueueDelete {
+        @DisplayName("THEN it says not found")
+        @Test
+        fun shouldComplainForQueueWhenDeleted() {
+            repository.state = PENDING
+
+            DELETE("/queue/Brian")
+            val entity = GET("/queue/Brian")
+            assertEquals(NOT_FOUND, entity.statusCode)
+        }
+    }
+
     @DisplayName("WHEN ready URL is called for <name> AND is new")
     @Nested
     inner class ReadyNew {
@@ -155,6 +169,22 @@ internal class GreetingControllerIT {
         }
     }
 
+    @DisplayName("WHEN ready URL is called for <name> AND is deleted")
+    @Nested
+    inner class ReadyDelete {
+        @DisplayName("THEN it says not found")
+        @Test
+        fun shouldComplainForReadyWhenDeleted() {
+            repository.state = COMPLETE
+
+            DELETE("/queue/Brian")
+            val entity = GET("/ready/Brian")
+            assertEquals(NOT_FOUND, entity.statusCode)
+        }
+    }
+
     private fun GET(path: String) = restTemplate.getForEntity(path,
             String::class.java)
+
+    private fun DELETE(path: String) = restTemplate.delete(path)
 }
