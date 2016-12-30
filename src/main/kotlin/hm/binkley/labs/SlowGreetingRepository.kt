@@ -11,7 +11,7 @@ class SlowGreetingRepository : GreetingRepository {
 
     override fun find(name: String) {
         cache[name] = supplyAsync {
-            SECONDS.sleep(1)
+            SECONDS.sleep(10)
             Greeting(name)
         }
     }
