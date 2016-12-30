@@ -177,7 +177,7 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenDeleted() {
             repository.state = COMPLETE
 
-            DELETE("/queue/Brian")
+            DELETE("/ready/Brian")
             val entity = GET("/ready/Brian")
             assertEquals(NOT_FOUND, entity.statusCode)
         }

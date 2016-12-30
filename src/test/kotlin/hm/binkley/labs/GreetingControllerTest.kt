@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders.LOCATION
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
@@ -115,6 +116,20 @@ internal class GreetingControllerTest {
         }
     }
 
+    @DisplayName("WHEN queue URL is called for <name> AND is deleted")
+    @Nested
+    inner class QueueDelete {
+        @DisplayName("THEN it says not found")
+        @Test
+        fun shouldComplainForqueueWhenDeleted() {
+            repository.state = PENDING
+
+            DELETE("/queue/Brian")
+            GET("/queue/Brian").
+                    andExpect(status().isNotFound)
+        }
+    }
+
     @DisplayName("WHEN ready URL is called for <name> AND is new")
     @Nested
     inner class ReadyNew {
@@ -159,5 +174,20 @@ internal class GreetingControllerTest {
         }
     }
 
+    @DisplayName("WHEN ready URL is called for <name> AND is deleted")
+    @Nested
+    inner class ReadyDelete {
+        @DisplayName("THEN it says not found")
+        @Test
+        fun shouldComplainForReadyWhenDeleted() {
+            repository.state = COMPLETE
+
+            DELETE("/ready/Brian")
+            GET("/ready/Brian").
+                    andExpect(status().isNotFound)
+        }
+    }
+
     private fun GET(path: String) = mvc.perform(get(path))
+    private fun DELETE(path: String) = mvc.perform(delete(path))
 }
