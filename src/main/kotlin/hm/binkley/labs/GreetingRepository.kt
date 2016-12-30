@@ -1,7 +1,7 @@
 package hm.binkley.labs
 
 interface GreetingRepository {
-    fun find(name: String)
+    fun create(name: String)
 
     fun ready(name: String): Boolean
 

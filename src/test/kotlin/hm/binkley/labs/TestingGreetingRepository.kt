@@ -1,10 +1,20 @@
 package hm.binkley.labs
 
-class TestingGreetingRepository : GreetingRepository {
-    var done = false
+import hm.binkley.labs.TestingGreetingRepository.State.COMPLETE
+import hm.binkley.labs.TestingGreetingRepository.State.NONE
+import hm.binkley.labs.TestingGreetingRepository.State.PENDING
 
-    override fun find(name: String) = Unit
-    override fun ready(name: String) = done
-    override fun get(name: String)
-            = if (done) Greeting(name) else throw IllegalStateException(name)
+class TestingGreetingRepository : GreetingRepository {
+    enum class State {
+        NONE, PENDING, COMPLETE
+    }
+
+    var state = NONE
+
+    override fun create(name: String) {
+        if (NONE == state) state = PENDING
+    }
+
+    override fun ready(name: String) = COMPLETE == state
+    override fun get(name: String) = Greeting(name)
 }

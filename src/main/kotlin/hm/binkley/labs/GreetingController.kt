@@ -18,7 +18,7 @@ open class GreetingController(private val repository: GreetingRepository) {
 
     @RequestMapping("/batch/{name}", method = arrayOf(GET))
     fun batch(@PathVariable name: String): ResponseEntity<*> {
-        repository.find(name)
+        repository.create(name)
         return status(TEMPORARY_REDIRECT).
                 location(URI.create("/queue/$name")).
                 build()

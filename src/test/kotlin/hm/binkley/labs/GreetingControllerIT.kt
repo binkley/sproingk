@@ -1,5 +1,7 @@
 package hm.binkley.labs
 
+import hm.binkley.labs.TestingGreetingRepository.State.COMPLETE
+import hm.binkley.labs.TestingGreetingRepository.State.PENDING
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -53,7 +55,7 @@ internal class GreetingControllerIT {
         @DisplayName("THEN it says to wait further")
         @Test
         fun shouldRespondCheerfully() {
-            repository.done = false
+            repository.state = PENDING
 
             val entity = get("/queue/Brian")
             assertEquals(OK, entity.statusCode)
@@ -66,7 +68,7 @@ internal class GreetingControllerIT {
         @DisplayName("THEN it redirects to the finished document for <name>")
         @Test
         fun shouldRespondCheerfully() {
-            repository.done = true
+            repository.state = COMPLETE
 
             val entity = get("/queue/Brian")
             assertEquals(SEE_OTHER, entity.statusCode)

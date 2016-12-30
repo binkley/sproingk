@@ -9,7 +9,7 @@ class SlowGreetingRepository : GreetingRepository {
     private val cache
             = ConcurrentHashMap<String, CompletableFuture<Greeting>>()
 
-    override fun find(name: String) {
+    override fun create(name: String) {
         cache[name] = supplyAsync {
             SECONDS.sleep(10)
             Greeting(name)
