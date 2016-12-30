@@ -52,7 +52,7 @@ internal class GreetingControllerTest {
     inner class BatchQueued {
         @DisplayName("THEN it redirects to the queue")
         @Test
-        fun shouldRedirectForBatchWhenPending() {
+        fun shouldRedirectForBatchWhenInProgress() {
             repository.state = PENDING
 
             GET("/batch/Brian").
@@ -66,7 +66,7 @@ internal class GreetingControllerTest {
     inner class BatchReady {
         @DisplayName("THEN it redirects to the completed document")
         @Test
-        fun shouldRedirectForBatchWhenComplete() {
+        fun shouldRedirectForBatchWhenReady() {
             repository.state = COMPLETE
 
             GET("/batch/Brian").
@@ -93,7 +93,7 @@ internal class GreetingControllerTest {
     inner class QueueNotReady {
         @DisplayName("THEN it says to wait further")
         @Test
-        fun shouldRespondForQueueWhenPending() {
+        fun shouldRespondForQueueWhenInProgress() {
             repository.state = PENDING
 
             GET("/queue/Brian").
@@ -106,7 +106,7 @@ internal class GreetingControllerTest {
     inner class QueueReady {
         @DisplayName("THEN it redirects to the completed document")
         @Test
-        fun shouldRedirectForQueueWhenComplete() {
+        fun shouldRedirectForQueueWhenReady() {
             repository.state = COMPLETE
 
             GET("/queue/Brian").
@@ -133,7 +133,7 @@ internal class GreetingControllerTest {
     inner class ReadyPending {
         @DisplayName("THEN it says not found")
         @Test
-        fun shouldComplainForReadyWhenPending() {
+        fun shouldComplainForReadyWhenInProgress() {
             repository.state = PENDING
 
             GET("/ready/Brian").
@@ -146,7 +146,7 @@ internal class GreetingControllerTest {
     inner class Ready {
         @DisplayName("THEN it gives warm greetings")
         @Test
-        fun shouldRespondForReadyWhenComplete() {
+        fun shouldRespondForReadyWhenReady() {
             repository.state = COMPLETE
 
             GET("/ready/Brian").
