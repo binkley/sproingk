@@ -21,7 +21,7 @@ class SlowGreetingRepository : GreetingRepository {
     override fun get(name: String) = cache(name).get()!!
 
     override fun delete(name: String) {
-        cache.remove(name)
+        cache.remove(name)?.cancel(true)
     }
 
     private fun cache(name: String)
