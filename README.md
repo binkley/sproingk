@@ -6,7 +6,7 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 
 ## Spring features
 
-* Latest Spring 5
+* Spring 5 M4
 * Actuator
 * Boot with REST
 * Sleuth
