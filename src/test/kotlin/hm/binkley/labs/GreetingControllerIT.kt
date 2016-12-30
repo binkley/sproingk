@@ -66,7 +66,7 @@ internal class GreetingControllerIT {
 
             val entity = GET("/batch/Brian")
             assertEquals(SEE_OTHER, entity.statusCode)
-            assertEquals(URI.create("/ready/Brian"), entity.headers.location)
+            assertEquals(URI.create("/greetings/Brian"), entity.headers.location)
         }
     }
 
@@ -106,7 +106,7 @@ internal class GreetingControllerIT {
 
             val entity = GET("/queue/Brian")
             assertEquals(SEE_OTHER, entity.statusCode)
-            assertEquals(URI.create("/ready/Brian"), entity.headers.location)
+            assertEquals(URI.create("/greetings/Brian"), entity.headers.location)
         }
     }
 
@@ -132,7 +132,7 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenNew() {
             repository.state = NONE
 
-            val entity = GET("/ready/Brian")
+            val entity = GET("/greetings/Brian")
             assertEquals(NOT_FOUND, entity.statusCode)
         }
     }
@@ -145,7 +145,7 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenPending() {
             repository.state = PENDING
 
-            val entity = GET("/ready/Brian")
+            val entity = GET("/greetings/Brian")
             assertEquals(NOT_FOUND, entity.statusCode)
         }
     }
@@ -158,7 +158,7 @@ internal class GreetingControllerIT {
         fun shouldRespondForReadyWhenComplete() {
             repository.state = COMPLETE
 
-            val entity = GET("/ready/Brian")
+            val entity = GET("/greetings/Brian")
             assertEquals(OK, entity.statusCode)
             JSONAssert.assertEquals("""
 {
@@ -177,8 +177,8 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenDeleted() {
             repository.state = COMPLETE
 
-            DELETE("/ready/Brian")
-            val entity = GET("/ready/Brian")
+            DELETE("/greetings/Brian")
+            val entity = GET("/greetings/Brian")
             assertEquals(NOT_FOUND, entity.statusCode)
         }
     }

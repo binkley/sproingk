@@ -24,7 +24,7 @@ open class GreetingController(private val repository: GreetingRepository) {
         repository.create(name)
         return if (repository.ready(name))
             status(SEE_OTHER).
-                    location(URI.create("/ready/$name")).
+                    location(URI.create("/greetings/$name")).
                     build()
         else status(TEMPORARY_REDIRECT).
                 location(URI.create("/queue/$name")).
@@ -35,20 +35,21 @@ open class GreetingController(private val repository: GreetingRepository) {
     fun queue(@PathVariable name: String) = try {
         if (repository.ready(name))
             status(SEE_OTHER).
-                    location(URI.create("/ready/$name"))
+                    location(URI.create("/greetings/$name"))
         else status(OK)
     } catch (_: IndexOutOfBoundsException) {
         status(NOT_FOUND)
     }.build()!!
 
-    @RequestMapping("/ready/{name}", method = arrayOf(GET))
-    fun ready(@PathVariable name: String) = try {
+    @RequestMapping("/greetings/{name}", method = arrayOf(GET))
+    fun greetings(@PathVariable name: String) = try {
         ok(repository[name])
     } catch (_: IndexOutOfBoundsException) {
         status(NOT_FOUND).build()
     }!!
 
-    @RequestMapping("/queue/{name}", "/ready/{name}", method = arrayOf(DELETE))
+    @RequestMapping("/queue/{name}", "/greetings/{name}",
+            method = arrayOf(DELETE))
     fun delete(@PathVariable name: String) {
         repository.delete(name)
     }
