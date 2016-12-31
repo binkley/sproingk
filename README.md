@@ -15,6 +15,10 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 * Shows git details with actuator `/info` endpoint
 * Example of REST batch round trip with status
 
+## Agile features
+
+* (Story wall)[https://github.com/binkley/sproingk/projects/2]
+
 ## Other features
 
 * Latest JUnit 5
