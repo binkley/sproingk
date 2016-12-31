@@ -1,3 +1,3 @@
 package hm.binkley.labs
 
-data class Greeting(var content: String = "")
+data class Greeting(val content: String)
