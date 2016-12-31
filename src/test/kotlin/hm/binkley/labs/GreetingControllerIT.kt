@@ -13,10 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.SEE_OTHER
 import org.springframework.http.HttpStatus.TEMPORARY_REDIRECT
+import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import java.net.URI
 
@@ -27,7 +29,6 @@ internal class GreetingControllerIT {
     @Autowired lateinit private var restTemplate: TestRestTemplate
     @Autowired lateinit var repository: TestingGreetingRepository
 
-
     @DisplayName("WHEN batch URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
@@ -37,14 +38,8 @@ internal class GreetingControllerIT {
             repository.state = NONE
 
             val entity = GET("/batch/Brian")
-            assertEquals(TEMPORARY_REDIRECT, entity.statusCode)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
-            JSONAssert.assertEquals("""
-{
-  state: "PENDING"
-}
-""",
-                    entity.body, STRICT)
+            entity.andExpect(TEMPORARY_REDIRECT, PENDING)
         }
     }
 
@@ -57,14 +52,8 @@ internal class GreetingControllerIT {
             repository.state = PENDING
 
             val entity = GET("/batch/Brian")
-            assertEquals(TEMPORARY_REDIRECT, entity.statusCode)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
-            JSONAssert.assertEquals("""
-{
-  state: "PENDING"
-}
-""",
-                    entity.body, STRICT)
+            entity.andExpect(TEMPORARY_REDIRECT, PENDING)
         }
     }
 
@@ -77,15 +66,9 @@ internal class GreetingControllerIT {
             repository.state = COMPLETE
 
             val entity = GET("/batch/Brian")
-            assertEquals(SEE_OTHER, entity.statusCode)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
-            JSONAssert.assertEquals("""
-{
-  state: "COMPLETE"
-}
-""",
-                    entity.body, STRICT)
+            entity.andExpect(SEE_OTHER, COMPLETE)
         }
     }
 
@@ -97,14 +80,7 @@ internal class GreetingControllerIT {
         fun shouldComplainForQueueWhenNew() {
             repository.state = NONE
 
-            val entity = GET("/queue/Brian")
-            assertEquals(NOT_FOUND, entity.statusCode)
-            JSONAssert.assertEquals("""
-{
-  state: "NONE"
-}
-""",
-                    entity.body, STRICT)
+            GET("/queue/Brian").andExpect(NOT_FOUND, NONE)
         }
     }
 
@@ -116,14 +92,7 @@ internal class GreetingControllerIT {
         fun shouldRespondForQueueWhenPending() {
             repository.state = PENDING
 
-            val entity = GET("/queue/Brian")
-            assertEquals(OK, entity.statusCode)
-            JSONAssert.assertEquals("""
-{
-  state: "PENDING"
-}
-""",
-                    entity.body, STRICT)
+            GET("/queue/Brian").andExpect(OK, PENDING)
         }
     }
 
@@ -136,15 +105,9 @@ internal class GreetingControllerIT {
             repository.state = COMPLETE
 
             val entity = GET("/queue/Brian")
-            assertEquals(SEE_OTHER, entity.statusCode)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
-            JSONAssert.assertEquals("""
-{
-  state: "COMPLETE"
-}
-""",
-                    entity.body, STRICT)
+            entity.andExpect(SEE_OTHER, COMPLETE)
         }
     }
 
@@ -157,14 +120,7 @@ internal class GreetingControllerIT {
             repository.state = PENDING
 
             DELETE("/queue/Brian")
-            val entity = GET("/queue/Brian")
-            assertEquals(NOT_FOUND, entity.statusCode)
-            JSONAssert.assertEquals("""
-{
-  state: "NONE"
-}
-""",
-                    entity.body, STRICT)
+            GET("/queue/Brian").andExpect(NOT_FOUND, NONE)
         }
     }
 
@@ -176,14 +132,7 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenNew() {
             repository.state = NONE
 
-            val entity = GET("/greetings/Brian")
-            assertEquals(NOT_FOUND, entity.statusCode)
-            JSONAssert.assertEquals("""
-{
-  state: "NONE"
-}
-""",
-                    entity.body, STRICT)
+            GET("/greetings/Brian").andExpect(NOT_FOUND, NONE)
         }
     }
 
@@ -195,14 +144,7 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenPending() {
             repository.state = PENDING
 
-            val entity = GET("/greetings/Brian")
-            assertEquals(NOT_FOUND, entity.statusCode)
-            JSONAssert.assertEquals("""
-{
-  state: "NONE"
-}
-""",
-                    entity.body, STRICT)
+            GET("/greetings/Brian").andExpect(NOT_FOUND, NONE)
         }
     }
 
@@ -234,14 +176,7 @@ internal class GreetingControllerIT {
             repository.state = COMPLETE
 
             DELETE("/greetings/Brian")
-            val entity = GET("/greetings/Brian")
-            assertEquals(NOT_FOUND, entity.statusCode)
-            JSONAssert.assertEquals("""
-{
-  state: "NONE"
-}
-""",
-                    entity.body, STRICT)
+            GET("/greetings/Brian").andExpect(NOT_FOUND, NONE)
         }
     }
 
@@ -249,4 +184,17 @@ internal class GreetingControllerIT {
             String::class.java)
 
     private fun DELETE(path: String) = restTemplate.delete(path)
+
+    private fun <T> ResponseEntity<T>.andExpect(status: HttpStatus,
+            state: State):
+            ResponseEntity<T> {
+        assertEquals(status, this.statusCode)
+        JSONAssert.assertEquals("""
+{
+  state: "$state"
+}
+""",
+                this.body.toString(), STRICT)
+        return this
+    }
 }
