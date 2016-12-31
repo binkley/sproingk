@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Why is this here?  Because of Spring spits out bootstrap messages before
+     logging is set up.  And fixing application.yml is too late. -->
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <logger name="ROOT" level="WARN"/>
+</configuration>
