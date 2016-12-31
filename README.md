@@ -13,7 +13,7 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 * Unit test with Boot 1.4 features
 * Integration test with Boot 1.4 features
 * Shows git details with actuator `/info` endpoint
-* Example of REST batch round trip
+* Example of REST batch round trip with status
 
 ## Other features
 
