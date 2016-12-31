@@ -1,8 +1,8 @@
 package hm.binkley.labs
 
-import hm.binkley.labs.TestingGreetingRepository.State.COMPLETE
-import hm.binkley.labs.TestingGreetingRepository.State.NONE
-import hm.binkley.labs.TestingGreetingRepository.State.PENDING
+import hm.binkley.labs.State.COMPLETE
+import hm.binkley.labs.State.NONE
+import hm.binkley.labs.State.PENDING
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders.LOCATION
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
@@ -44,7 +45,12 @@ internal class GreetingControllerTest {
 
             GET("/batch/Brian").
                     andExpect(status().isTemporaryRedirect).
-                    andExpect(header().string(LOCATION, "/queue/Brian"))!!
+                    andExpect(header().string(LOCATION, "/queue/Brian")).
+                    andExpect(content().json("""
+{
+  state: "PENDING"
+}
+"""))
         }
     }
 
@@ -58,7 +64,12 @@ internal class GreetingControllerTest {
 
             GET("/batch/Brian").
                     andExpect(status().isTemporaryRedirect).
-                    andExpect(header().string(LOCATION, "/queue/Brian"))!!
+                    andExpect(header().string(LOCATION, "/queue/Brian")).
+                    andExpect(content().json("""
+{
+  state: "PENDING"
+}
+"""))
         }
     }
 
@@ -72,7 +83,12 @@ internal class GreetingControllerTest {
 
             GET("/batch/Brian").
                     andExpect(status().isSeeOther).
-                    andExpect(header().string(LOCATION, "/greetings/Brian"))!!
+                    andExpect(header().string(LOCATION, "/greetings/Brian")).
+                    andExpect(content().json("""
+{
+  state: "COMPLETE"
+}
+"""))
         }
     }
 
@@ -84,8 +100,7 @@ internal class GreetingControllerTest {
         fun shouldComplainForQueueWhenNew() {
             repository.state = NONE
 
-            GET("/queue/Brian").
-                    andExpect(status().isNotFound)!!
+            GET("/queue/Brian").andExpectNotFound()
         }
     }
 
@@ -98,7 +113,12 @@ internal class GreetingControllerTest {
             repository.state = PENDING
 
             GET("/queue/Brian").
-                    andExpect(status().isOk)!!
+                    andExpect(status().isOk).
+                    andExpect(content().json("""
+{
+  state: "PENDING"
+}
+"""))
         }
     }
 
@@ -112,7 +132,12 @@ internal class GreetingControllerTest {
 
             GET("/queue/Brian").
                     andExpect(status().isSeeOther).
-                    andExpect(header().string(LOCATION, "/greetings/Brian"))
+                    andExpect(header().string(LOCATION, "/greetings/Brian")).
+                    andExpect(content().json("""
+{
+  state: "COMPLETE"
+}
+"""))
         }
     }
 
@@ -125,8 +150,7 @@ internal class GreetingControllerTest {
             repository.state = PENDING
 
             DELETE("/queue/Brian")
-            GET("/queue/Brian").
-                    andExpect(status().isNotFound)
+            GET("/queue/Brian").andExpectNotFound()
         }
     }
 
@@ -138,8 +162,7 @@ internal class GreetingControllerTest {
         fun shouldComplainForReadyWhenNew() {
             repository.state = NONE
 
-            GET("/greetings/Brian").
-                    andExpect(status().isNotFound)
+            GET("/greetings/Brian").andExpectNotFound()
         }
     }
 
@@ -151,8 +174,7 @@ internal class GreetingControllerTest {
         fun shouldComplainForReadyWhenInProgress() {
             repository.state = PENDING
 
-            GET("/greetings/Brian").
-                    andExpect(status().isNotFound)
+            GET("/greetings/Brian").andExpectNotFound()
         }
     }
 
@@ -168,7 +190,7 @@ internal class GreetingControllerTest {
                     andExpect(status().isOk).
                     andExpect(content().json("""
 {
-  "content": "Brian"
+  content: "Brian"
 }
 """))
         }
@@ -183,11 +205,18 @@ internal class GreetingControllerTest {
             repository.state = COMPLETE
 
             DELETE("/greetings/Brian")
-            GET("/greetings/Brian").
-                    andExpect(status().isNotFound)
+            GET("/greetings/Brian").andExpectNotFound()
         }
     }
 
     private fun GET(path: String) = mvc.perform(get(path))
     private fun DELETE(path: String) = mvc.perform(delete(path))
+
+    private fun ResultActions.andExpectNotFound()
+            = andExpect(status().isNotFound).
+            andExpect(content().json("""
+{
+  state: "NONE"
+}
+"""))
 }

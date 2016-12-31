@@ -1,14 +1,10 @@
 package hm.binkley.labs
 
-import hm.binkley.labs.TestingGreetingRepository.State.COMPLETE
-import hm.binkley.labs.TestingGreetingRepository.State.NONE
-import hm.binkley.labs.TestingGreetingRepository.State.PENDING
+import hm.binkley.labs.State.COMPLETE
+import hm.binkley.labs.State.NONE
+import hm.binkley.labs.State.PENDING
 
 class TestingGreetingRepository : GreetingRepository {
-    enum class State {
-        NONE, PENDING, COMPLETE
-    }
-
     var state = NONE
 
     override fun create(name: String) {

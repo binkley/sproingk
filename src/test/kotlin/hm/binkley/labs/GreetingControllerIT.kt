@@ -1,8 +1,8 @@
 package hm.binkley.labs
 
-import hm.binkley.labs.TestingGreetingRepository.State.COMPLETE
-import hm.binkley.labs.TestingGreetingRepository.State.NONE
-import hm.binkley.labs.TestingGreetingRepository.State.PENDING
+import hm.binkley.labs.State.COMPLETE
+import hm.binkley.labs.State.NONE
+import hm.binkley.labs.State.PENDING
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -39,6 +39,12 @@ internal class GreetingControllerIT {
             val entity = GET("/batch/Brian")
             assertEquals(TEMPORARY_REDIRECT, entity.statusCode)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
+            JSONAssert.assertEquals("""
+{
+  state: "PENDING"
+}
+""",
+                    entity.body, STRICT)
         }
     }
 
@@ -53,6 +59,12 @@ internal class GreetingControllerIT {
             val entity = GET("/batch/Brian")
             assertEquals(TEMPORARY_REDIRECT, entity.statusCode)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
+            JSONAssert.assertEquals("""
+{
+  state: "PENDING"
+}
+""",
+                    entity.body, STRICT)
         }
     }
 
@@ -66,7 +78,14 @@ internal class GreetingControllerIT {
 
             val entity = GET("/batch/Brian")
             assertEquals(SEE_OTHER, entity.statusCode)
-            assertEquals(URI.create("/greetings/Brian"), entity.headers.location)
+            assertEquals(URI.create("/greetings/Brian"),
+                    entity.headers.location)
+            JSONAssert.assertEquals("""
+{
+  state: "COMPLETE"
+}
+""",
+                    entity.body, STRICT)
         }
     }
 
@@ -80,6 +99,12 @@ internal class GreetingControllerIT {
 
             val entity = GET("/queue/Brian")
             assertEquals(NOT_FOUND, entity.statusCode)
+            JSONAssert.assertEquals("""
+{
+  state: "NONE"
+}
+""",
+                    entity.body, STRICT)
         }
     }
 
@@ -93,6 +118,12 @@ internal class GreetingControllerIT {
 
             val entity = GET("/queue/Brian")
             assertEquals(OK, entity.statusCode)
+            JSONAssert.assertEquals("""
+{
+  state: "PENDING"
+}
+""",
+                    entity.body, STRICT)
         }
     }
 
@@ -106,7 +137,14 @@ internal class GreetingControllerIT {
 
             val entity = GET("/queue/Brian")
             assertEquals(SEE_OTHER, entity.statusCode)
-            assertEquals(URI.create("/greetings/Brian"), entity.headers.location)
+            assertEquals(URI.create("/greetings/Brian"),
+                    entity.headers.location)
+            JSONAssert.assertEquals("""
+{
+  state: "COMPLETE"
+}
+""",
+                    entity.body, STRICT)
         }
     }
 
@@ -121,6 +159,12 @@ internal class GreetingControllerIT {
             DELETE("/queue/Brian")
             val entity = GET("/queue/Brian")
             assertEquals(NOT_FOUND, entity.statusCode)
+            JSONAssert.assertEquals("""
+{
+  state: "NONE"
+}
+""",
+                    entity.body, STRICT)
         }
     }
 
@@ -134,6 +178,12 @@ internal class GreetingControllerIT {
 
             val entity = GET("/greetings/Brian")
             assertEquals(NOT_FOUND, entity.statusCode)
+            JSONAssert.assertEquals("""
+{
+  state: "NONE"
+}
+""",
+                    entity.body, STRICT)
         }
     }
 
@@ -147,6 +197,12 @@ internal class GreetingControllerIT {
 
             val entity = GET("/greetings/Brian")
             assertEquals(NOT_FOUND, entity.statusCode)
+            JSONAssert.assertEquals("""
+{
+  state: "NONE"
+}
+""",
+                    entity.body, STRICT)
         }
     }
 
@@ -162,7 +218,7 @@ internal class GreetingControllerIT {
             assertEquals(OK, entity.statusCode)
             JSONAssert.assertEquals("""
 {
-  "content": "Brian"
+  content: "Brian"
 }
 """,
                     entity.body, STRICT)
@@ -180,6 +236,12 @@ internal class GreetingControllerIT {
             DELETE("/greetings/Brian")
             val entity = GET("/greetings/Brian")
             assertEquals(NOT_FOUND, entity.statusCode)
+            JSONAssert.assertEquals("""
+{
+  state: "NONE"
+}
+""",
+                    entity.body, STRICT)
         }
     }
 

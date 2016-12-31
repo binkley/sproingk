@@ -1,5 +1,8 @@
 package hm.binkley.labs
 
+import hm.binkley.labs.State.COMPLETE
+import hm.binkley.labs.State.NONE
+import hm.binkley.labs.State.PENDING
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.SEE_OTHER
@@ -25,32 +28,34 @@ open class GreetingController(private val repository: GreetingRepository) {
         return if (repository.ready(name))
             status(SEE_OTHER).
                     location(URI.create("/greetings/$name")).
-                    build()
+                    body(Status(COMPLETE))
         else status(TEMPORARY_REDIRECT).
                 location(URI.create("/queue/$name")).
-                build()
+                body(Status(PENDING))
     }
 
     @RequestMapping("/queue/{name}", method = arrayOf(GET))
     fun queue(@PathVariable name: String) = try {
         if (repository.ready(name))
             status(SEE_OTHER).
-                    location(URI.create("/greetings/$name"))
-        else status(OK)
+                    location(URI.create("/greetings/$name")).
+                    body(Status(COMPLETE))
+        else status(OK).
+                body(Status(PENDING))
     } catch (_: IndexOutOfBoundsException) {
-        status(NOT_FOUND)
-    }.build()!!
+        status(NOT_FOUND).
+                body(Status(NONE))
+    }
 
     @RequestMapping("/greetings/{name}", method = arrayOf(GET))
     fun greetings(@PathVariable name: String) = try {
         ok(repository[name])
     } catch (_: IndexOutOfBoundsException) {
-        status(NOT_FOUND).build()
+        status(NOT_FOUND).
+                body(Status(NONE))
     }!!
 
     @RequestMapping("/queue/{name}", "/greetings/{name}",
             method = arrayOf(DELETE))
-    fun delete(@PathVariable name: String) {
-        repository.delete(name)
-    }
+    fun delete(@PathVariable name: String) = repository.delete(name)
 }
