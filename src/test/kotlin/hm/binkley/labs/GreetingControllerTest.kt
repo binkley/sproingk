@@ -40,7 +40,7 @@ internal class GreetingControllerTest {
                 andExpect(content().string("Hello, world!\n"))!!
     }
 
-    @DisplayName("WHEN batch URL is called for <name> AND is new")
+    @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
         @DisplayName("THEN it redirects to the queue")
@@ -48,13 +48,13 @@ internal class GreetingControllerTest {
         fun shouldRedirectForBatchWhenNew() {
             repository.state = NONE
 
-            GET("/batch/Brian").
+            GET("/greet/Brian").
                     andExpect(header().string(LOCATION, "/queue/Brian")).
                     andExpect(TEMPORARY_REDIRECT, PENDING)
         }
     }
 
-    @DisplayName("WHEN batch URL is called for <name> AND is in progress")
+    @DisplayName("WHEN greet URL is called for <name> AND is in progress")
     @Nested
     inner class BatchQueued {
         @DisplayName("THEN it redirects to the queue")
@@ -62,13 +62,13 @@ internal class GreetingControllerTest {
         fun shouldRedirectForBatchWhenInProgress() {
             repository.state = PENDING
 
-            GET("/batch/Brian").
+            GET("/greet/Brian").
                     andExpect(header().string(LOCATION, "/queue/Brian")).
                     andExpect(TEMPORARY_REDIRECT, PENDING)
         }
     }
 
-    @DisplayName("WHEN batch URL is called for <name> AND is ready")
+    @DisplayName("WHEN greet URL is called for <name> AND is ready")
     @Nested
     inner class BatchReady {
         @DisplayName("THEN it redirects to the completed document")
@@ -76,7 +76,7 @@ internal class GreetingControllerTest {
         fun shouldRedirectForBatchWhenReady() {
             repository.state = COMPLETE
 
-            GET("/batch/Brian").
+            GET("/greet/Brian").
                     andExpect(header().string(LOCATION, "/greetings/Brian")).
                     andExpect(SEE_OTHER, COMPLETE)
         }

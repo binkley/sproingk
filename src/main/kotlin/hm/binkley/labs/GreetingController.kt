@@ -22,8 +22,8 @@ open class GreetingController(private val repository: GreetingRepository) {
     @RequestMapping("/", method = arrayOf(GET))
     fun home() = "Hello, world!\n"
 
-    @RequestMapping("/batch/{name}", method = arrayOf(GET))
-    fun batch(@PathVariable name: String): ResponseEntity<*> {
+    @RequestMapping("/greet/{name}", method = arrayOf(GET))
+    fun greet(@PathVariable name: String): ResponseEntity<*> {
         repository.create(name)
         return if (repository.ready(name))
             status(SEE_OTHER).

@@ -29,7 +29,7 @@ internal class GreetingControllerIT {
     @Autowired lateinit private var restTemplate: TestRestTemplate
     @Autowired lateinit var repository: TestingGreetingRepository
 
-    @DisplayName("WHEN batch URL is called for <name> AND is new")
+    @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
         @DisplayName("THEN it redirects to the queue")
@@ -37,13 +37,13 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenNew() {
             repository.state = NONE
 
-            val entity = GET("/batch/Brian")
+            val entity = GET("/greet/Brian")
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
             entity.andExpect(TEMPORARY_REDIRECT, PENDING)
         }
     }
 
-    @DisplayName("WHEN batch URL is called for <name> AND is in progress")
+    @DisplayName("WHEN greet URL is called for <name> AND is in progress")
     @Nested
     inner class BatchInProgress {
         @DisplayName("THEN it redirects to the queue")
@@ -51,13 +51,13 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenPending() {
             repository.state = PENDING
 
-            val entity = GET("/batch/Brian")
+            val entity = GET("/greet/Brian")
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
             entity.andExpect(TEMPORARY_REDIRECT, PENDING)
         }
     }
 
-    @DisplayName("WHEN batch URL is called for <name> AND is ready")
+    @DisplayName("WHEN greet URL is called for <name> AND is ready")
     @Nested
     inner class BatchReady {
         @DisplayName("THEN it redirects to the completed document")
@@ -65,7 +65,7 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenComplete() {
             repository.state = COMPLETE
 
-            val entity = GET("/batch/Brian")
+            val entity = GET("/greet/Brian")
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
             entity.andExpect(SEE_OTHER, COMPLETE)
