@@ -17,7 +17,8 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 
 ## Agile features
 
-* (Story wall)[https://github.com/binkley/sproingk/projects/2]
+* [Story wall](https://github.com/binkley/sproingk/projects/2)
+* [CI](https://circleci.com/gh/binkley/sproingk)
 
 ## Other features
 
