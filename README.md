@@ -4,7 +4,7 @@ Spring Boot with Kotlin
 
 This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 
-[![CircleCI](https://circleci.com/gh/binkley/sproingk.svg?style=svg)](https://circleci.com/gh/binkley/sproingk) [![unlicense](https://img.shields.io/badge/un-license-green.svg?style=flat)](http://unlicense.org)
+[![CircleCI](https://img.shields.io/circleci/project/github/binkley/sproink.svg)](https://circleci.com/gh/binkley/sproingk) [![unlicense](https://img.shields.io/badge/un-license-green.svg?style=flat)](http://unlicense.org)]
 
 ## Spring features
 
