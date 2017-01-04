@@ -29,7 +29,7 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 
 * Logging is still to noisy during tests
 * Some "bleeding edge" difficulties, e.g., Spring REST docs + Spring 5 beta
-* Replace nested tests with scenario tests (see [Introduce first-class support for scenario tests #48](https://github.com/junit-team/junit5/issues/48), pending [5.0 M5](https://github.com/junit-team/junit5/milestone/8) drop of JUnit
+* Replace nested tests with scenario tests (see [Introduce first-class support for scenario tests #48](https://github.com/junit-team/junit5/issues/48), pending [5.0 M5](https://github.com/junit-team/junit5/milestone/8) drop of JUnit)
 
 ## Some reading
 
