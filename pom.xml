@@ -41,9 +41,9 @@
         <project.build.sourceEncoding>${java.charset}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
         <spring-boot-ext-logback-access.version>1.6</spring-boot-ext-logback-access.version>
-        <spring-cloud.version>Camden.SR3</spring-cloud.version>
+        <spring-cloud.version>Camden.SR4</spring-cloud.version>
         <!-- TODO: Why is Sleuth version separate from cloud? -->
-        <spring-cloud-sleuth.version>1.1.0.RELEASE</spring-cloud-sleuth.version>
+        <spring-cloud-sleuth.version>1.1.1.RELEASE</spring-cloud-sleuth.version>
         <spring.version>5.0.0.M4</spring.version>
         <!-- Version 2.3 downgrades dependencies -->
         <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
