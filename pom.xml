@@ -43,6 +43,7 @@
         <spring-boot-ext-logback-access.version>1.6</spring-boot-ext-logback-access.version>
         <spring-cloud.version>Camden.SR4</spring-cloud.version>
         <spring.version>5.0.0.M4</spring.version>
+        <surefire.printSummary>false</surefire.printSummary>
         <versions-maven-plugin.version>2.3</versions-maven-plugin.version>
         <!-- @formatter:on -->
     </properties>
