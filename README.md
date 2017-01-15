@@ -25,6 +25,7 @@ This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 ## Other features
 
 * Latest JUnit 5
+* Access logging ala CLF style
 * Quieter tests and runtime (always in progress!)
 
 ## Things to think about
