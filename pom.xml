@@ -45,8 +45,7 @@
         <!-- TODO: Why is Sleuth version separate from cloud? -->
         <spring-cloud-sleuth.version>1.1.1.RELEASE</spring-cloud-sleuth.version>
         <spring.version>5.0.0.M4</spring.version>
-        <!-- Version 2.3 downgrades dependencies -->
-        <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.3</versions-maven-plugin.version>
         <!-- @formatter:on -->
     </properties>
 
