@@ -18,7 +18,7 @@ class TestingGreetingRepository : GreetingRepository {
     }
 
     override fun get(name: String) = when (state) {
-        COMPLETE -> Greeting(name)
+        COMPLETE -> Greeting(name, Status(state))
         else -> throw IndexOutOfBoundsException(name)
     }
 

@@ -1,5 +1,6 @@
 package hm.binkley.labs
 
+import hm.binkley.labs.State.COMPLETE
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.CompletableFuture.supplyAsync
 import java.util.concurrent.ConcurrentHashMap
@@ -12,7 +13,7 @@ class SlowGreetingRepository : GreetingRepository {
     override fun create(name: String) {
         cache[name] = supplyAsync {
             SECONDS.sleep(10)
-            Greeting("Hello, $name!")
+            Greeting("Hello, $name!", Status(COMPLETE))
         }
     }
 

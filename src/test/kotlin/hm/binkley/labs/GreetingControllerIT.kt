@@ -160,7 +160,10 @@ internal class GreetingControllerIT {
             assertEquals(OK, entity.statusCode)
             JSONAssert.assertEquals("""
 {
-  content: "Brian"
+  content: "Brian",
+  status: {
+    state: "${repository.state}"
+  }
 }
 """,
                     entity.body, STRICT)
