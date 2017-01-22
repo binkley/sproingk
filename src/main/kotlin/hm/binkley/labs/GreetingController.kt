@@ -45,7 +45,7 @@ open class GreetingController(private val repository: GreetingRepository) {
     } catch (_: IndexOutOfBoundsException) {
         status(NOT_FOUND).
                 body(Status(NONE))
-    }
+    }!!
 
     @RequestMapping("/greetings/{name}", method = arrayOf(GET))
     fun greetings(@PathVariable name: String) = try {
