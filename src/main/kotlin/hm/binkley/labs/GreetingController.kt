@@ -1,7 +1,6 @@
 package hm.binkley.labs
 
 import hm.binkley.labs.State.COMPLETE
-import hm.binkley.labs.State.NONE
 import hm.binkley.labs.State.PENDING
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
@@ -44,7 +43,7 @@ open class GreetingController(private val repository: GreetingRepository) {
                 body(Status(PENDING))
     } catch (_: IndexOutOfBoundsException) {
         status(NOT_FOUND).
-                body(Status(NONE))
+                build<Status>()
     }!!
 
     @RequestMapping("/greetings/{name}", method = arrayOf(GET))
@@ -54,10 +53,10 @@ open class GreetingController(private val repository: GreetingRepository) {
             ok(Greeting(greeting, Status(COMPLETE)))
         else
             status(NOT_FOUND).
-                    body(Status(NONE))
+                    build()
     } catch (_: IndexOutOfBoundsException) {
         status(NOT_FOUND).
-                body(Status(NONE))
+                build<Status>()
     }!!
 
     @RequestMapping("/queue/{name}", "/greetings/{name}",

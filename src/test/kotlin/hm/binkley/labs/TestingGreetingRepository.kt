@@ -1,14 +1,13 @@
 package hm.binkley.labs
 
 import hm.binkley.labs.State.COMPLETE
-import hm.binkley.labs.State.NONE
 import hm.binkley.labs.State.PENDING
 
 class TestingGreetingRepository : GreetingRepository {
-    var state = NONE
+    var state: State? = null
 
     override fun create(name: String) {
-        if (NONE == state) state = PENDING
+        if (null == state) state = PENDING
     }
 
     override fun get(name: String) = when (state) {
@@ -18,6 +17,6 @@ class TestingGreetingRepository : GreetingRepository {
     }
 
     override fun delete(name: String) {
-        state = NONE
+        state = null
     }
 }

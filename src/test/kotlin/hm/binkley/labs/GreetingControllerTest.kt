@@ -1,7 +1,6 @@
 package hm.binkley.labs
 
 import hm.binkley.labs.State.COMPLETE
-import hm.binkley.labs.State.NONE
 import hm.binkley.labs.State.PENDING
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -46,7 +45,7 @@ internal class GreetingControllerTest {
         @DisplayName("THEN it redirects to the queue")
         @Test
         fun shouldRedirectForBatchWhenNew() {
-            repository.state = NONE
+            repository.state = null
 
             GET("/greet/Brian").
                     andExpect(header().string(LOCATION, "/queue/Brian")).
@@ -88,9 +87,9 @@ internal class GreetingControllerTest {
         @DisplayName("THEN it says not found")
         @Test
         fun shouldComplainForQueueWhenNew() {
-            repository.state = NONE
+            repository.state = null
 
-            GET("/queue/Brian").andExpect(NOT_FOUND, NONE)
+            GET("/queue/Brian").andExpect(NOT_FOUND)
         }
     }
 
@@ -129,7 +128,7 @@ internal class GreetingControllerTest {
             repository.state = PENDING
 
             DELETE("/queue/Brian")
-            GET("/queue/Brian").andExpect(NOT_FOUND, NONE)
+            GET("/queue/Brian").andExpect(NOT_FOUND)
         }
     }
 
@@ -139,9 +138,9 @@ internal class GreetingControllerTest {
         @DisplayName("THEN it says not found")
         @Test
         fun shouldComplainForReadyWhenNew() {
-            repository.state = NONE
+            repository.state = null
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND, NONE)
+            GET("/greetings/Brian").andExpect(NOT_FOUND)
         }
     }
 
@@ -153,7 +152,7 @@ internal class GreetingControllerTest {
         fun shouldComplainForReadyWhenInProgress() {
             repository.state = PENDING
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND, NONE)
+            GET("/greetings/Brian").andExpect(NOT_FOUND)
         }
     }
 
@@ -184,12 +183,15 @@ internal class GreetingControllerTest {
             repository.state = COMPLETE
 
             DELETE("/greetings/Brian")
-            GET("/greetings/Brian").andExpect(NOT_FOUND, NONE)
+            GET("/greetings/Brian").andExpect(NOT_FOUND)
         }
     }
 
     private fun GET(path: String) = mvc.perform(get(path))
     private fun DELETE(path: String) = mvc.perform(delete(path))
+
+    private fun ResultActions.andExpect(status: HttpStatus)
+            = andExpect(status().`is`(status.value()))
 
     private fun ResultActions.andExpect(status: HttpStatus, state: State)
             = andExpect(status().`is`(status.value())).

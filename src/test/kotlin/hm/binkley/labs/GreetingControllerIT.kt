@@ -1,7 +1,6 @@
 package hm.binkley.labs
 
 import hm.binkley.labs.State.COMPLETE
-import hm.binkley.labs.State.NONE
 import hm.binkley.labs.State.PENDING
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
@@ -35,7 +34,7 @@ internal class GreetingControllerIT {
         @DisplayName("THEN it redirects to the queue")
         @Test
         fun shouldRedirectForBatchWhenNew() {
-            repository.state = NONE
+            repository.state = null
 
             val entity = GET("/greet/Brian")
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
@@ -78,9 +77,9 @@ internal class GreetingControllerIT {
         @DisplayName("THEN it says not found")
         @Test
         fun shouldComplainForQueueWhenNew() {
-            repository.state = NONE
+            repository.state = null
 
-            GET("/queue/Brian").andExpect(NOT_FOUND, NONE)
+            GET("/queue/Brian").andExpect(NOT_FOUND)
         }
     }
 
@@ -120,7 +119,7 @@ internal class GreetingControllerIT {
             repository.state = PENDING
 
             DELETE("/queue/Brian")
-            GET("/queue/Brian").andExpect(NOT_FOUND, NONE)
+            GET("/queue/Brian").andExpect(NOT_FOUND)
         }
     }
 
@@ -130,9 +129,9 @@ internal class GreetingControllerIT {
         @DisplayName("THEN it says not found")
         @Test
         fun shouldComplainForReadyWhenNew() {
-            repository.state = NONE
+            repository.state = null
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND, NONE)
+            GET("/greetings/Brian").andExpect(NOT_FOUND)
         }
     }
 
@@ -144,7 +143,7 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenPending() {
             repository.state = PENDING
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND, NONE)
+            GET("/greetings/Brian").andExpect(NOT_FOUND)
         }
     }
 
@@ -179,7 +178,7 @@ internal class GreetingControllerIT {
             repository.state = COMPLETE
 
             DELETE("/greetings/Brian")
-            GET("/greetings/Brian").andExpect(NOT_FOUND, NONE)
+            GET("/greetings/Brian").andExpect(NOT_FOUND)
         }
     }
 
@@ -187,6 +186,12 @@ internal class GreetingControllerIT {
             String::class.java)
 
     private fun DELETE(path: String) = restTemplate.delete(path)
+
+    private fun <T> ResponseEntity<T>.andExpect(status: HttpStatus):
+            ResponseEntity<T> {
+        assertEquals(status, this.statusCode)
+        return this
+    }
 
     private fun <T> ResponseEntity<T>.andExpect(status: HttpStatus,
             state: State):
