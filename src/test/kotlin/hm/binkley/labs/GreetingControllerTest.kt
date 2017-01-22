@@ -125,7 +125,7 @@ internal class GreetingControllerTest {
     inner class QueueDelete {
         @DisplayName("THEN it says not found")
         @Test
-        fun shouldComplainForqueueWhenDeleted() {
+        fun shouldComplainForQueueWhenDeleted() {
             repository.state = PENDING
 
             DELETE("/queue/Brian")
