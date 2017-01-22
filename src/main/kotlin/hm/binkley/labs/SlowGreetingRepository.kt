@@ -16,9 +16,10 @@ class SlowGreetingRepository : GreetingRepository {
         }
     }
 
-    override fun ready(name: String) = cache(name).isDone
-
-    override fun get(name: String) = cache(name).get()!!
+    override fun get(name: String): String? {
+        val job = cache(name)
+        return if (job.isDone) job.get()!! else null
+    }
 
     override fun delete(name: String) {
         cache.remove(name)?.cancel(true)

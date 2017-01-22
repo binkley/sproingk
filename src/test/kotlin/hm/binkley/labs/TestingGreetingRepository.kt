@@ -11,14 +11,9 @@ class TestingGreetingRepository : GreetingRepository {
         if (NONE == state) state = PENDING
     }
 
-    override fun ready(name: String) = when (state) {
-        NONE -> throw IndexOutOfBoundsException(name)
-        PENDING -> false
-        COMPLETE -> true
-    }
-
     override fun get(name: String) = when (state) {
         COMPLETE -> name
+        PENDING -> null
         else -> throw IndexOutOfBoundsException(name)
     }
 
