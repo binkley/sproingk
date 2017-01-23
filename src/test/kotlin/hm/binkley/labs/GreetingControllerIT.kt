@@ -45,7 +45,7 @@ internal class GreetingControllerIT {
     "name": "Brian"
 }
 """)
-            entity.andExpect(ACCEPTED, PENDING)
+            entity.andExpect(ACCEPTED, "Brian", PENDING)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
         }
     }
@@ -63,7 +63,7 @@ internal class GreetingControllerIT {
     "name": "Brian"
 }
 """)
-            entity.andExpect(ACCEPTED, PENDING)
+            entity.andExpect(ACCEPTED, "Brian", PENDING)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
         }
     }
@@ -81,7 +81,7 @@ internal class GreetingControllerIT {
     "name": "Brian"
 }
 """)
-            entity.andExpect(SEE_OTHER, COMPLETE)
+            entity.andExpect(SEE_OTHER, "Brian", COMPLETE)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
         }
@@ -107,7 +107,7 @@ internal class GreetingControllerIT {
         fun shouldRespondForQueueWhenPending() {
             repository.state = PENDING
 
-            GET("/queue/Brian").andExpect(OK, PENDING)
+            GET("/queue/Brian").andExpect(OK, "Brian", PENDING)
         }
     }
 
@@ -120,7 +120,7 @@ internal class GreetingControllerIT {
             repository.state = COMPLETE
 
             val entity = GET("/queue/Brian")
-            entity.andExpect(SEE_OTHER, COMPLETE)
+            entity.andExpect(SEE_OTHER, "Brian", COMPLETE)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
         }
@@ -177,6 +177,7 @@ internal class GreetingControllerIT {
 {
   content: "Brian",
   status: {
+    name: "Brian",
     state: "${repository.state}"
   }
 }
@@ -217,12 +218,13 @@ internal class GreetingControllerIT {
     }
 
     private fun <T> ResponseEntity<T>.andExpect(status: HttpStatus,
-            state: State):
+            name: String, state: State):
             ResponseEntity<T> {
         assertEquals(status, this.statusCode)
         JSONAssert.assertEquals("""
 {
-  state: "$state"
+    name: "$name",
+    state: "$state"
 }
 """,
                 this.body.toString(), STRICT)

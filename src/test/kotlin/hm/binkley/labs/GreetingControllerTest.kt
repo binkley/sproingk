@@ -55,7 +55,7 @@ internal class GreetingControllerTest {
     "name": "Brian"
 }
 """).
-                    andExpect(ACCEPTED, PENDING).
+                    andExpect(ACCEPTED, "Brian", PENDING).
                     andExpect(header().string(LOCATION, "/queue/Brian"))
         }
     }
@@ -73,7 +73,7 @@ internal class GreetingControllerTest {
     "name": "Brian"
 }
 """).
-                    andExpect(ACCEPTED, PENDING).
+                    andExpect(ACCEPTED, "Brian", PENDING).
                     andExpect(header().string(LOCATION, "/queue/Brian"))
         }
     }
@@ -91,7 +91,7 @@ internal class GreetingControllerTest {
     "name": "Brian"
 }
 """).
-                    andExpect(SEE_OTHER, COMPLETE).
+                    andExpect(SEE_OTHER, "Brian", COMPLETE).
                     andExpect(header().string(LOCATION, "/greetings/Brian"))
         }
     }
@@ -116,7 +116,8 @@ internal class GreetingControllerTest {
         fun shouldRespondForQueueWhenInProgress() {
             repository.state = PENDING
 
-            GET("/queue/Brian").andExpect(OK, PENDING)
+            GET("/queue/Brian").
+                    andExpect(OK, "Brian", PENDING)
         }
     }
 
@@ -129,7 +130,7 @@ internal class GreetingControllerTest {
             repository.state = COMPLETE
 
             GET("/queue/Brian").
-                    andExpect(SEE_OTHER, COMPLETE).
+                    andExpect(SEE_OTHER, "Brian", COMPLETE).
                     andExpect(header().string(LOCATION, "/greetings/Brian"))
         }
     }
@@ -213,11 +214,13 @@ internal class GreetingControllerTest {
     private fun ResultActions.andExpect(status: HttpStatus)
             = andExpect(status().`is`(status.value()))
 
-    private fun ResultActions.andExpect(status: HttpStatus, state: State)
+    private fun ResultActions.andExpect(status: HttpStatus, name: String,
+            state: State)
             = andExpect(status().`is`(status.value())).
             andExpect(content().json("""
 {
-  state: "$state"
+  "name": "$name",
+  "state": "$state"
 }
 """))
 }
