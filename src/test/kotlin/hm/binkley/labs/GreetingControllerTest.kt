@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders.LOCATION
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.SEE_OTHER
-import org.springframework.http.HttpStatus.TEMPORARY_REDIRECT
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
@@ -49,7 +49,7 @@ internal class GreetingControllerTest {
 
             GET("/greet/Brian").
                     andExpect(header().string(LOCATION, "/queue/Brian")).
-                    andExpect(TEMPORARY_REDIRECT, PENDING)
+                    andExpect(ACCEPTED, PENDING)
         }
     }
 
@@ -63,7 +63,7 @@ internal class GreetingControllerTest {
 
             GET("/greet/Brian").
                     andExpect(header().string(LOCATION, "/queue/Brian")).
-                    andExpect(TEMPORARY_REDIRECT, PENDING)
+                    andExpect(ACCEPTED, PENDING)
         }
     }
 

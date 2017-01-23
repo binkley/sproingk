@@ -2,6 +2,7 @@ package hm.binkley.labs
 
 import hm.binkley.labs.State.COMPLETE
 import hm.binkley.labs.State.PENDING
+import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.SEE_OTHER
@@ -34,7 +35,7 @@ open class GreetingController(private val repository: GreetingRepository) {
             status(SEE_OTHER).
                     location(URI.create("/greetings/$name")).
                     body(Status(COMPLETE))
-        else status(TEMPORARY_REDIRECT).
+        else status(ACCEPTED).
                 location(URI.create("/queue/$name")).
                 body(Status(PENDING))
     }

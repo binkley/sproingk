@@ -13,10 +13,10 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.SEE_OTHER
-import org.springframework.http.HttpStatus.TEMPORARY_REDIRECT
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import java.net.URI
@@ -38,7 +38,7 @@ internal class GreetingControllerIT {
 
             val entity = GET("/greet/Brian")
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
-            entity.andExpect(TEMPORARY_REDIRECT, PENDING)
+            entity.andExpect(ACCEPTED, PENDING)
         }
     }
 
@@ -52,7 +52,7 @@ internal class GreetingControllerIT {
 
             val entity = GET("/greet/Brian")
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
-            entity.andExpect(TEMPORARY_REDIRECT, PENDING)
+            entity.andExpect(ACCEPTED, PENDING)
         }
     }
 
