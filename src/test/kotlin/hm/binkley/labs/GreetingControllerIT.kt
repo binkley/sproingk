@@ -134,7 +134,7 @@ internal class GreetingControllerIT {
         fun shouldComplainForQueueWhenDeleted() {
             repository.state = PENDING
 
-            DELETE("/queue/Brian")
+            DELETE("/queue/Brian") // TODO: Verify 204
             GET("/queue/Brian").andExpect(NOT_FOUND)
         }
     }
@@ -193,7 +193,7 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenDeleted() {
             repository.state = COMPLETE
 
-            DELETE("/greetings/Brian")
+            DELETE("/greetings/Brian") // TODO: verify 204
             GET("/greetings/Brian").andExpect(NOT_FOUND)
         }
     }

@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders.LOCATION
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.NOT_FOUND
+import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.SEE_OTHER
 import org.springframework.http.MediaType.APPLICATION_JSON_UTF8
@@ -141,7 +142,7 @@ internal class GreetingControllerTest {
         fun shouldComplainForQueueWhenDeleted() {
             repository.state = PENDING
 
-            DELETE("/queue/Brian")
+            DELETE("/queue/Brian").andExpect(NO_CONTENT)
             GET("/queue/Brian").andExpect(NOT_FOUND)
         }
     }
@@ -196,7 +197,7 @@ internal class GreetingControllerTest {
         fun shouldComplainForReadyWhenDeleted() {
             repository.state = COMPLETE
 
-            DELETE("/greetings/Brian")
+            DELETE("/greetings/Brian").andExpect(NO_CONTENT)
             GET("/greetings/Brian").andExpect(NOT_FOUND)
         }
     }
