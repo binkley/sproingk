@@ -12,13 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.boot.test.web.client.TestRestTemplate
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.SEE_OTHER
+import org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
+import org.springframework.util.LinkedMultiValueMap
 import java.net.URI
 
 @DisplayName("GIVEN a running application on a random port")
@@ -36,9 +40,13 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenNew() {
             repository.state = null
 
-            val entity = GET("/greet/Brian")
-            assertEquals(URI.create("/queue/Brian"), entity.headers.location)
+            val entity = POST("/greetings", """
+{
+    "name": "Brian"
+}
+""")
             entity.andExpect(ACCEPTED, PENDING)
+            assertEquals(URI.create("/queue/Brian"), entity.headers.location)
         }
     }
 
@@ -50,9 +58,13 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenPending() {
             repository.state = PENDING
 
-            val entity = GET("/greet/Brian")
-            assertEquals(URI.create("/queue/Brian"), entity.headers.location)
+            val entity = POST("/greetings", """
+{
+    "name": "Brian"
+}
+""")
             entity.andExpect(ACCEPTED, PENDING)
+            assertEquals(URI.create("/queue/Brian"), entity.headers.location)
         }
     }
 
@@ -64,10 +76,14 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenComplete() {
             repository.state = COMPLETE
 
-            val entity = GET("/greet/Brian")
+            val entity = POST("/greetings", """
+{
+    "name": "Brian"
+}
+""")
+            entity.andExpect(SEE_OTHER, COMPLETE)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
-            entity.andExpect(SEE_OTHER, COMPLETE)
         }
     }
 
@@ -104,9 +120,9 @@ internal class GreetingControllerIT {
             repository.state = COMPLETE
 
             val entity = GET("/queue/Brian")
+            entity.andExpect(SEE_OTHER, COMPLETE)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
-            entity.andExpect(SEE_OTHER, COMPLETE)
         }
     }
 
@@ -181,6 +197,13 @@ internal class GreetingControllerIT {
             GET("/greetings/Brian").andExpect(NOT_FOUND)
         }
     }
+
+    private fun POST(path: String, beginGreeting: String):
+            ResponseEntity<String>
+            = restTemplate.postForEntity(path, HttpEntity(beginGreeting,
+            LinkedMultiValueMap(mapOf(Pair(CONTENT_TYPE,
+                    listOf(APPLICATION_JSON_UTF8_VALUE))))),
+            String::class.java)
 
     private fun GET(path: String) = restTemplate.getForEntity(path,
             String::class.java)

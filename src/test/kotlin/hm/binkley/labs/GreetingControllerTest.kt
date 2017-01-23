@@ -13,11 +13,13 @@ import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.SEE_OTHER
+import org.springframework.http.MediaType.APPLICATION_JSON_UTF8
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.header
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -47,9 +49,13 @@ internal class GreetingControllerTest {
         fun shouldRedirectForBatchWhenNew() {
             repository.state = null
 
-            GET("/greet/Brian").
-                    andExpect(header().string(LOCATION, "/queue/Brian")).
-                    andExpect(ACCEPTED, PENDING)
+            POST("/greetings", """
+{
+    "name": "Brian"
+}
+""").
+                    andExpect(ACCEPTED, PENDING).
+                    andExpect(header().string(LOCATION, "/queue/Brian"))
         }
     }
 
@@ -61,9 +67,13 @@ internal class GreetingControllerTest {
         fun shouldRedirectForBatchWhenInProgress() {
             repository.state = PENDING
 
-            GET("/greet/Brian").
-                    andExpect(header().string(LOCATION, "/queue/Brian")).
-                    andExpect(ACCEPTED, PENDING)
+            POST("/greetings", """
+{
+    "name": "Brian"
+}
+""").
+                    andExpect(ACCEPTED, PENDING).
+                    andExpect(header().string(LOCATION, "/queue/Brian"))
         }
     }
 
@@ -75,9 +85,13 @@ internal class GreetingControllerTest {
         fun shouldRedirectForBatchWhenReady() {
             repository.state = COMPLETE
 
-            GET("/greet/Brian").
-                    andExpect(header().string(LOCATION, "/greetings/Brian")).
-                    andExpect(SEE_OTHER, COMPLETE)
+            POST("/greetings", """
+{
+    "name": "Brian"
+}
+""").
+                    andExpect(SEE_OTHER, COMPLETE).
+                    andExpect(header().string(LOCATION, "/greetings/Brian"))
         }
     }
 
@@ -114,8 +128,8 @@ internal class GreetingControllerTest {
             repository.state = COMPLETE
 
             GET("/queue/Brian").
-                    andExpect(header().string(LOCATION, "/greetings/Brian")).
-                    andExpect(SEE_OTHER, COMPLETE)
+                    andExpect(SEE_OTHER, COMPLETE).
+                    andExpect(header().string(LOCATION, "/greetings/Brian"))
         }
     }
 
@@ -186,6 +200,11 @@ internal class GreetingControllerTest {
             GET("/greetings/Brian").andExpect(NOT_FOUND)
         }
     }
+
+    private fun POST(path: String, beginGreeting: String)
+            = mvc.perform(post(path).
+            contentType(APPLICATION_JSON_UTF8).
+            content(beginGreeting))
 
     private fun GET(path: String) = mvc.perform(get(path))
     private fun DELETE(path: String) = mvc.perform(delete(path))

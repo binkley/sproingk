@@ -24,11 +24,9 @@ open class GreetingController(private val repository: GreetingRepository) {
     fun home() = "Hello, world!\n"
 
     @RequestMapping("/greetings", method = arrayOf(POST))
-    fun beginGreeting(@RequestBody greeting: BeginGreeting): ResponseEntity<*>
-            = greet(greeting.name)
-
-    @RequestMapping("/greet/{name}", method = arrayOf(GET))
-    fun greet(@PathVariable name: String): ResponseEntity<*> {
+    fun beginGreeting(
+            @RequestBody greeting: BeginGreeting): ResponseEntity<*> {
+        val name = greeting.name
         repository.create(name)
         return if (null != repository[name])
             status(SEE_OTHER).
