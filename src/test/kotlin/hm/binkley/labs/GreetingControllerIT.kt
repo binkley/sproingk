@@ -47,6 +47,12 @@ internal class GreetingControllerIT {
 """)
             entity.andExpect(ACCEPTED, "Brian", PENDING)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
+            JSONAssert.assertEquals("""
+{
+  "name": "Brian",
+  "state": "PENDING"
+}
+""", entity.body, STRICT)
         }
     }
 
@@ -65,6 +71,12 @@ internal class GreetingControllerIT {
 """)
             entity.andExpect(ACCEPTED, "Brian", PENDING)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
+            JSONAssert.assertEquals("""
+{
+  "name": "Brian",
+  "state": "PENDING"
+}
+""", entity.body, STRICT)
         }
     }
 
@@ -84,6 +96,12 @@ internal class GreetingControllerIT {
             entity.andExpect(SEE_OTHER, "Brian", COMPLETE)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
+            JSONAssert.assertEquals("""
+{
+  "name": "Brian",
+  "state": "COMPLETE"
+}
+""", entity.body, STRICT)
         }
     }
 
@@ -107,7 +125,14 @@ internal class GreetingControllerIT {
         fun shouldRespondForQueueWhenPending() {
             repository.state = PENDING
 
-            GET("/queue/Brian").andExpect(OK, "Brian", PENDING)
+            val entity = GET("/queue/Brian")
+            entity.andExpect(OK, "Brian", PENDING)
+            JSONAssert.assertEquals("""
+{
+  "name": "Brian",
+  "state": "PENDING"
+}
+""", entity.body, STRICT)
         }
     }
 
@@ -123,6 +148,12 @@ internal class GreetingControllerIT {
             entity.andExpect(SEE_OTHER, "Brian", COMPLETE)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
+            JSONAssert.assertEquals("""
+{
+  "name": "Brian",
+  "state": "COMPLETE"
+}
+""", entity.body, STRICT)
         }
     }
 

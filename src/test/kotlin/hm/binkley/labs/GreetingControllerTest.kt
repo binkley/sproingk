@@ -56,7 +56,13 @@ internal class GreetingControllerTest {
 }
 """).
                     andExpect(ACCEPTED, "Brian", PENDING).
-                    andExpect(header().string(LOCATION, "/queue/Brian"))
+                    andExpect(header().string(LOCATION, "/queue/Brian")).
+                    andExpect(content().json("""
+{
+  name: "Brian",
+  state: "PENDING"
+}
+"""))
         }
     }
 
@@ -74,7 +80,13 @@ internal class GreetingControllerTest {
 }
 """).
                     andExpect(ACCEPTED, "Brian", PENDING).
-                    andExpect(header().string(LOCATION, "/queue/Brian"))
+                    andExpect(header().string(LOCATION, "/queue/Brian")).
+                    andExpect(content().json("""
+{
+  name: "Brian",
+  state: "PENDING"
+}
+"""))
         }
     }
 
@@ -92,7 +104,13 @@ internal class GreetingControllerTest {
 }
 """).
                     andExpect(SEE_OTHER, "Brian", COMPLETE).
-                    andExpect(header().string(LOCATION, "/greetings/Brian"))
+                    andExpect(header().string(LOCATION, "/greetings/Brian")).
+                    andExpect(content().json("""
+{
+  name: "Brian",
+  state: "COMPLETE"
+}
+"""))
         }
     }
 
@@ -117,7 +135,13 @@ internal class GreetingControllerTest {
             repository.state = PENDING
 
             GET("/queue/Brian").
-                    andExpect(OK, "Brian", PENDING)
+                    andExpect(OK, "Brian", PENDING).
+                    andExpect(content().json("""
+{
+  name: "Brian",
+  state: "PENDING"
+}
+"""))
         }
     }
 
@@ -131,7 +155,13 @@ internal class GreetingControllerTest {
 
             GET("/queue/Brian").
                     andExpect(SEE_OTHER, "Brian", COMPLETE).
-                    andExpect(header().string(LOCATION, "/greetings/Brian"))
+                    andExpect(header().string(LOCATION, "/greetings/Brian")).
+                    andExpect(content().json("""
+{
+  name: "Brian",
+  state: "COMPLETE"
+}
+"""))
         }
     }
 
