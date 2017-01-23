@@ -10,9 +10,11 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.http.ResponseEntity.status
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod.DELETE
 import org.springframework.web.bind.annotation.RequestMethod.GET
+import org.springframework.web.bind.annotation.RequestMethod.POST
 import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 
@@ -20,6 +22,10 @@ import java.net.URI
 open class GreetingController(private val repository: GreetingRepository) {
     @RequestMapping("/", method = arrayOf(GET))
     fun home() = "Hello, world!\n"
+
+    @RequestMapping("/greetings", method = arrayOf(POST))
+    fun beginGreeting(@RequestBody greeting: BeginGreeting): ResponseEntity<*>
+            = greet(greeting.name)
 
     @RequestMapping("/greet/{name}", method = arrayOf(GET))
     fun greet(@PathVariable name: String): ResponseEntity<*> {
