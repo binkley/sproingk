@@ -34,6 +34,7 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 
 ## Things to think about
 
+* Update Spring Boot to 1.5 RC when Sleuth catches up
 * Logging is still to noisy during build and tests
 * Some "bleeding edge" difficulties, e.g., Spring REST docs + Spring 5 beta
 * Replace nested tests with scenario tests (see [Introduce first-class support for scenario tests #48](https://github.com/junit-team/junit5/issues/48), pending [5.0 M5](https://github.com/junit-team/junit5/milestone/8) drop of JUnit)
