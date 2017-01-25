@@ -1,3 +1,7 @@
+endpoints:
+  env:
+    keys-to-sanitize: BOXFUSE_.*,password,secret,key,token,.*credentials.*,vcap_services
+
 logging:
   level:
     root: WARN
