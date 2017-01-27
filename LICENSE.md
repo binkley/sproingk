@@ -25,4 +25,4 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 For more information, please refer to <http://unlicense.org/>.
 
-The source code is available at: <https://github.com/binkley/sproink>.
+The source code is available at: <https://github.com/binkley/sproingk>.

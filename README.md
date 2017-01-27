@@ -4,7 +4,7 @@ Spring Boot with Kotlin
 
 This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 
-[![CircleCI](https://img.shields.io/circleci/project/github/binkley/sproink.svg)](https://circleci.com/gh/binkley/sproingk) [![unlicense](https://img.shields.io/badge/un-license-green.svg?style=flat)](http://unlicense.org)]
+[![CircleCI](https://img.shields.io/circleci/project/github/binkley/sproingk.svg)](https://circleci.com/gh/binkley/sproingk) [![unlicense](https://img.shields.io/badge/un-license-green.svg?style=flat)](http://unlicense.org)]
 
 Would you like to contribute?  Ask me!  I'm happy to take on contributors or
 pull requests.  Please see the [Story
