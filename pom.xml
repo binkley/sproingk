@@ -43,7 +43,7 @@
         <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
         <spring-boot-ext-logback-access.version>1.6</spring-boot-ext-logback-access.version>
         <spring-cloud.version>Dalston.M1</spring-cloud.version>
-        <spring.version>5.0.0.M4</spring.version>
+        <spring.version>5.0.0.M5</spring.version>
         <surefire.printSummary>false</surefire.printSummary>
         <versions-maven-plugin.version>2.3</versions-maven-plugin.version>
         <!-- @formatter:on -->
