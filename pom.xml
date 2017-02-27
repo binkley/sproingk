@@ -28,7 +28,7 @@
         <!-- @formatter:off -->
         <buildplan-maven-plugin.version>1.2</buildplan-maven-plugin.version>
         <generateBackupPoms>false</generateBackupPoms>
-        <jackson-module-kotlin.version>2.8.6</jackson-module-kotlin.version>
+        <jackson-module-kotlin.version>2.8.7</jackson-module-kotlin.version>
         <java.charset>UTF-8</java.charset>
         <java.version>1.8</java.version>
         <junit.jupiter.version>5.0.0-M3</junit.jupiter.version>
