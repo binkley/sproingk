@@ -53,6 +53,15 @@
 
     <repositories>
         <repository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>spring-milestones</id>
             <name>Spring Milestones</name>
             <url>https://repo.spring.io/libs-milestone</url>
@@ -75,6 +84,18 @@
     </repositories>
 
     <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Maven Plugin Repository</name>
+            <url>http://repo1.maven.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </pluginRepository>
         <pluginRepository>
             <id>kotlin-bintray</id>
             <name>Kotlin Bintray</name>
@@ -323,7 +344,9 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>${minimum-code-coverage-ratio}</minimum>
+                                            <minimum>
+                                                ${minimum-code-coverage-ratio}
+                                            </minimum>
                                         </limit>
                                     </limits>
                                 </rule>
