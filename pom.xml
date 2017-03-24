@@ -96,11 +96,13 @@
                 <updatePolicy>never</updatePolicy>
             </releases>
         </pluginRepository>
+        <!--
         <pluginRepository>
             <id>kotlin-bintray</id>
             <name>Kotlin Bintray</name>
             <url>https://dl.bintray.com/kotlin/kotlin-eap-1.1</url>
         </pluginRepository>
+        -->
     </pluginRepositories>
 
     <dependencyManagement>
