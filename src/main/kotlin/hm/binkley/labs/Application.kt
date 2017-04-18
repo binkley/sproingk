@@ -13,17 +13,17 @@ private val logger = getLogger(Application::class.java)!!
 
 @EnableHystrixDashboard
 @SpringBootApplication
-open class Application
+class Application
     : ApplicationListener<EmbeddedServletContainerInitializedEvent> {
     override fun onApplicationEvent(
             event: EmbeddedServletContainerInitializedEvent) = logger.info(
             "Ready on port ${event.embeddedServletContainer.port}")
 
     @Bean
-    open fun greetingRepository() = SlowGreetingRepository()
+    fun greetingRepository() = SlowGreetingRepository()
 
     @Bean
-    open fun objectMapper() = jacksonObjectMapper()
+    fun objectMapper() = jacksonObjectMapper()
 }
 
 fun main(args: Array<String>) {

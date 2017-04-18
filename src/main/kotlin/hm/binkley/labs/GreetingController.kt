@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 
 @RestController
-open class GreetingController(private val repository: GreetingRepository) {
+class GreetingController(private val repository: GreetingRepository) {
     @RequestMapping("/", method = arrayOf(GET))
     fun home() = "Hello, world!\n"
 
