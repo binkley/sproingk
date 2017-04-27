@@ -1,6 +1,6 @@
 dependencies:
    override: 
-     - mvn install -DskipTests 
+     - mvn dependency:go-offline
 test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
