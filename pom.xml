@@ -47,7 +47,7 @@
         <spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
         <spring.version>5.0.0.M5</spring.version>
         <surefire.printSummary>false</surefire.printSummary>
-        <versions-maven-plugin.version>2.3</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
         <!-- @formatter:on -->
     </properties>
 
