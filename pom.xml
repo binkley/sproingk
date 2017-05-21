@@ -43,7 +43,7 @@
         <minimum-code-coverage-ratio>0.45</minimum-code-coverage-ratio>
         <project.build.sourceEncoding>${java.charset}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
-        <spring-boot-ext-logback-access.version>1.6</spring-boot-ext-logback-access.version>
+        <logback-access-spring-boot-starter.version>2.1.0</logback-access-spring-boot-starter.version>
         <spring-cloud.version>Dalston.RELEASE</spring-cloud.version>
         <spring.version>5.0.0.M5</spring.version>
         <surefire.printSummary>false</surefire.printSummary>
@@ -133,9 +133,9 @@
             <version>${kotlin.version}</version>
         </dependency>
         <dependency>
-            <groupId>net.rakugakibox.springbootext</groupId>
-            <artifactId>spring-boot-ext-logback-access</artifactId>
-            <version>${spring-boot-ext-logback-access.version}</version>
+            <groupId>net.rakugakibox.spring.boot</groupId>
+            <artifactId>logback-access-spring-boot-starter</artifactId>
+            <version>${logback-access-spring-boot-starter.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
