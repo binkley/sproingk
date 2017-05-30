@@ -15,7 +15,7 @@ import org.springframework.test.util.JsonPathExpectationsHelper
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 internal open class GitInfoIT {
-    @Autowired lateinit private var restTemplate: TestRestTemplate
+    @Autowired private lateinit var restTemplate: TestRestTemplate
 
     @DisplayName("WHEN info endpoint is called")
     @Nested

@@ -29,7 +29,7 @@ import java.net.URI
 @SpringJUnitConfig(Application::class, TestingConfiguration::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 internal class GreetingControllerIT {
-    @Autowired lateinit private var restTemplate: TestRestTemplate
+    @Autowired private lateinit var restTemplate: TestRestTemplate
     @Autowired lateinit var repository: TestingGreetingRepository
 
     @DisplayName("WHEN greet URL is called for <name> AND is new")
