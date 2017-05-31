@@ -22,9 +22,6 @@ import java.net.URI
 
 @RestController
 class GreetingController(private val repository: GreetingRepository) {
-    @RequestMapping("/", method = arrayOf(GET))
-    fun home() = "Hello, world!\n"
-
     @RequestMapping("/greetings", method = arrayOf(POST))
     fun beginGreeting(
             @RequestBody greeting: BeginGreeting): ResponseEntity<*> {

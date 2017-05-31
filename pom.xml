@@ -49,6 +49,7 @@
         <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
         <spring-cloud.version>Dalston.SR1</spring-cloud.version>
         <spring.version>5.0.0.RC1</spring.version>
+        <springfox.version>2.7.0</springfox.version>
         <surefire.printSummary>false</surefire.printSummary>
         <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
         <!-- @formatter:on -->
@@ -142,11 +143,6 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
             <version>${jackson.version}</version>
@@ -158,6 +154,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-actuator-docs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -32,16 +32,6 @@ internal class GreetingControllerTest {
     @Autowired lateinit var mvc: MockMvc
     @Autowired lateinit var repository: TestingGreetingRepository
 
-    @DisplayName("WHEN root URL is called")
-    @Nested
-    inner class Root {
-        @DisplayName("THEN it says 'Hello, world!'")
-        @Test
-        fun shouldRespondCheerfully() = GET("/").
-                andExpect(status().isOk).
-                andExpect(content().string("Hello, world!\n"))!!
-    }
-
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
