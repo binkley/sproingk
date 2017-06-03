@@ -26,6 +26,7 @@
 
     <properties>
         <!-- @formatter:off -->
+        <boxfuse-maven-plugin.version>1.26.7.1312</boxfuse-maven-plugin.version>
         <buildplan-maven-plugin.version>1.2</buildplan-maven-plugin.version>
         <generateBackupPoms>false</generateBackupPoms>
         <jackson.version>2.9.0.pr3</jackson.version>
@@ -83,6 +84,10 @@
             <name>Kotlin Bintray</name>
             <url>https://dl.bintray.com/kotlin/kotlin-dev</url>
         </repository>
+        <repository>
+            <id>boxfuse-repo</id>
+            <url>https://files.boxfuse.com</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -110,6 +115,10 @@
             <id>kotlin-bintray</id>
             <name>Kotlin Bintray</name>
             <url>https://dl.bintray.com/kotlin/kotlin-dev</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>boxfuse-repo</id>
+            <url>https://files.boxfuse.com</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -443,6 +452,11 @@
                 <configuration>
                     <classifier>exec</classifier>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.boxfuse.client</groupId>
+                <artifactId>boxfuse-maven-plugin</artifactId>
+                <version>${boxfuse-maven-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
