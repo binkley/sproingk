@@ -34,11 +34,11 @@
         <java.version>1.8</java.version>
         <junit.jupiter.version>5.0.0-M4</junit.jupiter.version>
         <junit.platform.version>1.0.0-M4</junit.platform.version>
-        <kotlin.version>1.1.4-dev-330</kotlin.version>
+        <kotlin.version>1.1.4-dev-530</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
-        <ktlint.version>0.8.0</ktlint.version>
-        <logback-access-spring-boot-starter.version>2.1.0</logback-access-spring-boot-starter.version>
-        <maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
+        <ktlint.version>0.8.1</ktlint.version>
+        <logback-access-spring-boot-starter.version>2.2.0</logback-access-spring-boot-starter.version>
+        <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.0.1</maven-dependency-plugin.version>
@@ -51,7 +51,7 @@
         <spring.version>5.0.0.RC1</spring.version>
         <springfox.version>2.7.0</springfox.version>
         <surefire.printSummary>false</surefire.printSummary>
-        <versions-maven-plugin.version>2.2</versions-maven-plugin.version>
+        <versions-maven-plugin.version>2.4</versions-maven-plugin.version>
         <!-- @formatter:on -->
     </properties>
 
@@ -208,7 +208,6 @@
                 <artifactId>buildplan-maven-plugin</artifactId>
                 <version>${buildplan-maven-plugin.version}</version>
             </plugin>
-            <!--
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
@@ -226,7 +225,6 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>${maven-clean-plugin.version}</version>
