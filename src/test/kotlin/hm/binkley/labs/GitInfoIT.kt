@@ -25,7 +25,7 @@ internal open class GitInfoIT {
         fun shouldTalkAboutGit() {
             // TODO: Is there something nicer?
             JsonPathExpectationsHelper(".git").exists(
-                    restTemplate.getForObject("/info", String::class.java)!!)
+                    restTemplate.getForObject("/application/info", String::class.java)!!)
         }
     }
 }

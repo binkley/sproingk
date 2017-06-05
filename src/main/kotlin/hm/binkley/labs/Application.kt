@@ -4,8 +4,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.slf4j.LoggerFactory.getLogger
 import org.springframework.boot.SpringApplication.run
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.context.embedded.EmbeddedServletContainerInitializedEvent
-import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard
+import org.springframework.boot.web.context.WebServerInitializedEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.context.annotation.Bean
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
@@ -18,14 +17,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 
 private val logger = getLogger(Application::class.java)!!
 
-@EnableHystrixDashboard
 @EnableSwagger2
 @SpringBootApplication
 class Application
-    : ApplicationListener<EmbeddedServletContainerInitializedEvent> {
+    : ApplicationListener<WebServerInitializedEvent> {
     override fun onApplicationEvent(
-            event: EmbeddedServletContainerInitializedEvent) = logger.info(
-            "Ready on port ${event.embeddedServletContainer.port}")
+            event: WebServerInitializedEvent) = logger.info(
+            "Ready on port ${event.webServer.port}")
 
     @Bean
     fun greetingRepository() = SlowGreetingRepository()
