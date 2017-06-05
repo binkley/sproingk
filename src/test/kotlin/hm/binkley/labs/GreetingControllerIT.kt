@@ -3,7 +3,6 @@ package hm.binkley.labs
 import hm.binkley.labs.State.COMPLETE
 import hm.binkley.labs.State.PENDING
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -137,7 +136,6 @@ internal class GreetingControllerIT {
         }
     }
 
-    @Disabled("FIXME - Getting 200 instead of 302 - redirect?")
     @DisplayName("WHEN queue URL is called for <name> AND is ready")
     @Nested
     inner class QueueReady {
