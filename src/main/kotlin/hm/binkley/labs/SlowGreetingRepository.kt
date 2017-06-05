@@ -10,7 +10,7 @@ class SlowGreetingRepository : GreetingRepository {
 
     override fun create(name: String) {
         cache[name] = supplyAsync {
-            SECONDS.sleep(10)
+            SECONDS.sleep(30)
             "Hello, $name!"
         }
     }
