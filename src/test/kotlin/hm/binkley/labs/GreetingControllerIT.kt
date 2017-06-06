@@ -40,9 +40,9 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenNew() {
             repository.state = null
 
-            val entity = greet("Brian")
-            entity.andExpect(ACCEPTED, "Brian", PENDING, 0)
-            assertEquals(URI.create("/queue/Brian"), entity.headers.location)
+            greet("Brian").
+                    andExpect(ACCEPTED, "Brian", PENDING, 0).
+                    andRedirectTo("/queue/Brian")
         }
     }
 
@@ -54,9 +54,9 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenPending() {
             repository.state = PENDING
 
-            val entity = greet("Brian")
-            entity.andExpect(ACCEPTED, "Brian", PENDING, 0)
-            assertEquals(URI.create("/queue/Brian"), entity.headers.location)
+            greet("Brian").
+                    andExpect(ACCEPTED, "Brian", PENDING, 0).
+                    andRedirectTo("/queue/Brian")
         }
     }
 
@@ -68,10 +68,9 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenComplete() {
             repository.state = COMPLETE
 
-            val entity = greet("Brian")
-            entity.andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
-            assertEquals(URI.create("/greetings/Brian"),
-                    entity.headers.location)
+            greet("Brian").
+                    andExpect(SEE_OTHER, "Brian", COMPLETE, 100).
+                    andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -83,7 +82,8 @@ internal class GreetingControllerIT {
         fun shouldComplainForQueueWhenNew() {
             repository.state = null
 
-            GET("/queue/Brian").andExpect(NOT_FOUND)
+            GET("/queue/Brian").
+                    andExpect(NOT_FOUND)
         }
     }
 
@@ -95,8 +95,8 @@ internal class GreetingControllerIT {
         fun shouldRespondForQueueWhenPending() {
             repository.state = PENDING
 
-            val entity = GET("/queue/Brian")
-            entity.andExpect(OK, "Brian", PENDING, 0)
+            GET("/queue/Brian").
+                    andExpect(OK, "Brian", PENDING, 0)
         }
     }
 
@@ -108,10 +108,9 @@ internal class GreetingControllerIT {
         fun shouldRedirectForQueueWhenComplete() {
             repository.state = COMPLETE
 
-            val entity = GET("/queue/Brian")
-            entity.andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
-            assertEquals(URI.create("/greetings/Brian"),
-                    entity.headers.location)
+            GET("/queue/Brian").
+                    andExpect(SEE_OTHER, "Brian", COMPLETE, 100).
+                    andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -124,7 +123,8 @@ internal class GreetingControllerIT {
             repository.state = PENDING
 
             DELETE("/queue/Brian") // TODO: Verify 204
-            GET("/queue/Brian").andExpect(NOT_FOUND)
+            GET("/queue/Brian").
+                    andExpect(NOT_FOUND)
         }
     }
 
@@ -136,7 +136,8 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenNew() {
             repository.state = null
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            GET("/greetings/Brian").
+                    andExpect(NOT_FOUND)
         }
     }
 
@@ -148,7 +149,8 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenPending() {
             repository.state = PENDING
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            GET("/greetings/Brian").
+                    andExpect(NOT_FOUND)
         }
     }
 
@@ -185,7 +187,8 @@ internal class GreetingControllerIT {
             repository.state = COMPLETE
 
             DELETE("/greetings/Brian") // TODO: verify 204
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            GET("/greetings/Brian").
+                    andExpect(NOT_FOUND)
         }
     }
 
@@ -227,6 +230,12 @@ internal class GreetingControllerIT {
 }
 """,
                 this.body.toString(), STRICT)
+        return this
+    }
+
+    private fun <T> ResponseEntity<T>.andRedirectTo(
+            location: String): ResponseEntity<T> {
+        assertEquals(URI.create(location), this.headers.location)
         return this
     }
 }

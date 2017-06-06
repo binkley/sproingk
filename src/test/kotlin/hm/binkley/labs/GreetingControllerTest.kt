@@ -42,7 +42,7 @@ internal class GreetingControllerTest {
 
             greet("Brian").
                     andExpect(ACCEPTED, "Brian", PENDING, 0).
-                    andExpect(header().string(LOCATION, "/queue/Brian"))
+                    andRedirectTo("/queue/Brian")
         }
     }
 
@@ -56,7 +56,7 @@ internal class GreetingControllerTest {
 
             greet("Brian").
                     andExpect(ACCEPTED, "Brian", PENDING, 0).
-                    andExpect(header().string(LOCATION, "/queue/Brian"))
+                    andRedirectTo("/queue/Brian")
         }
     }
 
@@ -70,7 +70,7 @@ internal class GreetingControllerTest {
 
             greet("Brian").
                     andExpect(SEE_OTHER, "Brian", COMPLETE, 100).
-                    andExpect(header().string(LOCATION, "/greetings/Brian"))
+                    andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -82,7 +82,8 @@ internal class GreetingControllerTest {
         fun shouldComplainForQueueWhenNew() {
             repository.state = null
 
-            GET("/queue/Brian").andExpect(NOT_FOUND)
+            GET("/queue/Brian").
+                    andExpect(NOT_FOUND)
         }
     }
 
@@ -109,7 +110,7 @@ internal class GreetingControllerTest {
 
             GET("/queue/Brian").
                     andExpect(SEE_OTHER, "Brian", COMPLETE, 100).
-                    andExpect(header().string(LOCATION, "/greetings/Brian"))
+                    andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -121,8 +122,10 @@ internal class GreetingControllerTest {
         fun shouldComplainForQueueWhenDeleted() {
             repository.state = PENDING
 
-            DELETE("/queue/Brian").andExpect(NO_CONTENT)
-            GET("/queue/Brian").andExpect(NOT_FOUND)
+            DELETE("/queue/Brian").
+                    andExpect(NO_CONTENT)
+            GET("/queue/Brian").
+                    andExpect(NOT_FOUND)
         }
     }
 
@@ -134,7 +137,8 @@ internal class GreetingControllerTest {
         fun shouldComplainForReadyWhenNew() {
             repository.state = null
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            GET("/greetings/Brian").
+                    andExpect(NOT_FOUND)
         }
     }
 
@@ -146,7 +150,8 @@ internal class GreetingControllerTest {
         fun shouldComplainForReadyWhenInProgress() {
             repository.state = PENDING
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            GET("/greetings/Brian").
+                    andExpect(NOT_FOUND)
         }
     }
 
@@ -176,8 +181,10 @@ internal class GreetingControllerTest {
         fun shouldComplainForReadyWhenDeleted() {
             repository.state = COMPLETE
 
-            DELETE("/greetings/Brian").andExpect(NO_CONTENT)
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            DELETE("/greetings/Brian").
+                    andExpect(NO_CONTENT)
+            GET("/greetings/Brian").
+                    andExpect(NOT_FOUND)
         }
     }
 
@@ -210,4 +217,9 @@ internal class GreetingControllerTest {
   "percentage": $percentage
 }
 """))
+
+    private fun ResultActions.andRedirectTo(location: String): ResultActions {
+        andExpect(header().string(LOCATION, location))
+        return this
+    }
 }
