@@ -40,11 +40,7 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenNew() {
             repository.state = null
 
-            val entity = POST("/greetings", """
-{
-    "name": "Brian"
-}
-""")
+            val entity = greet("Brian")
             entity.andExpect(ACCEPTED, "Brian", PENDING, 0)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
         }
@@ -58,11 +54,7 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenPending() {
             repository.state = PENDING
 
-            val entity = POST("/greetings", """
-{
-    "name": "Brian"
-}
-""")
+            val entity = greet("Brian")
             entity.andExpect(ACCEPTED, "Brian", PENDING, 0)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
         }
@@ -76,11 +68,7 @@ internal class GreetingControllerIT {
         fun shouldRedirectForBatchWhenComplete() {
             repository.state = COMPLETE
 
-            val entity = POST("/greetings", """
-{
-    "name": "Brian"
-}
-""")
+            val entity = greet("Brian")
             entity.andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
@@ -207,6 +195,14 @@ internal class GreetingControllerIT {
             LinkedMultiValueMap(mapOf(Pair(CONTENT_TYPE,
                     listOf(APPLICATION_JSON_UTF8_VALUE))))),
             String::class.java)
+
+    private fun greet(name: String): ResponseEntity<String> {
+        return POST("/greetings", """
+{
+    "name": "$name"
+}
+""")
+    }
 
     private fun GET(path: String) = restTemplate.getForEntity(path,
             String::class.java)

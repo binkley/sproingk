@@ -40,11 +40,7 @@ internal class GreetingControllerTest {
         fun shouldRedirectForBatchWhenNew() {
             repository.state = null
 
-            POST("/greetings", """
-{
-    "name": "Brian"
-}
-""").
+            greet("Brian").
                     andExpect(ACCEPTED, "Brian", PENDING, 0).
                     andExpect(header().string(LOCATION, "/queue/Brian"))
         }
@@ -58,11 +54,7 @@ internal class GreetingControllerTest {
         fun shouldRedirectForBatchWhenInProgress() {
             repository.state = PENDING
 
-            POST("/greetings", """
-{
-    "name": "Brian"
-}
-""").
+            greet("Brian").
                     andExpect(ACCEPTED, "Brian", PENDING, 0).
                     andExpect(header().string(LOCATION, "/queue/Brian"))
         }
@@ -76,11 +68,7 @@ internal class GreetingControllerTest {
         fun shouldRedirectForBatchWhenReady() {
             repository.state = COMPLETE
 
-            POST("/greetings", """
-{
-    "name": "Brian"
-}
-""").
+            greet("Brian").
                     andExpect(SEE_OTHER, "Brian", COMPLETE, 100).
                     andExpect(header().string(LOCATION, "/greetings/Brian"))
         }
@@ -197,6 +185,14 @@ internal class GreetingControllerTest {
             = mvc.perform(post(path).
             contentType(APPLICATION_JSON_UTF8).
             content(beginGreeting))
+
+    private fun greet(name: String): ResultActions {
+        return POST("/greetings", """
+{
+    "name": "$name"
+}
+""")
+    }
 
     private fun GET(path: String) = mvc.perform(get(path))
     private fun DELETE(path: String) = mvc.perform(delete(path))
