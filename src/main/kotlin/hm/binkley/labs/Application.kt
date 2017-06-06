@@ -1,6 +1,5 @@
 package hm.binkley.labs
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.slf4j.LoggerFactory.getLogger
 import org.springframework.boot.SpringApplication.run
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -9,10 +8,6 @@ import org.springframework.context.ApplicationListener
 import org.springframework.context.annotation.Bean
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
-import springfox.documentation.builders.PathSelectors
-import springfox.documentation.builders.RequestHandlerSelectors
-import springfox.documentation.spi.DocumentationType.SWAGGER_2
-import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 import java.util.concurrent.TimeUnit.SECONDS
 
@@ -28,16 +23,6 @@ class Application
 
     @Bean
     fun greetingRepository() = SlowGreetingRepository(30, SECONDS)
-
-    @Bean
-    fun objectMapper() = jacksonObjectMapper()
-
-    @Bean
-    fun api() = Docket(SWAGGER_2).
-            select().
-            apis(RequestHandlerSelectors.any()).
-            paths(PathSelectors.any()).
-            build()!!
 
     /**
      * @see <a href="https://springfox.github.io/springfox/docs/current/#q13">Q. How does one configure swagger-ui for non-springboot applications?</a>
