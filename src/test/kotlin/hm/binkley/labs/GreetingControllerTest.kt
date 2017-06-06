@@ -46,14 +46,7 @@ internal class GreetingControllerTest {
 }
 """).
                     andExpect(ACCEPTED, "Brian", PENDING, 0).
-                    andExpect(header().string(LOCATION, "/queue/Brian")).
-                    andExpect(content().json("""
-{
-  name: "Brian",
-  state: "PENDING",
-  percentage: 0
-}
-"""))
+                    andExpect(header().string(LOCATION, "/queue/Brian"))
         }
     }
 
@@ -71,14 +64,7 @@ internal class GreetingControllerTest {
 }
 """).
                     andExpect(ACCEPTED, "Brian", PENDING, 0).
-                    andExpect(header().string(LOCATION, "/queue/Brian")).
-                    andExpect(content().json("""
-{
-  name: "Brian",
-  state: "PENDING",
-  percentage: 0
-}
-"""))
+                    andExpect(header().string(LOCATION, "/queue/Brian"))
         }
     }
 
@@ -96,14 +82,7 @@ internal class GreetingControllerTest {
 }
 """).
                     andExpect(SEE_OTHER, "Brian", COMPLETE, 100).
-                    andExpect(header().string(LOCATION, "/greetings/Brian")).
-                    andExpect(content().json("""
-{
-  name: "Brian",
-  state: "COMPLETE",
-  percentage: 100
-}
-"""))
+                    andExpect(header().string(LOCATION, "/greetings/Brian"))
         }
     }
 
@@ -128,14 +107,7 @@ internal class GreetingControllerTest {
             repository.state = PENDING
 
             GET("/queue/Brian").
-                    andExpect(OK, "Brian", PENDING, 0).
-                    andExpect(content().json("""
-{
-  name: "Brian",
-  state: "PENDING",
-  percentage: 0
-}
-"""))
+                    andExpect(OK, "Brian", PENDING, 0)
         }
     }
 
@@ -149,14 +121,7 @@ internal class GreetingControllerTest {
 
             GET("/queue/Brian").
                     andExpect(SEE_OTHER, "Brian", COMPLETE, 100).
-                    andExpect(header().string(LOCATION, "/greetings/Brian")).
-                    andExpect(content().json("""
-{
-  name: "Brian",
-  state: "COMPLETE",
-  percentage: 100
-}
-"""))
+                    andExpect(header().string(LOCATION, "/greetings/Brian"))
         }
     }
 
