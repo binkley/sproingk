@@ -27,23 +27,25 @@ class GreetingController(private val repository: GreetingRepository) {
             @RequestBody greeting: BeginGreeting): ResponseEntity<*> {
         val name = greeting.name
         repository.create(name)
-        return if (null != repository[name])
+        val progress = repository[name]
+        return if (100 == progress.percentage)
             status(SEE_OTHER).
                     location(URI.create("/greetings/$name")).
-                    body(Status(name, COMPLETE))
+                    body(Status(name, COMPLETE, progress.percentage))
         else status(ACCEPTED).
                 location(URI.create("/queue/$name")).
-                body(Status(name, PENDING))
+                body(Status(name, PENDING, progress.percentage))
     }
 
     @RequestMapping("/queue/{name}", method = arrayOf(GET))
     fun queue(@PathVariable name: String) = try {
-        if (null != repository[name])
+        val progress = repository[name]
+        if (100 == progress.percentage)
             status(SEE_OTHER).
                     location(URI.create("/greetings/$name")).
-                    body(Status(name, COMPLETE))
+                    body(Status(name, COMPLETE, progress.percentage))
         else status(OK).
-                body(Status(name, PENDING))
+                body(Status(name, PENDING, progress.percentage))
     } catch (_: IndexOutOfBoundsException) {
         status(NOT_FOUND).
                 build<Status>()
@@ -51,9 +53,10 @@ class GreetingController(private val repository: GreetingRepository) {
 
     @RequestMapping("/greetings/{name}", method = arrayOf(GET))
     fun greetings(@PathVariable name: String) = try {
-        val greeting = repository[name]
-        if (null != greeting)
-            ok(Greeting(greeting, Status(name, COMPLETE)))
+        val progress = repository[name]
+        if (null != progress.greeting)
+            ok(Greeting(progress.greeting,
+                    Status(name, COMPLETE, progress.percentage)))
         else
             status(NOT_FOUND).
                     build()

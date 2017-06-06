@@ -15,9 +15,10 @@ class SlowGreetingRepository : GreetingRepository {
         }
     }
 
-    override fun get(name: String): String? {
+    override fun get(name: String): Progress {
         val job = cache[name] ?: throw IndexOutOfBoundsException(name)
-        return if (job.isDone) job.get()!! else null
+        return if (job.isDone) Progress(job.get()!!, 100)
+        else Progress(null, 0)
     }
 
     override fun delete(name: String) {

@@ -1,3 +1,4 @@
 package hm.binkley.labs
 
-data class Status(val name: String, val state: State)
+/** @todo Merge with Progress? */
+data class Status(val name: String, val state: State, val percentage: Int)

@@ -32,10 +32,10 @@ internal class GreetingControllerIT {
     @Autowired private lateinit var restTemplate: TestRestTemplate
     @Autowired private lateinit var repository: TestingGreetingRepository
 
-    @DisplayName("WHEN git info URL is called")
+    @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
-        @DisplayName("THEN it shows git information")
+        @DisplayName("THEN it redirects to the queue")
         @Test
         fun shouldRedirectForBatchWhenNew() {
             repository.state = null
@@ -45,18 +45,12 @@ internal class GreetingControllerIT {
     "name": "Brian"
 }
 """)
-            entity.andExpect(ACCEPTED, "Brian", PENDING)
+            entity.andExpect(ACCEPTED, "Brian", PENDING, 0)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
-            JSONAssert.assertEquals("""
-{
-  "name": "Brian",
-  "state": "PENDING"
-}
-""", entity.body, STRICT)
         }
     }
 
-    @DisplayName("WHEN greet URL is called for <name> AND is in progress")
+    @DisplayName("WHEN greet URL is called for <name> AND is in percentage")
     @Nested
     inner class BatchInProgress {
         @DisplayName("THEN it redirects to the queue")
@@ -69,14 +63,8 @@ internal class GreetingControllerIT {
     "name": "Brian"
 }
 """)
-            entity.andExpect(ACCEPTED, "Brian", PENDING)
+            entity.andExpect(ACCEPTED, "Brian", PENDING, 0)
             assertEquals(URI.create("/queue/Brian"), entity.headers.location)
-            JSONAssert.assertEquals("""
-{
-  "name": "Brian",
-  "state": "PENDING"
-}
-""", entity.body, STRICT)
         }
     }
 
@@ -93,15 +81,9 @@ internal class GreetingControllerIT {
     "name": "Brian"
 }
 """)
-            entity.andExpect(SEE_OTHER, "Brian", COMPLETE)
+            entity.andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
-            JSONAssert.assertEquals("""
-{
-  "name": "Brian",
-  "state": "COMPLETE"
-}
-""", entity.body, STRICT)
         }
     }
 
@@ -117,7 +99,7 @@ internal class GreetingControllerIT {
         }
     }
 
-    @DisplayName("WHEN queue URL is called for <name> AND is in progress")
+    @DisplayName("WHEN queue URL is called for <name> AND is in percentage")
     @Nested
     inner class QueueInProgress {
         @DisplayName("THEN it says to wait further")
@@ -126,13 +108,7 @@ internal class GreetingControllerIT {
             repository.state = PENDING
 
             val entity = GET("/queue/Brian")
-            entity.andExpect(OK, "Brian", PENDING)
-            JSONAssert.assertEquals("""
-{
-  "name": "Brian",
-  "state": "PENDING"
-}
-""", entity.body, STRICT)
+            entity.andExpect(OK, "Brian", PENDING, 0)
         }
     }
 
@@ -145,15 +121,9 @@ internal class GreetingControllerIT {
             repository.state = COMPLETE
 
             val entity = GET("/queue/Brian")
-            entity.andExpect(SEE_OTHER, "Brian", COMPLETE)
+            entity.andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
             assertEquals(URI.create("/greetings/Brian"),
                     entity.headers.location)
-            JSONAssert.assertEquals("""
-{
-  "name": "Brian",
-  "state": "COMPLETE"
-}
-""", entity.body, STRICT)
         }
     }
 
@@ -182,7 +152,7 @@ internal class GreetingControllerIT {
         }
     }
 
-    @DisplayName("WHEN ready URL is called for <name> AND is in progress")
+    @DisplayName("WHEN ready URL is called for <name> AND is in percentage")
     @Nested
     inner class ReadyInProgress {
         @DisplayName("THEN it says not found")
@@ -209,7 +179,8 @@ internal class GreetingControllerIT {
   content: "Brian",
   status: {
     name: "Brian",
-    state: "${repository.state}"
+    state: "COMPLETE",
+    "percentage": 100
   }
 }
 """,
@@ -248,14 +219,15 @@ internal class GreetingControllerIT {
         return this
     }
 
-    private fun <T> ResponseEntity<T>.andExpect(status: HttpStatus,
-                                                name: String, state: State):
+    private fun <T> ResponseEntity<T>.andExpect(
+            status: HttpStatus, name: String, state: State, percentage: Int):
             ResponseEntity<T> {
         assertEquals(status, this.statusCode)
         JSONAssert.assertEquals("""
 {
     name: "$name",
-    state: "$state"
+    state: "$state",
+    percentage: $percentage
 }
 """,
                 this.body.toString(), STRICT)

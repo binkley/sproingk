@@ -45,18 +45,19 @@ internal class GreetingControllerTest {
     "name": "Brian"
 }
 """).
-                    andExpect(ACCEPTED, "Brian", PENDING).
+                    andExpect(ACCEPTED, "Brian", PENDING, 0).
                     andExpect(header().string(LOCATION, "/queue/Brian")).
                     andExpect(content().json("""
 {
   name: "Brian",
-  state: "PENDING"
+  state: "PENDING",
+  percentage: 0
 }
 """))
         }
     }
 
-    @DisplayName("WHEN greet URL is called for <name> AND is in progress")
+    @DisplayName("WHEN greet URL is called for <name> AND is in percentage")
     @Nested
     inner class BatchQueued {
         @DisplayName("THEN it redirects to the queue")
@@ -69,12 +70,13 @@ internal class GreetingControllerTest {
     "name": "Brian"
 }
 """).
-                    andExpect(ACCEPTED, "Brian", PENDING).
+                    andExpect(ACCEPTED, "Brian", PENDING, 0).
                     andExpect(header().string(LOCATION, "/queue/Brian")).
                     andExpect(content().json("""
 {
   name: "Brian",
-  state: "PENDING"
+  state: "PENDING",
+  percentage: 0
 }
 """))
         }
@@ -93,12 +95,13 @@ internal class GreetingControllerTest {
     "name": "Brian"
 }
 """).
-                    andExpect(SEE_OTHER, "Brian", COMPLETE).
+                    andExpect(SEE_OTHER, "Brian", COMPLETE, 100).
                     andExpect(header().string(LOCATION, "/greetings/Brian")).
                     andExpect(content().json("""
 {
   name: "Brian",
-  state: "COMPLETE"
+  state: "COMPLETE",
+  percentage: 100
 }
 """))
         }
@@ -116,7 +119,7 @@ internal class GreetingControllerTest {
         }
     }
 
-    @DisplayName("WHEN queue URL is called for <name> AND is in progress")
+    @DisplayName("WHEN queue URL is called for <name> AND is in percentage")
     @Nested
     inner class QueueNotReady {
         @DisplayName("THEN it says to wait further")
@@ -125,11 +128,12 @@ internal class GreetingControllerTest {
             repository.state = PENDING
 
             GET("/queue/Brian").
-                    andExpect(OK, "Brian", PENDING).
+                    andExpect(OK, "Brian", PENDING, 0).
                     andExpect(content().json("""
 {
   name: "Brian",
-  state: "PENDING"
+  state: "PENDING",
+  percentage: 0
 }
 """))
         }
@@ -144,12 +148,13 @@ internal class GreetingControllerTest {
             repository.state = COMPLETE
 
             GET("/queue/Brian").
-                    andExpect(SEE_OTHER, "Brian", COMPLETE).
+                    andExpect(SEE_OTHER, "Brian", COMPLETE, 100).
                     andExpect(header().string(LOCATION, "/greetings/Brian")).
                     andExpect(content().json("""
 {
   name: "Brian",
-  state: "COMPLETE"
+  state: "COMPLETE",
+  percentage: 100
 }
 """))
         }
@@ -180,7 +185,7 @@ internal class GreetingControllerTest {
         }
     }
 
-    @DisplayName("WHEN ready URL is called for <name> AND is in progress")
+    @DisplayName("WHEN ready URL is called for <name> AND is in percentage")
     @Nested
     inner class ReadyPending {
         @DisplayName("THEN it says not found")
@@ -235,12 +240,13 @@ internal class GreetingControllerTest {
             = andExpect(status().`is`(status.value()))
 
     private fun ResultActions.andExpect(status: HttpStatus, name: String,
-            state: State)
+                                        state: State, percentage: Int)
             = andExpect(status().`is`(status.value())).
             andExpect(content().json("""
 {
   "name": "$name",
-  "state": "$state"
+  "state": "$state",
+  "percentage": $percentage
 }
 """))
 }
