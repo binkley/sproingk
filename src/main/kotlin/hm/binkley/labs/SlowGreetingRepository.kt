@@ -9,10 +9,10 @@ class SlowGreetingRepository : GreetingRepository {
     private val cache = ConcurrentHashMap<String, Future<String?>>()
 
     override fun create(name: String) {
-        cache[name] = supplyAsync {
+        cache.putIfAbsent(name, supplyAsync {
             SECONDS.sleep(30)
             "Hello, $name!"
-        }
+        })
     }
 
     override fun get(name: String): Progress {
