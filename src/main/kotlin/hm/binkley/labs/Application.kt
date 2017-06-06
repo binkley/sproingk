@@ -14,6 +14,7 @@ import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.spi.DocumentationType.SWAGGER_2
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
+import java.util.concurrent.TimeUnit.SECONDS
 
 private val logger = getLogger(Application::class.java)!!
 
@@ -26,7 +27,7 @@ class Application
             "Ready on port ${event.webServer.port}")
 
     @Bean
-    fun greetingRepository() = SlowGreetingRepository()
+    fun greetingRepository() = SlowGreetingRepository(30, SECONDS)
 
     @Bean
     fun objectMapper() = jacksonObjectMapper()
