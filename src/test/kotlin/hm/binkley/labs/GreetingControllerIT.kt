@@ -14,9 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDO
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
+import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.NOT_FOUND
+import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.SEE_OTHER
 import org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE
@@ -122,7 +124,8 @@ internal class GreetingControllerIT {
         fun shouldComplainForQueueWhenDeleted() {
             repository.state = PENDING
 
-            DELETE("/queue/Brian") // TODO: Verify 204
+            DELETE("/queue/Brian").
+                    andExpect(NO_CONTENT)
             GET("/queue/Brian").
                     andExpect(NOT_FOUND)
         }
@@ -186,7 +189,8 @@ internal class GreetingControllerIT {
         fun shouldComplainForReadyWhenDeleted() {
             repository.state = COMPLETE
 
-            DELETE("/greetings/Brian") // TODO: verify 204
+            DELETE("/greetings/Brian").
+                    andExpect(NO_CONTENT)
             GET("/greetings/Brian").
                     andExpect(NOT_FOUND)
         }
@@ -210,7 +214,8 @@ internal class GreetingControllerIT {
     private fun GET(path: String) = restTemplate.getForEntity(path,
             String::class.java)
 
-    private fun DELETE(path: String) = restTemplate.delete(path)
+    private fun DELETE(path: String) = restTemplate.exchange(path,
+            HttpMethod.DELETE, null, Void::class.java)
 
     private fun <T> ResponseEntity<T>.andExpect(status: HttpStatus):
             ResponseEntity<T> {
