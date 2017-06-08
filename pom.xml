@@ -37,7 +37,7 @@
         <junit.platform.version>1.0.0-M4</junit.platform.version>
         <kotlin.version>1.1.4-dev-600</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
-        <ktlint.version>0.8.1</ktlint.version>
+        <ktlint.version>0.8.2</ktlint.version>
         <logback-access-spring-boot-starter.version>2.2.0</logback-access-spring-boot-starter.version>
         <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
