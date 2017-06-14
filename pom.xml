@@ -38,7 +38,7 @@
         <kotlin.version>1.1.4-dev-600</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
         <ktlint.version>0.8.2</ktlint.version>
-        <logback-access-spring-boot-starter.version>2.2.0</logback-access-spring-boot-starter.version>
+        <logback-access-spring-boot-starter.version>2.4.0</logback-access-spring-boot-starter.version>
         <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
@@ -48,7 +48,7 @@
         <minimum-code-coverage-ratio>0.57</minimum-code-coverage-ratio>
         <project.build.sourceEncoding>${java.charset}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
-        <spring.version>5.0.0.RC1</spring.version>
+        <spring.version>5.0.0.RC2</spring.version>
         <springfox.version>2.7.0</springfox.version>
         <surefire.printSummary>false</surefire.printSummary>
         <versions-maven-plugin.version>2.4</versions-maven-plugin.version>
