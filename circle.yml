@@ -1,10 +1,10 @@
 dependencies:
   override:
-    - ./mvnw dependency:go-offline
+    - ./mvnw -B dependency:go-offline
 
 test:
   override:
-    - ./mvnw clean verify
+    - ./mvnw -B clean verify
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find target/{surefire,failsafe}-reports -type f -name TEST\*.xml -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
@@ -14,6 +14,6 @@ deployment:
     branch: master
     commands:
       # Until boxfuse groks Spring Boot 2.0, tell it where health is
-      - ./mvnw boxfuse:run -Dboxfuse.env=prod -Dboxfuse.healthcheck.path=/application/health
+      - ./mvnw -B boxfuse:run -Dboxfuse.env=prod -Dboxfuse.healthcheck.path=/application/health
     post:
       - ./health-check.py
