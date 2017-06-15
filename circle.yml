@@ -15,3 +15,5 @@ deployment:
     commands:
       # Until boxfuse groks Spring Boot 2.0, tell it where health is
       - ./mvnw boxfuse:run -Dboxfuse.env=prod -Dboxfuse.healthcheck.path=/application/health
+    post:
+      - ./health-check.py
