@@ -26,6 +26,7 @@
 
     <properties>
         <!-- @formatter:off -->
+        <boxfuse-maven-plugin.version>1.26.7.1312</boxfuse-maven-plugin.version>
         <buildplan-maven-plugin.version>1.2</buildplan-maven-plugin.version>
         <generateBackupPoms>false</generateBackupPoms>
         <httpclient.version>4.5.3</httpclient.version>
@@ -83,6 +84,10 @@
             <name>Kotlin Bintray</name>
             <url>https://dl.bintray.com/kotlin/kotlin-dev</url>
         </repository>
+        <repository>
+            <id>boxfuse-repo</id>
+            <url>https://files.boxfuse.com</url>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -110,6 +115,10 @@
             <id>kotlin-bintray</id>
             <name>Kotlin Bintray</name>
             <url>https://dl.bintray.com/kotlin/kotlin-dev</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>boxfuse-repo</id>
+            <url>https://files.boxfuse.com</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -363,7 +372,8 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
-                    <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                    <classesDirectory>${project.build.outputDirectory}
+                    </classesDirectory>
                     <environmentVariables>
                         <SPRING_PROFILES_ACTIVE>test</SPRING_PROFILES_ACTIVE>
                     </environmentVariables>
@@ -422,6 +432,11 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.boxfuse.client</groupId>
+                <artifactId>boxfuse-maven-plugin</artifactId>
+                <version>${boxfuse-maven-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
