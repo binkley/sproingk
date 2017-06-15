@@ -52,6 +52,7 @@
         <spring.version>5.0.0.RC2</spring.version>
         <springfox.version>2.7.0</springfox.version>
         <surefire.printSummary>false</surefire.printSummary>
+        <versions-maven-plugin.phase>validate</versions-maven-plugin.phase>
         <versions-maven-plugin.version>2.4</versions-maven-plugin.version>
         <!-- @formatter:on -->
     </properties>
@@ -210,7 +211,7 @@
                 <executions>
                     <execution>
                         <id>update-dependencies</id>
-                        <phase>validate</phase>
+                        <phase>${versions-maven-plugin.phase}</phase>
                         <goals>
                             <goal>update-properties</goal>
                         </goals>
