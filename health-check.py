@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
-import urllib.request, json, sys
+import urllib2, json, sys
 
 url = "http://sproingk-binkley.boxfuse.io:8080/application/health"
 # url = "http://localhost:8080/application/health"
-with urllib.request.urlopen(url) as url:
-    data = json.loads(url.read().decode())
-    sys.exit(0 if "UP" == data["status"] else 1)
+url = urllib2.urlopen(url)
+data = json.loads(url.read().decode())
+sys.exit(0 if "UP" == data["status"] else 1)
