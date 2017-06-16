@@ -5,24 +5,21 @@ jobs:
     docker:
       - image: circleci/openjdk:8
 
-    environment:
-      MAVEN_OPTS: "-Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod"
-
     steps:
       - checkout
   
       - restore_cache:
           key: circleci-sproingk-{{ checksum "pom.xml" }}
-      - run: ./mvnw -B dependency:go-offline
+      - run: ./mvnw -B dependency:go-offline -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
       - save_cache:
           paths:
             - ~/.m2
           key: circleci-sproingk-{{ checksum "pom.xml" }}
 
-      - run: ./mvnw -B clean verify
+      - run: ./mvnw -B clean verify -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
 
       - store_test_results:
           path: target/{surefire,failsafe}-reports
 
-      - run: ./mvnw -B boxfuse:run
+      - run: ./mvnw -B boxfuse:run -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
       - run: ./health-check.py
