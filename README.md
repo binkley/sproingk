@@ -2,6 +2,12 @@
 
 _Spring Boot with Kotlin_.  [Try it live!](http://sproingk-binkley.boxfuse.io:8080/)
 
+Please note: because of temporary dependency incompatibilities, there was a
+second project named _sproingk-swagger_.  As the combination of Spring
+Framework 5.0-X, Spring Boot 2.0-X, JUnit 5.0-X and Swagger now work together,
+I've retired that project and returned to providing only this one!  Apologies
+if you forked the other.
+
 ## License
 
 This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
