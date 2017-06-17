@@ -1,6 +1,8 @@
 # Sproink
 
-Spring Boot with Kotlin
+_Spring Boot with Kotlin_.  [Try it live!](http://sproingk-binkley.boxfuse.io:8080/)
+
+## License
 
 This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
 
