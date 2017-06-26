@@ -20,6 +20,7 @@ class Application
     override fun onApplicationEvent(event: WebServerInitializedEvent)
             = logger.info("Ready on port ${event.webServer.port}")
 
+    /** Sleep 30 seconds to fake a batch job. */
     @Bean
     fun greetingRepository() = SlowGreetingRepository(30, SECONDS)
 
