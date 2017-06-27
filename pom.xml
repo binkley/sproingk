@@ -76,14 +76,17 @@
             </snapshots>
         </repository>
         <repository>
-            <id>oss-jfrog-artifactory</id>
-            <name>oss-jfrog-artifactory-releases</name>
-            <url>https://oss.jfrog.org/artifactory/oss-release-local</url>
-        </repository>
-        <repository>
             <id>kotlin-bintray</id>
             <name>Kotlin Bintray</name>
             <url>https://dl.bintray.com/kotlin/kotlin-dev</url>
+        </repository>
+        <repository>
+            <id>jacoco-snapshots</id>
+            <name>JaCoCo Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
         <repository>
             <id>boxfuse-repo</id>
