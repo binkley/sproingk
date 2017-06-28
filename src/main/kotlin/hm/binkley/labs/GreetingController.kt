@@ -22,7 +22,7 @@ import java.net.URI
 
 @RestController
 class GreetingController(private val repository: GreetingRepository) {
-    @RequestMapping("/greetings", method = arrayOf(POST))
+    @RequestMapping("/greetings", method = [POST])
     fun beginGreeting(
             @RequestBody greeting: BeginGreeting): ResponseEntity<*> {
         val name = greeting.name
@@ -37,7 +37,7 @@ class GreetingController(private val repository: GreetingRepository) {
                 body(Status(name, PENDING, progress.percentage))
     }
 
-    @RequestMapping("/queue/{name}", method = arrayOf(GET))
+    @RequestMapping("/queue/{name}", method = [GET])
     fun queue(@PathVariable name: String) = try {
         val progress = repository[name]
         if (100 == progress.percentage)
@@ -51,7 +51,7 @@ class GreetingController(private val repository: GreetingRepository) {
                 build<Status>()
     }!!
 
-    @RequestMapping("/greetings/{name}", method = arrayOf(GET))
+    @RequestMapping("/greetings/{name}", method = [GET])
     fun greetings(@PathVariable name: String) = try {
         val progress = repository[name]
         if (null != progress.greeting)
@@ -65,8 +65,7 @@ class GreetingController(private val repository: GreetingRepository) {
                 build<Status>()
     }!!
 
-    @RequestMapping("/queue/{name}", "/greetings/{name}",
-            method = arrayOf(DELETE))
+    @RequestMapping("/queue/{name}", "/greetings/{name}", method = [DELETE])
     @ResponseStatus(NO_CONTENT)
     fun delete(@PathVariable name: String) = repository.delete(name)
 }
