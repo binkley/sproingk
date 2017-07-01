@@ -8,6 +8,7 @@ jobs:
       - checkout
 
   update-cache:
+    working_directory: ~/sproingk
     steps:
       - restore_cache:
           key: circleci-sproingk-{{ checksum "pom.xml" }}
@@ -18,16 +19,19 @@ jobs:
           key: circleci-sproingk-{{ checksum "pom.xml" }}
 
   test-and-package:
+    working_directory: ~/sproingk
     steps:
       - run: ./mvnw -B clean verify -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
       - store_test_results:
           path: target/{surefire,failsafe}-reports
 
   release:
+    working_directory: ~/sproingk
     steps:
       - run: ./mvnw -B boxfuse:run -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
 
   post-release:
+    working_directory: ~/sproingk
     steps:
       - run: ./health-check.py
 
