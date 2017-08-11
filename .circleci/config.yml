@@ -9,6 +9,8 @@ jobs:
 
   update-cache:
     working_directory: ~/sproingk
+    docker:
+      - image: circleci/openjdk:8
     steps:
       - restore_cache:
           key: circleci-sproingk-{{ checksum "pom.xml" }}
@@ -20,6 +22,8 @@ jobs:
 
   test-and-package:
     working_directory: ~/sproingk
+    docker:
+      - image: circleci/openjdk:8
     steps:
       - run: ./mvnw -B clean verify -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
       - store_test_results:
