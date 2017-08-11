@@ -27,11 +27,15 @@ jobs:
 
   release:
     working_directory: ~/sproingk
+    docker:
+      - image: circleci/openjdk:8
     steps:
-      - run: ./mvnw -B boxfuse:run -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
+        - run: ./mvnw -B boxfuse:run -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
 
   post-release:
     working_directory: ~/sproingk
+    docker:
+      - image: circleci/openjdk:8
     steps:
       - run: ./health-check.py
 
