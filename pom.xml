@@ -264,6 +264,7 @@
                 <configuration>
                     <compilerArgs>
                         <compilerArg>-parameters</compilerArg>
+                        <compilerArg>-Werror</compilerArg>
                         <compilerArg>-Xlint:all</compilerArg>
                     </compilerArgs>
                     <debug>true</debug>
