@@ -28,7 +28,7 @@ class GreetingController(private val repository: GreetingRepository) {
         val name = greeting.name
         repository.create(name)
         val progress = repository[name]
-        return if (100 == progress.percentage)
+        return if (progress.complete)
             status(SEE_OTHER).
                     location(URI.create("/greetings/$name")).
                     body(Status(name, COMPLETE, progress.percentage))
@@ -40,7 +40,7 @@ class GreetingController(private val repository: GreetingRepository) {
     @RequestMapping("/queue/{name}", method = [GET])
     fun queue(@PathVariable name: String) = try {
         val progress = repository[name]
-        if (100 == progress.percentage)
+        if (progress.complete)
             status(SEE_OTHER).
                     location(URI.create("/greetings/$name")).
                     body(Status(name, COMPLETE, progress.percentage))
