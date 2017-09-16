@@ -171,8 +171,8 @@ internal class GreetingControllerIT {
 {
   content: "Brian",
   status: {
-    name: "Brian",
-    state: "COMPLETE",
+    "name": "Brian",
+    "state": "COMPLETE",
     "percentage": 100
   }
 }
@@ -229,9 +229,9 @@ internal class GreetingControllerIT {
         assertEquals(status, this.statusCode)
         JSONAssert.assertEquals("""
 {
-    name: "$name",
-    state: "$state",
-    percentage: $percentage
+    "name": "$name",
+    "state": "$state",
+    "percentage": $percentage
 }
 """,
                 this.body.toString(), STRICT)
