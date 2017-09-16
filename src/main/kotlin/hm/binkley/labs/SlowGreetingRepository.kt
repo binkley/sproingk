@@ -29,7 +29,7 @@ class SlowGreetingRepository(
 
     override fun get(name: String): Progress {
         val e = greetings[name] ?: throw IndexOutOfBoundsException(name)
-        return if (e.greeting.isDone) Progress(e.greeting.get()!!, 100)
+        return if (e.greeting.isDone) Progress.complete(e.greeting.get()!!)
         else Progress(null, e.progress.get())
     }
 
