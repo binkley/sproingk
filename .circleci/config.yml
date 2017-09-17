@@ -5,11 +5,6 @@ jobs:
       - image: circleci/openjdk:8
     steps:
       - checkout
-
-  update-cache:
-    docker:
-      - image: circleci/openjdk:8
-    steps:
       - restore_cache:
           key: circleci-sproingk-{{ checksum "pom.xml" }}
       - run: ./mvnw -B dependency:go-offline -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
@@ -17,41 +12,8 @@ jobs:
           paths:
             - ~/.m2
           key: circleci-sproingk-{{ checksum "pom.xml" }}
-
-  test-and-package:
-    docker:
-      - image: circleci/openjdk:8
-    steps:
       - run: ./mvnw -B clean verify -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
       - store_test_results:
           path: target/{surefire,failsafe}-reports
-
-  release:
-    docker:
-      - image: circleci/openjdk:8
-    steps:
-        - run: ./mvnw -B boxfuse:run -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
-
-  post-release:
-    docker:
-      - image: circleci/openjdk:8
-    steps:
+      - run: ./mvnw -B boxfuse:run -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
       - run: ./health-check.py
-
-workflows:
-  version: 2
-  end-to-end:
-    jobs:
-      - build
-      - update-cache:
-          requires:
-            - build
-      - test-and-package:
-          requires:
-            - update-cache
-      - release:
-          requires:
-            - test-and-package
-      - post-release:
-          requires:
-            - release
