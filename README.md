@@ -36,7 +36,7 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 
 ## Other features
 
-* Latest JUnit 5
+* JUnit 5 release
 * Access logging ala CLF style
 * Quieter tests and runtime (always in progress!)
 
