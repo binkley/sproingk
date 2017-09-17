@@ -1,14 +1,12 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/sproingk
     docker:
       - image: circleci/openjdk:8
     steps:
       - checkout
 
   update-cache:
-    working_directory: ~/sproingk
     docker:
       - image: circleci/openjdk:8
     steps:
@@ -21,7 +19,6 @@ jobs:
           key: circleci-sproingk-{{ checksum "pom.xml" }}
 
   test-and-package:
-    working_directory: ~/sproingk
     docker:
       - image: circleci/openjdk:8
     steps:
@@ -30,14 +27,12 @@ jobs:
           path: target/{surefire,failsafe}-reports
 
   release:
-    working_directory: ~/sproingk
     docker:
       - image: circleci/openjdk:8
     steps:
         - run: ./mvnw -B boxfuse:run -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
 
   post-release:
-    working_directory: ~/sproingk
     docker:
       - image: circleci/openjdk:8
     steps:
