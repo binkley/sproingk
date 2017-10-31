@@ -36,7 +36,7 @@
         <java.version>1.8</java.version>
         <junit.jupiter.version>5.0.1</junit.jupiter.version>
         <junit.platform.version>1.0.1</junit.platform.version>
-        <kotlin.version>1.2.0-beta-31</kotlin.version>
+        <kotlin.version>1.2.0-beta-88</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
         <ktlint.version>0.10.0</ktlint.version>
         <logback-access-spring-boot-starter.version>2.7.0</logback-access-spring-boot-starter.version>
