@@ -34,8 +34,8 @@
         <jacoco.version>0.7.10-SNAPSHOT</jacoco.version> <!-- Kotlin support -->
         <java.charset>UTF-8</java.charset>
         <java.version>1.8</java.version>
-        <junit.jupiter.version>5.0.1</junit.jupiter.version>
-        <junit.platform.version>1.0.1</junit.platform.version>
+        <junit.jupiter.version>5.0.2</junit.jupiter.version>
+        <junit.platform.version>1.0.2</junit.platform.version>
         <kotlin.version>1.2.0-rc-39</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
         <ktlint.version>0.11.1</ktlint.version>
@@ -158,7 +158,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -203,9 +203,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test-autoconfigure</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
