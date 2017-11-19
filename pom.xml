@@ -38,7 +38,7 @@
         <junit.platform.version>1.0.2</junit.platform.version>
         <kotlin.version>1.2.0-rc-39</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
-        <ktlint.version>0.11.1</ktlint.version>
+        <ktlint.version>0.12.1</ktlint.version>
         <logback-access-spring-boot-starter.version>2.7.0</logback-access-spring-boot-starter.version>
         <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
@@ -335,13 +335,6 @@
                         <version>${junit.platform.version}</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <configuration>
-                    <verbose>false</verbose>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
