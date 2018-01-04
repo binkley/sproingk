@@ -29,26 +29,21 @@ class GreetingController(private val repository: GreetingRepository) {
         repository.create(name)
         val progress = repository[name]
         return if (progress.complete)
-            status(SEE_OTHER).
-                    location(URI.create("/greetings/$name")).
-                    body(Status(name, COMPLETE, progress.percentage))
-        else status(ACCEPTED).
-                location(URI.create("/queue/$name")).
-                body(Status(name, PENDING, progress.percentage))
+            status(SEE_OTHER).location(URI.create("/greetings/$name")).body(
+                            Status(name, COMPLETE, progress.percentage))
+        else status(ACCEPTED).location(URI.create("/queue/$name")).body(
+                        Status(name, PENDING, progress.percentage))
     }
 
     @RequestMapping("/queue/{name}", method = [GET])
     fun queue(@PathVariable name: String) = try {
         val progress = repository[name]
         if (progress.complete)
-            status(SEE_OTHER).
-                    location(URI.create("/greetings/$name")).
-                    body(Status(name, COMPLETE, progress.percentage))
-        else status(OK).
-                body(Status(name, PENDING, progress.percentage))
+            status(SEE_OTHER).location(URI.create("/greetings/$name")).body(
+                            Status(name, COMPLETE, progress.percentage))
+        else status(OK).body(Status(name, PENDING, progress.percentage))
     } catch (_: IndexOutOfBoundsException) {
-        status(NOT_FOUND).
-                build<Status>()
+        status(NOT_FOUND).build<Status>()
     }!!
 
     @RequestMapping("/greetings/{name}", method = [GET])
@@ -58,11 +53,9 @@ class GreetingController(private val repository: GreetingRepository) {
             ok(Greeting(progress.greeting,
                     Status(name, COMPLETE, progress.percentage)))
         else
-            status(NOT_FOUND).
-                    build()
+            status(NOT_FOUND).build()
     } catch (_: IndexOutOfBoundsException) {
-        status(NOT_FOUND).
-                build<Status>()
+        status(NOT_FOUND).build<Status>()
     }!!
 
     @RequestMapping("/queue/{name}", "/greetings/{name}", method = [DELETE])
