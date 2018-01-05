@@ -20,12 +20,11 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 
 ## Spring features
 
-* Spring 5 M4
+* Spring 5 M7
 * Actuator
 * Boot with REST
 * Sleuth
-* Unit test with Boot 1.4 features
-* Integration test with Boot 1.4 features
+* Junit 5 &mdash; unit and integration tests
 * Shows git details with actuator `/info` endpoint
 * Example of REST batch round trip with status
 
