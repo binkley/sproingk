@@ -450,6 +450,12 @@
                 <groupId>com.boxfuse.client</groupId>
                 <artifactId>boxfuse-maven-plugin</artifactId>
                 <version>${boxfuse-maven-plugin.version}</version>
+                <configuration>
+                    <healthcheck.path>/actuator/health</healthcheck.path>
+                    <payload>
+                        ${project.build.directory}/${project.artifactId}-${project.version}-exec.${project.packaging}
+                    </payload>
+                </configuration>
             </plugin>
         </plugins>
     </build>
