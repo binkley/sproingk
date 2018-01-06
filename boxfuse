@@ -1,0 +1,36 @@
+#!/bin/bash
+
+export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]:+${FUNCNAME[0]}():} '
+
+set -e
+set -u
+set -o pipefail
+
+[[ -z "$BOXFUSE_USER" || -z "$BOXFUSE_SECRET" ]] && {
+    echo "$0: Export BOXFUSE_USER and BOXFUSE_SECRET" >&2
+    exit 2
+}
+
+export BOXFUSE_USER BOXFUSE_SECRET
+
+function usage {
+    echo "Usage: $0 [-e env][-h] BOXFUSE-COMMAND [...]"
+}
+
+env=dev
+while getopts :e:h opt
+do
+    case $opt in
+        e ) env=$OPTARG ;;
+        h ) usage ; exit 0 ;;
+        * ) usage >&2 ; exit 2 ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+case $# in
+    0 ) usage >&2 ; exit 2 ;;
+    * ) cmd=$1 ; shift ;;
+esac
+
+./mvnw boxfuse:$cmd -Dboxfuse.env=$env "$@"
