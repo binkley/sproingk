@@ -7,13 +7,13 @@ jobs:
       - checkout
       - restore_cache:
           key: circleci-sproingk-{{ checksum "pom.xml" }}
-      - run: ./mvnw -B dependency:go-offline -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
+      - run: ./mvnw -B dependency:go-offline -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/actuator/health -Dboxfuse.env=prod
       - save_cache:
           paths:
             - ~/.m2
           key: circleci-sproingk-{{ checksum "pom.xml" }}
-      - run: ./mvnw -B clean verify -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
+      - run: ./mvnw -B clean verify -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/actuator/health -Dboxfuse.env=prod
       - store_test_results:
           path: target/{surefire,failsafe}-reports
-      - run: ./mvnw -B boxfuse:run -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/application/health -Dboxfuse.env=prod
+      - run: ./mvnw -B boxfuse:run -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/actuator/health -Dboxfuse.env=prod
       - run: ./health-check.py
