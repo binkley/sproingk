@@ -20,7 +20,7 @@ internal class SlowGreetingRepositoryIT {
             SECONDS.sleep(1)
             val percentage = repository["Brian"].percentage
             repository.delete("Brian")
-            assertTrue(percentage in 1..99,
+            assertTrue(percentage in 1 until 100,
                     "$percentage not between 0 and 100")
         }
     }
