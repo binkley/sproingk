@@ -34,8 +34,8 @@
         <jacoco.version>0.7.10-SNAPSHOT</jacoco.version> <!-- Kotlin support -->
         <java.charset>UTF-8</java.charset>
         <java.version>1.8</java.version>
-        <junit.jupiter.version>5.0.2</junit.jupiter.version>
-        <junit.platform.version>1.0.2</junit.platform.version>
+        <junit.jupiter.version>5.1.0-M1</junit.jupiter.version>
+        <junit.platform.version>1.1.0-M1</junit.platform.version>
         <kotlin.version>1.2.10</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
         <ktlint.version>0.14.0</ktlint.version>
@@ -184,12 +184,6 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>4.12.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
