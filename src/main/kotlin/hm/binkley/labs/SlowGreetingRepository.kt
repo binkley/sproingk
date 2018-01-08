@@ -12,12 +12,11 @@ class SlowGreetingRepository(
 
     private inner class ProgressiveGreeting(private val name: String) {
         val greeting = supplyAsync {
-            var i = 0
-            while (i < delay) {
+            for (i in 0 until delay) {
                 progress.set(100 * i / delay)
                 timeUnit.sleep(1)
-                ++i
             }
+            progress.set(100)
             "Hello, $name!"
         }!!
         val progress = AtomicInteger()

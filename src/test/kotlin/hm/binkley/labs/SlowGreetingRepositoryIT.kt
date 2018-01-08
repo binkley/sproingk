@@ -1,5 +1,6 @@
 package hm.binkley.labs
 
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -22,6 +23,21 @@ internal class SlowGreetingRepositoryIT {
             repository.delete("Brian")
             assertTrue(percentage in 1 until 100,
                     "$percentage not between 0 and 100")
+        }
+    }
+
+    @DisplayName("WHEN it is completed")
+    @Nested
+    inner class Completed {
+        @DisplayName("THEN it shows 100% progress")
+        @Test
+        fun shouldBePartDone() {
+            val repository = SlowGreetingRepository(1, MILLISECONDS)
+            repository.create("Brian")
+            SECONDS.sleep(1)
+            val percentage = repository["Brian"].percentage
+            repository.delete("Brian")
+            assertEquals(100, percentage)
         }
     }
 }
