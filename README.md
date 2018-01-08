@@ -48,6 +48,8 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 
 ## Things to think about
 
+* Update to [Kotlin coding conventions](http://kotlinlang.org/docs/reference/coding-conventions.html)
+  when IntelliJ catches up
 * Update Spring Boot to 1.5 RC when Sleuth catches up
 * Logging is still to noisy during build and tests
 * Some "bleeding edge" difficulties, e.g., Spring REST docs + Spring 5 beta
