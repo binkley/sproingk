@@ -42,12 +42,12 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 
 ## Other features
 
-* JUnit 5 release
 * Access logging ala CLF style
 * Quieter tests and runtime (always in progress!)
 
 ## Things to think about
 
+* Update to openjdk 9 when boxfuse supports
 * Update to [Kotlin coding conventions](http://kotlinlang.org/docs/reference/coding-conventions.html) when IntelliJ catches up
 * Logging is still to noisy during build and tests
 * Some "bleeding edge" difficulties, e.g., Spring REST docs + Spring 5 beta
