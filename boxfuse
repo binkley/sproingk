@@ -2,14 +2,14 @@
 
 export PS4='+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]:+${FUNCNAME[0]}():} '
 
-set -e
-set -u
-set -o pipefail
-
 [[ -z "$BOXFUSE_USER" || -z "$BOXFUSE_SECRET" ]] && {
     echo "$0: Export BOXFUSE_USER and BOXFUSE_SECRET" >&2
     exit 2
 }
+
+set -e
+set -u
+set -o pipefail
 
 export BOXFUSE_USER BOXFUSE_SECRET
 
