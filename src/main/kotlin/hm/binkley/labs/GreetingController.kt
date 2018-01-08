@@ -24,7 +24,8 @@ import java.net.URI
 class GreetingController(private val repository: GreetingRepository) {
     @RequestMapping("/greetings", method = [POST])
     fun beginGreeting(
-            @RequestBody greeting: BeginGreeting): ResponseEntity<*> {
+            @RequestBody greeting: BeginGreeting
+    ): ResponseEntity<*> {
         val name = greeting.name
         repository.create(name)
         val progress = repository[name]

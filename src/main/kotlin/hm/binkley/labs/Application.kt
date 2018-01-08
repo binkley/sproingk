@@ -17,9 +17,8 @@ private val logger = getLogger(Application::class.java)!!
 @SpringBootApplication
 class Application
     : ApplicationListener<WebServerInitializedEvent> {
-    override fun onApplicationEvent(
-            event: WebServerInitializedEvent) = logger.info(
-            "Ready on port ${event.webServer.port}")
+    override fun onApplicationEvent(event: WebServerInitializedEvent) =
+            logger.info("Ready on port ${event.webServer.port}")
 
     /** Sleep 30 seconds to fake a batch job. */
     @Bean
