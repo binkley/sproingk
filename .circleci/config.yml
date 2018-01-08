@@ -12,8 +12,12 @@ jobs:
           paths:
             - ~/.m2
           key: circleci-sproingk-{{ checksum "pom.xml" }}
-      - run: ./mvnw -B clean verify -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/actuator/health -Dboxfuse.env=prod
+      - run: |
+          ./mvnw -B clean verify -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/actuator/health -Dboxfuse.env=prod || touch build-failed
+          mkdir junit
+          find target/*-reports -name \*.xml -exec cp \{\} junit \;
       - store_test_results:
-          path: target/{surefire,failsafe}-reports
+          path: junit
+      - run: [ ! -e build-failed ]
       - run: ./mvnw -B boxfuse:run -Dversions-maven-plugin.phase=none -Dboxfuse.healthcheck.path=/actuator/health -Dboxfuse.env=prod
       - run: ./health-check.py
