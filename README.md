@@ -1,6 +1,6 @@
 # Sproink
 
-_Spring Boot with Kotlin_.  [Try it live!](http://sproingk-binkley.boxfuse.io:8080/)
+_Spring Boot with Kotlin_.  [Try it live!](http://sproingk-binkley.boxfuse.io:8080/).  Fork me.
 
 Please note: because of temporary dependency incompatibilities, there was a
 second project named _sproingk-swagger_.  As the combination of Spring
