@@ -14,13 +14,15 @@ set -o pipefail
 export BOXFUSE_USER BOXFUSE_SECRET
 
 function usage {
-    echo "Usage: $0 [-e env][-h] BOXFUSE-COMMAND [...]"
+    echo "Usage: $0 [-B config=value][-e env][-h] BOXFUSE-COMMAND [...]"
 }
 
+declare -a configs
 env=dev
-while getopts :e:h opt
+while getopts :B:e:h opt
 do
     case $opt in
+        B ) configs=("${configs[@]}" "-Dboxfuse.$OPTARG") ;;
         e ) env=$OPTARG ;;
         h ) usage ; exit 0 ;;
         * ) usage >&2 ; exit 2 ;;
@@ -33,4 +35,4 @@ case $# in
     * ) cmd=$1 ; shift ;;
 esac
 
-./mvnw boxfuse:$cmd -Dboxfuse.env=$env "$@"
+./mvnw boxfuse:$cmd -Dboxfuse.env=$env ${configs[@]+"${configs[@]}"} "$@"
