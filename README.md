@@ -8,6 +8,13 @@ Framework 5.0-X, Spring Boot 2.0-X, JUnit 5.0-X and Swagger now work together,
 I've retired that project and returned to providing only this one!  Apologies
 if you forked the other.
 
+## Update
+
+This demo has been broken for much of 2017 as the technologies it relies on
+have been moving targets (think of this code as a "canary in the coal mine"
+for production readiness).  Things are much better now, and the full pipeline
+to AWS is working as expected. --2018/01/06
+
 ## License
 
 This software is in the Public Domain.  Please see [LICENSE.md](LICENSE.md).
