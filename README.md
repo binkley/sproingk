@@ -27,12 +27,10 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 
 ## Spring features
 
-* Spring 5 M7
+* Spring 5
 * Actuator
 * Boot with REST
-* Sleuth
 * Junit 5 &mdash; unit and integration tests
-* Shows git details with actuator `/info` endpoint
 * Example of REST batch round trip with status
 
 ## Agile features
@@ -53,6 +51,7 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 * Some "bleeding edge" difficulties, e.g., Spring REST docs + Spring 5 beta
 * Replace nested tests with scenario tests ala [Introduce first-class support for scenario tests #48](https://github.com/junit-team/junit5/issues/48)
 * Java 9 complains about "illegal reflective access" by Kotlin compiler
+* Stuck on surefire 2.19 until 2.20+ does not break
 
 ## Some reading
 
