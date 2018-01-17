@@ -75,11 +75,13 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <!--
         <repository>
             <id>kotlin-bintray</id>
             <name>Kotlin Bintray</name>
             <url>https://dl.bintray.com/kotlin/kotlin-eap</url>
         </repository>
+        -->
         <repository>
             <id>jacoco-snapshots</id>
             <name>JaCoCo Snapshots</name>
@@ -115,11 +117,13 @@
                 <enabled>false</enabled>
             </snapshots>
         </pluginRepository>
+        <!--
         <pluginRepository>
             <id>kotlin-bintray</id>
             <name>Kotlin Bintray</name>
             <url>https://dl.bintray.com/kotlin/kotlin-eap</url>
         </pluginRepository>
+        -->
         <pluginRepository>
             <id>jacoco-snapshots</id>
             <name>JaCoCo Snapshots</name>
