@@ -50,7 +50,7 @@
         <project.build.sourceEncoding>${java.charset}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
         <spring.version>5.0.2.RELEASE</spring.version>
-        <springfox.version>2.7.0</springfox.version>
+        <springfox.version>2.8.0</springfox.version>
         <surefire.printSummary>false</surefire.printSummary>
         <versions-maven-plugin.phase>none</versions-maven-plugin.phase>
         <versions-maven-plugin.version>2.5</versions-maven-plugin.version>

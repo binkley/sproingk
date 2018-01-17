@@ -30,6 +30,7 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 * Spring 5
 * Actuator
 * Boot with REST
+* Springfox
 * Junit 5 &mdash; unit and integration tests
 * Example of REST batch round trip with status
 
@@ -45,7 +46,11 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 
 ## Things to think about
 
-* Update to openjdk 9 when boxfuse supports
+* Update to openjdk 9:
+  - Boxfuse support
+  - `module-info.java` for `java.activation` and `java.xml.bind`
+  - JDK 9 deprecates those modules
+  - `koblinc` does not like target bytecode `1.9`
 * Update to [Kotlin coding conventions](http://kotlinlang.org/docs/reference/coding-conventions.html) when IntelliJ catches up
 * Logging is still to noisy during build and tests
 * Some "bleeding edge" difficulties, e.g., Spring REST docs + Spring 5 beta
