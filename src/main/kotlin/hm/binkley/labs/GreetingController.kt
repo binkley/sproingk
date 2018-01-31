@@ -53,8 +53,7 @@ class GreetingController(private val repository: GreetingRepository) {
         if (null != progress.greeting)
             ok(Greeting(progress.greeting,
                     Status(name, COMPLETE, progress.percentage)))
-        else
-            status(NOT_FOUND).build()
+        else status(NOT_FOUND).build()
     } catch (_: IndexOutOfBoundsException) {
         status(NOT_FOUND).build<Status>()
     }!!
