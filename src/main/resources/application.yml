@@ -1,4 +1,7 @@
 management:
+  endpoints:
+    web:
+      expose: ['*']
   endpoint:
     configprops:
       keys-to-sanitize: BOXFUSE_.*,password,secret,key,token,.*credentials.*,vcap_services
