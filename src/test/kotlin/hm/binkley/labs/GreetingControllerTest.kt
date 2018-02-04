@@ -156,7 +156,7 @@ internal class GreetingControllerTest {
             repository.state = COMPLETE
 
             GET("/greetings/Brian").andExpect(status().isOk).andExpect(
-                            content().json("""
+                    content().json("""
 {
   content: "Brian"
 }
@@ -179,7 +179,7 @@ internal class GreetingControllerTest {
 
     private fun POST(path: String, beginGreeting: String) = mvc.perform(
             post(path).contentType(APPLICATION_JSON_UTF8).content(
-                            beginGreeting))
+                    beginGreeting))
 
     private fun greet(name: String): ResultActions {
         return POST("/greetings", """
@@ -196,7 +196,8 @@ internal class GreetingControllerTest {
             status().`is`(status.value()))
 
     private fun ResultActions.andExpect(status: HttpStatus, name: String,
-            state: State, percentage: Int) = andExpect(
+                                        state: State,
+                                        percentage: Int) = andExpect(
             status().`is`(status.value())).andExpect(content().json("""
 {
   "name": "$name",

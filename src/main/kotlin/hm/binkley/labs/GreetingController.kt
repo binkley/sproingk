@@ -23,17 +23,16 @@ import java.net.URI
 @RestController
 class GreetingController(private val repository: GreetingRepository) {
     @RequestMapping("/greetings", method = [POST])
-    fun beginGreeting(
-            @RequestBody greeting: BeginGreeting
+    fun beginGreeting(@RequestBody greeting: BeginGreeting
     ): ResponseEntity<*> {
         val name = greeting.name
         repository.create(name)
         val progress = repository[name]
         return if (progress.complete)
             status(SEE_OTHER).location(URI.create("/greetings/$name")).body(
-                            Status(name, COMPLETE, progress.percentage))
+                    Status(name, COMPLETE, progress.percentage))
         else status(ACCEPTED).location(URI.create("/queue/$name")).body(
-                        Status(name, PENDING, progress.percentage))
+                Status(name, PENDING, progress.percentage))
     }
 
     @RequestMapping("/queue/{name}", method = [GET])
@@ -41,7 +40,7 @@ class GreetingController(private val repository: GreetingRepository) {
         val progress = repository[name]
         if (progress.complete)
             status(SEE_OTHER).location(URI.create("/greetings/$name")).body(
-                            Status(name, COMPLETE, progress.percentage))
+                    Status(name, COMPLETE, progress.percentage))
         else status(OK).body(Status(name, PENDING, progress.percentage))
     } catch (_: IndexOutOfBoundsException) {
         status(NOT_FOUND).build<Status>()
