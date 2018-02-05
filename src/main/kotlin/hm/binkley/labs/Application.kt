@@ -1,8 +1,8 @@
 package hm.binkley.labs
 
 import org.slf4j.LoggerFactory.getLogger
-import org.springframework.boot.SpringApplication.run
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
 import org.springframework.boot.web.context.WebServerInitializedEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.context.annotation.Bean
@@ -37,5 +37,5 @@ class Application
 }
 
 fun main(args: Array<String>) {
-    run(Application::class.java, *args)
+    runApplication<Application>(*args)
 }
