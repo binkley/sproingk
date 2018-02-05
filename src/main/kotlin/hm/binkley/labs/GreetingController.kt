@@ -2,6 +2,8 @@ package hm.binkley.labs
 
 import hm.binkley.labs.State.COMPLETE
 import hm.binkley.labs.State.PENDING
+import io.swagger.annotations.ApiResponse
+import io.swagger.annotations.ApiResponses
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.SEE_OTHER
@@ -23,6 +25,9 @@ import java.net.URI
 @RestController
 class GreetingController(private val repository: GreetingRepository) {
     @RequestMapping("/greetings", method = [POST])
+    @ApiResponses(value = [
+        ApiResponse(code = 303, message = "Navigate to completed greeting"),
+        ApiResponse(code = 202, message = "Navigate to greeting progress")])
     fun beginGreeting(@RequestBody greeting: BeginGreeting): ResponseEntity<*> {
         val name = greeting.name
         repository.create(name)
@@ -35,6 +40,9 @@ class GreetingController(private val repository: GreetingRepository) {
     }
 
     @RequestMapping("/queue/{name}", method = [GET])
+    @ApiResponses(value = [
+        ApiResponse(code = 303, message = "Navigate to completed greeting"),
+        ApiResponse(code = 200, message = "Continue greeting progress")])
     fun queue(@PathVariable name: String) = try {
         val progress = repository[name]
         if (progress.complete)
