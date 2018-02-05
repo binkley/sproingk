@@ -2,12 +2,12 @@ package hm.binkley.labs
 
 import hm.binkley.labs.State.COMPLETE
 import hm.binkley.labs.State.PENDING
-import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
-import org.springframework.http.HttpStatus.OK
 import org.springframework.http.HttpStatus.SEE_OTHER
 import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.accepted
+import org.springframework.http.ResponseEntity.notFound
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.http.ResponseEntity.status
 import org.springframework.web.bind.annotation.PathVariable
@@ -23,15 +23,14 @@ import java.net.URI
 @RestController
 class GreetingController(private val repository: GreetingRepository) {
     @RequestMapping("/greetings", method = [POST])
-    fun beginGreeting(@RequestBody greeting: BeginGreeting
-    ): ResponseEntity<*> {
+    fun beginGreeting(@RequestBody greeting: BeginGreeting): ResponseEntity<*> {
         val name = greeting.name
         repository.create(name)
         val progress = repository[name]
         return if (progress.complete)
-            status(SEE_OTHER).location(URI.create("/greetings/$name")).body(
+            seeOther().location(URI.create("/greetings/$name")).body(
                     Status(name, COMPLETE, progress.percentage))
-        else status(ACCEPTED).location(URI.create("/queue/$name")).body(
+        else accepted().location(URI.create("/queue/$name")).body(
                 Status(name, PENDING, progress.percentage))
     }
 
@@ -39,9 +38,9 @@ class GreetingController(private val repository: GreetingRepository) {
     fun queue(@PathVariable name: String) = try {
         val progress = repository[name]
         if (progress.complete)
-            status(SEE_OTHER).location(URI.create("/greetings/$name")).body(
+            seeOther().location(URI.create("/greetings/$name")).body(
                     Status(name, COMPLETE, progress.percentage))
-        else status(OK).body(Status(name, PENDING, progress.percentage))
+        else ok().body(Status(name, PENDING, progress.percentage))
     } catch (_: IndexOutOfBoundsException) {
         status(NOT_FOUND).build<Status>()
     }!!
@@ -52,12 +51,16 @@ class GreetingController(private val repository: GreetingRepository) {
         if (null != progress.greeting)
             ok(Greeting(progress.greeting,
                     Status(name, COMPLETE, progress.percentage)))
-        else status(NOT_FOUND).build()
+        else notFound().build<Greeting>()
     } catch (_: IndexOutOfBoundsException) {
-        status(NOT_FOUND).build<Status>()
+        notFound().build<Greeting>()
     }!!
 
     @RequestMapping("/queue/{name}", "/greetings/{name}", method = [DELETE])
     @ResponseStatus(NO_CONTENT)
     fun delete(@PathVariable name: String) = repository.delete(name)
+
+    companion object {
+        fun seeOther() = status(SEE_OTHER)
+    }
 }
