@@ -30,18 +30,14 @@ import java.net.URI
 @DisplayName("GIVEN a running application on a random port")
 @SpringJUnitConfig(Application::class, TestingConfiguration::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-internal class GreetingControllerIT {
-    @Autowired
-    private lateinit var restTemplate: TestRestTemplate
-    @Autowired
-    private lateinit var repository: TestingGreetingRepository
-
+internal class GreetingControllerIT(
+        @Autowired val restTemplate: TestRestTemplate,
+        @Autowired val repository: TestingGreetingRepository) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
-        @DisplayName("THEN it redirects to the queue")
         @Test
-        fun shouldRedirectForBatchWhenNew() {
+        fun `THEN it redirects to the queue`() {
             repository.state = null
 
             greet("Brian").andExpect(ACCEPTED, "Brian", PENDING,
@@ -52,9 +48,8 @@ internal class GreetingControllerIT {
     @DisplayName("WHEN greet URL is called for <name> AND is in percentage")
     @Nested
     inner class BatchInProgress {
-        @DisplayName("THEN it redirects to the queue")
         @Test
-        fun shouldRedirectForBatchWhenPending() {
+        fun `THEN it redirects to the queue`() {
             repository.state = PENDING
 
             greet("Brian").andExpect(ACCEPTED, "Brian", PENDING,
@@ -65,9 +60,8 @@ internal class GreetingControllerIT {
     @DisplayName("WHEN greet URL is called for <name> AND is ready")
     @Nested
     inner class BatchReady {
-        @DisplayName("THEN it redirects to the completed document")
         @Test
-        fun shouldRedirectForBatchWhenComplete() {
+        fun `THEN it redirect to the completed document`() {
             repository.state = COMPLETE
 
             greet("Brian").andExpect(SEE_OTHER, "Brian", COMPLETE,
@@ -78,9 +72,8 @@ internal class GreetingControllerIT {
     @DisplayName("WHEN queue URL is called for <name> AND is new")
     @Nested
     inner class QueueNew {
-        @DisplayName("THEN it says not found")
         @Test
-        fun shouldComplainForQueueWhenNew() {
+        fun `THEN it says not found`() {
             repository.state = null
 
             GET("/queue/Brian").andExpect(NOT_FOUND)
@@ -90,9 +83,8 @@ internal class GreetingControllerIT {
     @DisplayName("WHEN queue URL is called for <name> AND is in percentage")
     @Nested
     inner class QueueInProgress {
-        @DisplayName("THEN it says to wait further")
         @Test
-        fun shouldRespondForQueueWhenPending() {
+        fun `THEN it says to wait further`() {
             repository.state = PENDING
 
             GET("/queue/Brian").andExpect(OK, "Brian", PENDING, 0)
@@ -102,9 +94,8 @@ internal class GreetingControllerIT {
     @DisplayName("WHEN queue URL is called for <name> AND is ready")
     @Nested
     inner class QueueReady {
-        @DisplayName("THEN it redirects to the completed document")
         @Test
-        fun shouldRedirectForQueueWhenComplete() {
+        fun `THEN it redirects to the completed document`() {
             repository.state = COMPLETE
 
             GET("/queue/Brian").andExpect(SEE_OTHER, "Brian", COMPLETE,
@@ -115,9 +106,8 @@ internal class GreetingControllerIT {
     @DisplayName("WHEN queue URL is called for <name> AND is deleted")
     @Nested
     inner class QueueDelete {
-        @DisplayName("THEN it says not found")
         @Test
-        fun shouldComplainForQueueWhenDeleted() {
+        fun `THEN it says not found`() {
             repository.state = PENDING
 
             DELETE("/queue/Brian").andExpect(NO_CONTENT)
@@ -128,9 +118,8 @@ internal class GreetingControllerIT {
     @DisplayName("WHEN ready URL is called for <name> AND is new")
     @Nested
     inner class ReadyNew {
-        @DisplayName("THEN it says not found")
         @Test
-        fun shouldComplainForReadyWhenNew() {
+        fun `THEN it says not found`() {
             repository.state = null
 
             GET("/greetings/Brian").andExpect(NOT_FOUND)
@@ -140,9 +129,8 @@ internal class GreetingControllerIT {
     @DisplayName("WHEN ready URL is called for <name> AND is in percentage")
     @Nested
     inner class ReadyInProgress {
-        @DisplayName("THEN it says not found")
         @Test
-        fun shouldComplainForReadyWhenPending() {
+        fun `THEN it says not found`() {
             repository.state = PENDING
 
             GET("/greetings/Brian").andExpect(NOT_FOUND)
@@ -152,9 +140,8 @@ internal class GreetingControllerIT {
     @DisplayName("WHEN ready URL is called for <name> AND is ready")
     @Nested
     inner class ReadyReady {
-        @DisplayName("THEN it gives warm greetings")
         @Test
-        fun shouldRespondForReadyWhenComplete() {
+        fun `THEN it gives warm greetings`() {
             repository.state = COMPLETE
 
             val entity = GET("/greetings/Brian")
@@ -176,9 +163,8 @@ internal class GreetingControllerIT {
     @DisplayName("WHEN ready URL is called for <name> AND is deleted")
     @Nested
     inner class ReadyDelete {
-        @DisplayName("THEN it says not found")
         @Test
-        fun shouldComplainForReadyWhenDeleted() {
+        fun `THEN it says not found`() {
             repository.state = COMPLETE
 
             DELETE("/greetings/Brian").andExpect(NO_CONTENT)
