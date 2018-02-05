@@ -2,6 +2,8 @@ package hm.binkley.labs
 
 import hm.binkley.labs.State.COMPLETE
 import hm.binkley.labs.State.PENDING
+import io.micrometer.core.annotation.Timed
+import io.micrometer.core.annotation.TimedSet
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.http.HttpStatus.NOT_FOUND
@@ -24,6 +26,9 @@ import java.net.URI
 
 @RestController
 class GreetingController(private val repository: GreetingRepository) {
+    @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
+        Timed("timings.greetings"),
+        Timed("timings.greetings.begin")])
     @RequestMapping("/greetings", method = [POST])
     @ApiResponses(value = [
         ApiResponse(code = 303, message = "Navigate to completed greeting"),
@@ -39,6 +44,9 @@ class GreetingController(private val repository: GreetingRepository) {
                 Status(name, PENDING, progress.percentage))
     }
 
+    @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
+        Timed("timings.greetings"),
+        Timed("timings.greetings.queue")])
     @RequestMapping("/queue/{name}", method = [GET])
     @ApiResponses(value = [
         ApiResponse(code = 303, message = "Navigate to completed greeting"),
@@ -53,6 +61,9 @@ class GreetingController(private val repository: GreetingRepository) {
         status(NOT_FOUND).build<Status>()
     }!!
 
+    @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
+        Timed("timings.greetings"),
+        Timed("timings.greetings.complete")])
     @RequestMapping("/greetings/{name}", method = [GET])
     fun greetings(@PathVariable name: String) = try {
         val progress = repository[name]
@@ -64,6 +75,9 @@ class GreetingController(private val repository: GreetingRepository) {
         notFound().build<Greeting>()
     }!!
 
+    @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
+        Timed("timings.greetings"),
+        Timed("timings.greetings.delete")])
     @RequestMapping("/queue/{name}", "/greetings/{name}", method = [DELETE])
     @ResponseStatus(NO_CONTENT)
     fun delete(@PathVariable name: String) = repository.delete(name)
