@@ -150,6 +150,7 @@
             <artifactId>kotlin-reflect</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
+
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
@@ -160,23 +161,13 @@
             <artifactId>jaxb-core</artifactId>
             <version>${jaxb.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>${jaxb.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.rakugakibox.spring.boot</groupId>
-            <artifactId>logback-access-spring-boot-starter</artifactId>
-            <version>${logback-access-spring-boot-starter.version}</version>
-            <scope>runtime</scope>
-        </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-properties-migrator</artifactId>
@@ -189,6 +180,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -199,6 +191,7 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
@@ -211,12 +204,14 @@
             <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>${httpclient.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test-autoconfigure</artifactId>
@@ -232,6 +227,19 @@
                     <artifactId>junit</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.rakugakibox.spring.boot</groupId>
+            <artifactId>logback-access-spring-boot-starter</artifactId>
+            <version>${logback-access-spring-boot-starter.version}</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
