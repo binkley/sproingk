@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity.accepted
 import org.springframework.http.ResponseEntity.notFound
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.http.ResponseEntity.status
+import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -37,9 +38,7 @@ class GreetingController(private val repository: GreetingRepository) {
         val name = greeting.name
         repository.create(name)
         val progress = repository[name]
-        return if (progress.complete)
-            seeOther().location(URI.create("/greetings/$name")).body(
-                    Status(name, COMPLETE, progress.percentage))
+        return if (progress.complete) goToResult(name, progress)
         else accepted().location(URI.create("/queue/$name")).body(
                 Status(name, PENDING, progress.percentage))
     }
@@ -51,29 +50,22 @@ class GreetingController(private val repository: GreetingRepository) {
     @ApiResponses(value = [
         ApiResponse(code = 303, message = "Navigate to completed greeting"),
         ApiResponse(code = 200, message = "Continue greeting progress")])
-    fun queue(@PathVariable name: String) = try {
+    fun queue(@PathVariable name: String): ResponseEntity<Status> {
         val progress = repository[name]
-        if (progress.complete)
-            seeOther().location(URI.create("/greetings/$name")).body(
-                    Status(name, COMPLETE, progress.percentage))
+        return if (progress.complete) goToResult(name, progress)
         else ok().body(Status(name, PENDING, progress.percentage))
-    } catch (_: IndexOutOfBoundsException) {
-        status(NOT_FOUND).build<Status>()
-    }!!
+    }
 
     @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
         Timed("timings.greetings"),
         Timed("timings.greetings.complete")])
     @RequestMapping("/greetings/{name}", method = [GET])
-    fun greetings(@PathVariable name: String) = try {
+    fun greetings(@PathVariable name: String): ResponseEntity<Greeting> {
         val progress = repository[name]
-        if (null != progress.greeting)
-            ok(Greeting(progress.greeting,
-                    Status(name, COMPLETE, progress.percentage)))
+        return if (null != progress.greeting) ok(Greeting(progress.greeting,
+                Status(name, COMPLETE, progress.percentage)))
         else notFound().build<Greeting>()
-    } catch (_: IndexOutOfBoundsException) {
-        notFound().build<Greeting>()
-    }!!
+    }
 
     @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
         Timed("timings.greetings"),
@@ -82,7 +74,14 @@ class GreetingController(private val repository: GreetingRepository) {
     @ResponseStatus(NO_CONTENT)
     fun delete(@PathVariable name: String) = repository.delete(name)
 
+    @ExceptionHandler(IndexOutOfBoundsException::class)
+    @ResponseStatus(NOT_FOUND)
+    fun missingPerson() = Unit
+
     companion object {
-        fun seeOther() = status(SEE_OTHER)
+        private fun goToResult(name: String, progress: Progress) =
+                status(SEE_OTHER).location(
+                        URI.create("/greetings/$name")).body(
+                        Status(name, COMPLETE, progress.percentage))
     }
 }

@@ -47,7 +47,7 @@
         <maven-dependency-plugin.version>3.0.2</maven-dependency-plugin.version>
         <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
         <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
-        <minimum-code-coverage-ratio>0.56</minimum-code-coverage-ratio>
+        <minimum-code-coverage-ratio>0.55</minimum-code-coverage-ratio>
         <project.build.sourceEncoding>${java.charset}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
         <spring.version>5.0.2.RELEASE</spring.version>
