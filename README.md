@@ -37,7 +37,6 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 
 ## Other features
 
-* Access logging ala [Combined style](https://en.wikipedia.org/wiki/Common_Log_Format)
 * Quieter tests and runtime (always in progress!)
 
 ## Things to think about
@@ -53,6 +52,7 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 * Replace nested tests with scenario tests ala [Introduce first-class support for scenario tests #48](https://github.com/junit-team/junit5/issues/48)
 * Java 9 complains about "illegal reflective access" by Kotlin compiler
 * Stuck on surefire 2.19 until 2.20+ does not break
+* Restore HTTP access logging to console
 
 ## Some reading
 
