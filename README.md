@@ -37,7 +37,7 @@ Wall](https://github.com/binkley/sproingk/projects/2).
 
 ## Other features
 
-* Access logging ala CLF style
+* Access logging ala [Combined style](https://en.wikipedia.org/wiki/Common_Log_Format)
 * Quieter tests and runtime (always in progress!)
 
 ## Things to think about

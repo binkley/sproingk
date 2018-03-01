@@ -31,8 +31,9 @@ import java.net.URI
 @SpringJUnitConfig(Application::class, TestingConfiguration::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 internal class GreetingControllerIT(
-        @Autowired val restTemplate: TestRestTemplate,
-        @Autowired val repository: TestingGreetingRepository) {
+    @Autowired val restTemplate: TestRestTemplate,
+    @Autowired val repository: TestingGreetingRepository
+) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
@@ -200,7 +201,11 @@ internal class GreetingControllerIT(
     }
 
     private fun <T> ResponseEntity<T>.andExpect(
-            status: HttpStatus, name: String, state: State, percentage: Int):
+        status: HttpStatus,
+        name: String,
+        state: State,
+        percentage: Int
+    ):
             ResponseEntity<T> {
         assertEquals(status, this.statusCode)
         JSONAssert.assertEquals("""
@@ -215,7 +220,8 @@ internal class GreetingControllerIT(
     }
 
     private fun <T> ResponseEntity<T>.andRedirectTo(
-            location: String): ResponseEntity<T> {
+        location: String
+    ): ResponseEntity<T> {
         assertEquals(URI.create(location), this.headers.location)
         return this
     }

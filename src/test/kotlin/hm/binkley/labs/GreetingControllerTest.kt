@@ -29,8 +29,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringJUnitConfig(Application::class, TestingConfiguration::class)
 @WebMvcTest
 internal class GreetingControllerTest(
-        @Autowired val mvc: MockMvc,
-        @Autowired val repository: TestingGreetingRepository) {
+    @Autowired val mvc: MockMvc,
+    @Autowired val repository: TestingGreetingRepository
+) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
@@ -181,9 +182,12 @@ internal class GreetingControllerTest(
     private fun ResultActions.andExpect(status: HttpStatus) = andExpect(
             status().`is`(status.value()))
 
-    private fun ResultActions.andExpect(status: HttpStatus, name: String,
-                                        state: State,
-                                        percentage: Int) = andExpect(
+    private fun ResultActions.andExpect(
+        status: HttpStatus,
+        name: String,
+        state: State,
+        percentage: Int
+    ) = andExpect(
             status().`is`(status.value())).andExpect(content().json("""
 {
   "name": "$name",

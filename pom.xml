@@ -31,7 +31,6 @@
         <failsafe.printSummary>false</failsafe.printSummary>
         <generateBackupPoms>false</generateBackupPoms>
         <httpclient.version>4.5.5</httpclient.version>
-        <jackson.version>2.9.4</jackson.version>
         <jacoco.version>0.8.1-SNAPSHOT</jacoco.version>
         <java.charset>UTF-8</java.charset>
         <java.version>1.8</java.version>
@@ -40,14 +39,13 @@
         <junit-platform.version>1.1.0</junit-platform.version>
         <kotlin.version>1.2.21</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
-        <ktlint.version>0.15.1</ktlint.version>
-        <logback-access-spring-boot-starter.version>2.7.0</logback-access-spring-boot-starter.version>
+        <ktlint.version>0.17.1</ktlint.version>
         <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>3.0.2</maven-dependency-plugin.version>
         <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
-        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
         <minimum-code-coverage-ratio>0.55</minimum-code-coverage-ratio>
         <project.build.sourceEncoding>${java.charset}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
@@ -235,12 +233,6 @@
             <version>${jaxb.version}</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-            <groupId>net.rakugakibox.spring.boot</groupId>
-            <artifactId>logback-access-spring-boot-starter</artifactId>
-            <version>${logback-access-spring-boot-starter.version}</version>
-            <scope>runtime</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -370,14 +362,15 @@
                 <version>${maven-antrun-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>ktlint</id>
-                        <phase>verify</phase>
+                        <id>ktlint-format</id>
+                        <phase>generate-sources</phase>
                         <configuration>
                             <target name="ktlint">
                                 <java taskname="ktlint" dir="${basedir}"
                                       fork="true" failonerror="true"
                                       classname="com.github.shyiko.ktlint.Main"
                                       classpathref="maven.plugin.classpath">
+                                    <arg value="-F"/>
                                     <arg value="src/**/*.kt"/>
                                 </java>
                             </target>
@@ -387,14 +380,14 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>ktlint-format</id>
+                        <id>ktlint</id>
+                        <phase>verify</phase>
                         <configuration>
                             <target name="ktlint">
                                 <java taskname="ktlint" dir="${basedir}"
                                       fork="true" failonerror="true"
                                       classname="com.github.shyiko.ktlint.Main"
                                       classpathref="maven.plugin.classpath">
-                                    <arg value="-F"/>
                                     <arg value="src/**/*.kt"/>
                                 </java>
                             </target>
