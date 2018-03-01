@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.0.RC2</version>
+        <version>2.0.0.RELEASE</version>
     </parent>
 
     <properties>
@@ -51,7 +51,6 @@
         <minimum-code-coverage-ratio>0.55</minimum-code-coverage-ratio>
         <project.build.sourceEncoding>${java.charset}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
-        <spring.version>5.0.2.RELEASE</spring.version>
         <springfox.version>2.8.0</springfox.version>
         <surefire.printSummary>false</surefire.printSummary>
         <versions-maven-plugin.phase>none</versions-maven-plugin.phase>
