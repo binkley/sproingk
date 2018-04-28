@@ -39,7 +39,7 @@
         <junit-platform.version>1.1.0</junit-platform.version>
         <kotlin.version>1.2.40</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
-        <ktlint.version>0.17.1</ktlint.version>
+        <ktlint.version>0.22</ktlint.version>
         <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
         <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
