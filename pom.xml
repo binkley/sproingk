@@ -35,21 +35,21 @@
         <java.charset>UTF-8</java.charset>
         <java.version>1.8</java.version>
         <jaxb.version>2.3.0</jaxb.version>
-        <junit-jupiter.version>5.1.0</junit-jupiter.version>
-        <junit-platform.version>1.1.0</junit-platform.version>
-        <kotlin.version>1.2.40</kotlin.version>
+        <junit-jupiter.version>5.2.0-RC1</junit-jupiter.version>
+        <junit-platform.version>1.2.0-RC1</junit-platform.version>
+        <kotlin.version>1.2.41</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
         <ktlint.version>0.22</ktlint.version>
         <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
-        <maven-clean-plugin.version>3.0.0</maven-clean-plugin.version>
+        <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-        <maven-dependency-plugin.version>3.0.2</maven-dependency-plugin.version>
+        <maven-dependency-plugin.version>3.1.0</maven-dependency-plugin.version>
         <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
-        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
         <minimum-code-coverage-ratio>0.55</minimum-code-coverage-ratio>
         <project.build.sourceEncoding>${java.charset}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${java.charset}</project.reporting.outputEncoding>
-        <springfox.version>2.8.0</springfox.version>
+        <springfox.version>2.9.0</springfox.version>
         <surefire.printSummary>false</surefire.printSummary>
         <versions-maven-plugin.phase>none</versions-maven-plugin.phase>
         <versions-maven-plugin.version>2.5</versions-maven-plugin.version>
