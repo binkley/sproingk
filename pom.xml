@@ -37,7 +37,7 @@
         <jaxb.version>2.3.0</jaxb.version>
         <junit-jupiter.version>5.2.0</junit-jupiter.version>
         <junit-platform.version>1.2.0</junit-platform.version>
-        <kotlin.version>1.2.50-eap-62</kotlin.version>
+        <kotlin.version>1.2.50</kotlin.version>
         <version.kotlin>${kotlin.version}</version.kotlin> <!-- Jackson -->
         <ktlint.version>0.22</ktlint.version>
         <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
