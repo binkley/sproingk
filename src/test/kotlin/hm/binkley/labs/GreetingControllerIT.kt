@@ -31,8 +31,8 @@ import java.net.URI
 @SpringJUnitConfig(Application::class, TestingConfiguration::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 internal class GreetingControllerIT(
-    @Autowired val restTemplate: TestRestTemplate,
-    @Autowired val repository: TestingGreetingRepository
+        @Autowired val restTemplate: TestRestTemplate,
+        @Autowired val repository: TestingGreetingRepository
 ) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
@@ -41,8 +41,9 @@ internal class GreetingControllerIT(
         fun `THEN it redirects to the queue`() {
             repository.state = null
 
-            greet("Brian").andExpect(ACCEPTED, "Brian", PENDING,
-                    0).andRedirectTo("/queue/Brian")
+            greet("Brian")
+                    .andExpect(ACCEPTED, "Brian", PENDING, 0)
+                    .andRedirectTo("/queue/Brian")
         }
     }
 
@@ -53,8 +54,9 @@ internal class GreetingControllerIT(
         fun `THEN it redirects to the queue`() {
             repository.state = PENDING
 
-            greet("Brian").andExpect(ACCEPTED, "Brian", PENDING,
-                    0).andRedirectTo("/queue/Brian")
+            greet("Brian")
+                    .andExpect(ACCEPTED, "Brian", PENDING, 0)
+                    .andRedirectTo("/queue/Brian")
         }
     }
 
@@ -65,8 +67,9 @@ internal class GreetingControllerIT(
         fun `THEN it redirect to the completed document`() {
             repository.state = COMPLETE
 
-            greet("Brian").andExpect(SEE_OTHER, "Brian", COMPLETE,
-                    100).andRedirectTo("/greetings/Brian")
+            greet("Brian")
+                    .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
+                    .andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -77,7 +80,8 @@ internal class GreetingControllerIT(
         fun `THEN it says not found`() {
             repository.state = null
 
-            GET("/queue/Brian").andExpect(NOT_FOUND)
+            GET("/queue/Brian")
+                    .andExpect(NOT_FOUND)
         }
     }
 
@@ -88,7 +92,8 @@ internal class GreetingControllerIT(
         fun `THEN it says to wait further`() {
             repository.state = PENDING
 
-            GET("/queue/Brian").andExpect(OK, "Brian", PENDING, 0)
+            GET("/queue/Brian")
+                    .andExpect(OK, "Brian", PENDING, 0)
         }
     }
 
@@ -99,8 +104,9 @@ internal class GreetingControllerIT(
         fun `THEN it redirects to the completed document`() {
             repository.state = COMPLETE
 
-            GET("/queue/Brian").andExpect(SEE_OTHER, "Brian", COMPLETE,
-                    100).andRedirectTo("/greetings/Brian")
+            GET("/queue/Brian")
+                    .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
+                    .andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -111,8 +117,10 @@ internal class GreetingControllerIT(
         fun `THEN it says not found`() {
             repository.state = PENDING
 
-            DELETE("/queue/Brian").andExpect(NO_CONTENT)
-            GET("/queue/Brian").andExpect(NOT_FOUND)
+            DELETE("/queue/Brian")
+                    .andExpect(NO_CONTENT)
+            GET("/queue/Brian")
+                    .andExpect(NOT_FOUND)
         }
     }
 
@@ -123,7 +131,8 @@ internal class GreetingControllerIT(
         fun `THEN it says not found`() {
             repository.state = null
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            GET("/greetings/Brian")
+                    .andExpect(NOT_FOUND)
         }
     }
 
@@ -134,7 +143,8 @@ internal class GreetingControllerIT(
         fun `THEN it says not found`() {
             repository.state = PENDING
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            GET("/greetings/Brian")
+                    .andExpect(NOT_FOUND)
         }
     }
 
@@ -168,8 +178,10 @@ internal class GreetingControllerIT(
         fun `THEN it says not found`() {
             repository.state = COMPLETE
 
-            DELETE("/greetings/Brian").andExpect(NO_CONTENT)
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            DELETE("/greetings/Brian")
+                    .andExpect(NO_CONTENT)
+            GET("/greetings/Brian")
+                    .andExpect(NOT_FOUND)
         }
     }
 
@@ -201,10 +213,10 @@ internal class GreetingControllerIT(
     }
 
     private fun <T> ResponseEntity<T>.andExpect(
-        status: HttpStatus,
-        name: String,
-        state: State,
-        percentage: Int
+            status: HttpStatus,
+            name: String,
+            state: State,
+            percentage: Int
     ):
             ResponseEntity<T> {
         assertEquals(status, this.statusCode)
@@ -220,7 +232,7 @@ internal class GreetingControllerIT(
     }
 
     private fun <T> ResponseEntity<T>.andRedirectTo(
-        location: String
+            location: String
     ): ResponseEntity<T> {
         assertEquals(URI.create(location), this.headers.location)
         return this
