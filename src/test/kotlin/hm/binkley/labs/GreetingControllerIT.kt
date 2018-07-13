@@ -1,12 +1,13 @@
 package hm.binkley.labs
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import hm.binkley.labs.State.COMPLETE
 import hm.binkley.labs.State.PENDING
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.skyscreamer.jsonassert.JSONAssert
+import org.skyscreamer.jsonassert.JSONAssert.assertEquals
 import org.skyscreamer.jsonassert.JSONCompareMode.STRICT
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -32,8 +33,8 @@ import java.net.URI
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 internal class GreetingControllerIT(
         @Autowired val restTemplate: TestRestTemplate,
-        @Autowired val repository: TestingGreetingRepository
-) {
+        @Autowired val repository: TestingGreetingRepository,
+        @Autowired val objectMapper: ObjectMapper) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
@@ -157,16 +158,10 @@ internal class GreetingControllerIT(
 
             val entity = GET("/greetings/Brian")
             assertEquals(OK, entity.statusCode)
-            JSONAssert.assertEquals("""
-{
-  content: "Brian",
-  status: {
-    "name": "Brian",
-    "state": "COMPLETE",
-    "percentage": 100
-  }
-}
-""",
+            assertEquals(
+                    objectMapper.writeValueAsString(
+                            Greeting("Brian",
+                                    Status("Brian", COMPLETE, 100))),
                     entity.body, STRICT)
         }
     }
@@ -193,11 +188,9 @@ internal class GreetingControllerIT(
             String::class.java)
 
     private fun greet(name: String): ResponseEntity<String> {
-        return POST("/greetings", """
-{
-    "name": "$name"
-}
-""")
+        return POST("/greetings",
+                objectMapper.writeValueAsString(
+                        BeginGreeting(name)))
     }
 
     private fun GET(path: String) = restTemplate.getForEntity(path,
@@ -216,24 +209,19 @@ internal class GreetingControllerIT(
             status: HttpStatus,
             name: String,
             state: State,
-            percentage: Int
-    ):
+            percentage: Int):
             ResponseEntity<T> {
         assertEquals(status, this.statusCode)
-        JSONAssert.assertEquals("""
-{
-    "name": "$name",
-    "state": "$state",
-    "percentage": $percentage
-}
-""",
-                this.body.toString(), STRICT)
+        assertEquals(
+                objectMapper.writeValueAsString(
+                        Status(name, state, percentage)),
+                body.toString(), STRICT)
         return this
     }
 
     private fun <T> ResponseEntity<T>.andRedirectTo(
-            location: String
-    ): ResponseEntity<T> {
+            location: String):
+            ResponseEntity<T> {
         assertEquals(URI.create(location), this.headers.location)
         return this
     }
