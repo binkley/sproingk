@@ -3,7 +3,7 @@ package hm.binkley.labs
 import hm.binkley.labs.State.COMPLETE
 import hm.binkley.labs.State.PENDING
 
-class TestingGreetingRepository : GreetingRepository {
+class TestingGreetingService : GreetingService {
     var state: State? = null
 
     override fun create(name: String) {

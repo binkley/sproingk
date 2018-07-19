@@ -30,7 +30,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @WebMvcTest
 internal class GreetingControllerTest(
         @Autowired val mvc: MockMvc,
-        @Autowired val repository: TestingGreetingRepository
+        @Autowired val repository: TestingGreetingService
 ) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested

@@ -33,7 +33,7 @@ import java.net.URI
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 internal class GreetingControllerIT(
         @Autowired val restTemplate: TestRestTemplate,
-        @Autowired val repository: TestingGreetingRepository,
+        @Autowired val repository: TestingGreetingService,
         @Autowired val objectMapper: ObjectMapper) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested

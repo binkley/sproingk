@@ -5,10 +5,10 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
-class SlowGreetingRepository(
+class SlowGreetingService(
         private val delay: Int,
         private val timeUnit: TimeUnit
-) : GreetingRepository {
+) : GreetingService {
     private val greetings = ConcurrentHashMap<String, ProgressiveGreeting>()
 
     private inner class ProgressiveGreeting(private val name: String) {

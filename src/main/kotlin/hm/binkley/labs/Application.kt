@@ -22,7 +22,7 @@ class Application
 
     /** Sleep to fake a batch job. */
     @Bean
-    fun greetingRepository() = SlowGreetingRepository(60, SECONDS)
+    fun greetingRepository() = SlowGreetingService(60, SECONDS)
 
     /**
      * @see <a href="https://springfox.github.io/springfox/docs/current/#q13">Q. How does one configure swagger-ui for non-springboot applications?</a>

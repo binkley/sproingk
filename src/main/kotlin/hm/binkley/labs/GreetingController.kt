@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 
 @RestController
-class GreetingController(private val repository: GreetingRepository) {
+class GreetingController(private val service: GreetingService) {
     @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
         Timed("timings.greetings"),
         Timed("timings.greetings.begin")])
@@ -36,8 +36,8 @@ class GreetingController(private val repository: GreetingRepository) {
         ApiResponse(code = 202, message = "Navigate to greeting progress")])
     fun beginGreeting(@RequestBody greeting: BeginGreeting): ResponseEntity<*> {
         val name = greeting.name
-        repository.create(name)
-        val progress = repository[name]
+        service.create(name)
+        val progress = service[name]
         return if (progress.complete) goToResult(name, progress)
         else accepted().location(URI.create("/queue/$name")).body(
                 Status(name, PENDING, progress.percentage))
@@ -51,7 +51,7 @@ class GreetingController(private val repository: GreetingRepository) {
         ApiResponse(code = 303, message = "Navigate to completed greeting"),
         ApiResponse(code = 200, message = "Continue greeting progress")])
     fun queue(@PathVariable name: String): ResponseEntity<Status> {
-        val progress = repository[name]
+        val progress = service[name]
         return if (progress.complete) goToResult(name, progress)
         else ok().body(Status(name, PENDING, progress.percentage))
     }
@@ -61,7 +61,7 @@ class GreetingController(private val repository: GreetingRepository) {
         Timed("timings.greetings.complete")])
     @RequestMapping("/greetings/{name}", method = [GET])
     fun greetings(@PathVariable name: String): ResponseEntity<Greeting> {
-        val progress = repository[name]
+        val progress = service[name]
         return if (null != progress.greeting) ok(Greeting(progress.greeting,
                 Status(name, COMPLETE, progress.percentage)))
         else notFound().build<Greeting>()
@@ -72,7 +72,7 @@ class GreetingController(private val repository: GreetingRepository) {
         Timed("timings.greetings.delete")])
     @RequestMapping("/queue/{name}", "/greetings/{name}", method = [DELETE])
     @ResponseStatus(NO_CONTENT)
-    fun delete(@PathVariable name: String) = repository.delete(name)
+    fun delete(@PathVariable name: String) = service.delete(name)
 
     @ExceptionHandler(IndexOutOfBoundsException::class)
     @ResponseStatus(NOT_FOUND)
