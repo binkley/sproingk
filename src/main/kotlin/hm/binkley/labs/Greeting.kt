@@ -1,3 +1,14 @@
 package hm.binkley.labs
 
-data class Greeting(val content: String, val status: Status)
+import javax.persistence.Embedded
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+
+@Entity
+data class Greeting(
+        @Id @GeneratedValue
+        val id: Int = 0,
+        val content: String,
+        @Embedded
+        val status: Status)

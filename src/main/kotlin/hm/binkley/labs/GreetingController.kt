@@ -62,7 +62,8 @@ class GreetingController(private val service: GreetingService) {
     @RequestMapping("/greetings/{name}", method = [GET])
     fun greetings(@PathVariable name: String): ResponseEntity<Greeting> {
         val progress = service[name]
-        return if (null != progress.greeting) ok(Greeting(progress.greeting,
+        return if (null != progress.greeting) ok(Greeting(0,
+                progress.greeting,
                 Status(name, COMPLETE, progress.percentage)))
         else notFound().build<Greeting>()
     }
