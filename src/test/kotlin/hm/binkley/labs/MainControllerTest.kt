@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @DisplayName("GIVEN a mock MVC")
 @SpringJUnitConfig(Application::class, TestingConfiguration::class)
 @WebMvcTest
-internal class GreetingControllerTest(
+internal class MainControllerTest(
         @Autowired val mvc: MockMvc,
         @Autowired val repository: TestingGreetingService
 ) {

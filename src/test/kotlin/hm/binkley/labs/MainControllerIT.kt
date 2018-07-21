@@ -31,7 +31,7 @@ import java.net.URI
 @DisplayName("GIVEN a running application on a random port")
 @SpringJUnitConfig(Application::class, TestingConfiguration::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-internal class GreetingControllerIT(
+internal class MainControllerIT(
         @Autowired val restTemplate: TestRestTemplate,
         @Autowired val repository: TestingGreetingService,
         @Autowired val objectMapper: ObjectMapper) {
