@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus.OK
 
-class StatusMetricsEndpointTest {
+internal class StatusMetricsEndpointTest {
     @Test
     fun delegates() {
         val service = StatusMetricsService()

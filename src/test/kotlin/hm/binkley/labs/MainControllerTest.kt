@@ -30,8 +30,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @WebMvcTest
 internal class MainControllerTest(
         @Autowired val mvc: MockMvc,
-        @Autowired val repository: TestingGreetingService
-) {
+        @Autowired val repository: TestingGreetingService) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
@@ -39,8 +38,9 @@ internal class MainControllerTest(
         fun `THEN it redirects to the queue`() {
             repository.state = null
 
-            greet("Brian").andExpect(ACCEPTED, "Brian", PENDING,
-                    0).andRedirectTo("/queue/Brian")
+            greet("Brian")
+                    .andExpect(ACCEPTED, "Brian", PENDING, 0)
+                    .andRedirectTo("/queue/Brian")
         }
     }
 
@@ -51,8 +51,9 @@ internal class MainControllerTest(
         fun `THEN it redirects to the queue`() {
             repository.state = PENDING
 
-            greet("Brian").andExpect(ACCEPTED, "Brian", PENDING,
-                    0).andRedirectTo("/queue/Brian")
+            greet("Brian")
+                    .andExpect(ACCEPTED, "Brian", PENDING, 0)
+                    .andRedirectTo("/queue/Brian")
         }
     }
 
@@ -63,8 +64,9 @@ internal class MainControllerTest(
         fun `THEN it redirects to the completed document`() {
             repository.state = COMPLETE
 
-            greet("Brian").andExpect(SEE_OTHER, "Brian", COMPLETE,
-                    100).andRedirectTo("/greetings/Brian")
+            greet("Brian")
+                    .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
+                    .andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -75,7 +77,8 @@ internal class MainControllerTest(
         fun `THEN it says not found`() {
             repository.state = null
 
-            GET("/queue/Brian").andExpect(NOT_FOUND)
+            GET("/queue/Brian")
+                    .andExpect(NOT_FOUND)
         }
     }
 
@@ -86,7 +89,8 @@ internal class MainControllerTest(
         fun `THEN it says to wait further`() {
             repository.state = PENDING
 
-            GET("/queue/Brian").andExpect(OK, "Brian", PENDING, 0)
+            GET("/queue/Brian")
+                    .andExpect(OK, "Brian", PENDING, 0)
         }
     }
 
@@ -97,8 +101,9 @@ internal class MainControllerTest(
         fun `THEN it redirects to the completed document`() {
             repository.state = COMPLETE
 
-            GET("/queue/Brian").andExpect(SEE_OTHER, "Brian", COMPLETE,
-                    100).andRedirectTo("/greetings/Brian")
+            GET("/queue/Brian")
+                    .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
+                    .andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -109,8 +114,10 @@ internal class MainControllerTest(
         fun `THEN it says not found`() {
             repository.state = PENDING
 
-            DELETE("/queue/Brian").andExpect(NO_CONTENT)
-            GET("/queue/Brian").andExpect(NOT_FOUND)
+            DELETE("/queue/Brian")
+                    .andExpect(NO_CONTENT)
+            GET("/queue/Brian")
+                    .andExpect(NOT_FOUND)
         }
     }
 
@@ -121,7 +128,8 @@ internal class MainControllerTest(
         fun `THEN it says not found`() {
             repository.state = null
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            GET("/greetings/Brian")
+                    .andExpect(NOT_FOUND)
         }
     }
 
@@ -132,7 +140,8 @@ internal class MainControllerTest(
         fun `THEN it says not found`() {
             repository.state = PENDING
 
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            GET("/greetings/Brian")
+                    .andExpect(NOT_FOUND)
         }
     }
 
@@ -143,8 +152,9 @@ internal class MainControllerTest(
         fun `THEN it gives warm greetings`() {
             repository.state = COMPLETE
 
-            GET("/greetings/Brian").andExpect(status().isOk).andExpect(
-                    content().json("""
+            GET("/greetings/Brian")
+                    .andExpect(status().isOk)
+                    .andExpect(content().json("""
 {
   content: "Brian"
 }
@@ -159,8 +169,10 @@ internal class MainControllerTest(
         fun `THEN it says not found`() {
             repository.state = COMPLETE
 
-            DELETE("/greetings/Brian").andExpect(NO_CONTENT)
-            GET("/greetings/Brian").andExpect(NOT_FOUND)
+            DELETE("/greetings/Brian")
+                    .andExpect(NO_CONTENT)
+            GET("/greetings/Brian")
+                    .andExpect(NOT_FOUND)
         }
     }
 

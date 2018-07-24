@@ -11,7 +11,7 @@ import javax.servlet.ServletException
 import javax.servlet.ServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class StatusMetricsFilterTest {
+internal class StatusMetricsFilterTest {
     @Test
     @Throws(IOException::class, ServletException::class)
     fun filter200() {
