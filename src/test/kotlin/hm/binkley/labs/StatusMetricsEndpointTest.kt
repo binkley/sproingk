@@ -1,6 +1,6 @@
 package hm.binkley.labs
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus.OK
 
@@ -12,6 +12,6 @@ internal class StatusMetricsEndpointTest {
 
         service.increaseCount(OK.value())
 
-        assertEquals(1, endpoint.statusCounts()[OK.value()] as Int)
+        assertThat(endpoint.statusCounts()[OK.value()]).isEqualTo(1)
     }
 }

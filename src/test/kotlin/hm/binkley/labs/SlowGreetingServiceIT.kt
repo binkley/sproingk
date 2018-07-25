@@ -1,7 +1,6 @@
 package hm.binkley.labs
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -21,8 +20,10 @@ internal class SlowGreetingServiceIT {
             SECONDS.sleep(1)
             val percentage = repository["Brian"].percentage
             repository.delete("Brian")
-            assertTrue(percentage in 1 until 100,
-                    "$percentage not between 0 and 100")
+
+            assertThat(percentage in 1 until 100)
+                    .`as`("$percentage not between 0 and 100")
+                    .isTrue()
         }
     }
 
@@ -37,7 +38,8 @@ internal class SlowGreetingServiceIT {
             SECONDS.sleep(1)
             val percentage = repository["Brian"].percentage
             repository.delete("Brian")
-            assertEquals(100, percentage)
+
+            assertThat(percentage).isEqualTo(100)
         }
     }
 }

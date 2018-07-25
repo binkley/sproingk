@@ -1,6 +1,6 @@
 package hm.binkley.labs
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus.OK
 
@@ -9,7 +9,7 @@ internal class StatusMetricsServiceTest {
     fun defaults() {
         val metrics = StatusMetricsService()
 
-        assertEquals(metrics.statusCounts[OK.value()] as Int, 0)
+        assertThat(metrics.statusCounts[OK.value()]).isEqualTo(0)
     }
 
     @Test
@@ -18,6 +18,6 @@ internal class StatusMetricsServiceTest {
 
         metrics.increaseCount(OK.value())
 
-        assertEquals(metrics.statusCounts[OK.value()] as Int, 1)
+        assertThat(metrics.statusCounts[OK.value()]).isEqualTo(1)
     }
 }
