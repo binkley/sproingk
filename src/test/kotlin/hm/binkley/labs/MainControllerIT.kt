@@ -33,14 +33,14 @@ import java.net.URI
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 internal class MainControllerIT(
         @Autowired val restTemplate: TestRestTemplate,
-        @Autowired val repository: TestingGreetingService,
+        @Autowired val service: TestingGreetingService,
         @Autowired val objectMapper: ObjectMapper) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
         @Test
         fun `THEN it redirects to the queue`() {
-            repository.state = null
+            service.state = null
 
             greet("Brian")
                     .andExpect(ACCEPTED, "Brian", PENDING, 0)
@@ -53,7 +53,7 @@ internal class MainControllerIT(
     inner class BatchInProgress {
         @Test
         fun `THEN it redirects to the queue`() {
-            repository.state = PENDING
+            service.state = PENDING
 
             greet("Brian")
                     .andExpect(ACCEPTED, "Brian", PENDING, 0)
@@ -66,7 +66,7 @@ internal class MainControllerIT(
     inner class BatchReady {
         @Test
         fun `THEN it redirect to the completed document`() {
-            repository.state = COMPLETE
+            service.state = COMPLETE
 
             greet("Brian")
                     .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
@@ -79,7 +79,7 @@ internal class MainControllerIT(
     inner class QueueNew {
         @Test
         fun `THEN it says not found`() {
-            repository.state = null
+            service.state = null
 
             GET("/queue/Brian")
                     .andExpect(NOT_FOUND)
@@ -91,7 +91,7 @@ internal class MainControllerIT(
     inner class QueueInProgress {
         @Test
         fun `THEN it says to wait further`() {
-            repository.state = PENDING
+            service.state = PENDING
 
             GET("/queue/Brian")
                     .andExpect(OK, "Brian", PENDING, 0)
@@ -103,7 +103,7 @@ internal class MainControllerIT(
     inner class QueueReady {
         @Test
         fun `THEN it redirects to the completed document`() {
-            repository.state = COMPLETE
+            service.state = COMPLETE
 
             GET("/queue/Brian")
                     .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
@@ -116,7 +116,7 @@ internal class MainControllerIT(
     inner class QueueDelete {
         @Test
         fun `THEN it says not found`() {
-            repository.state = PENDING
+            service.state = PENDING
 
             DELETE("/queue/Brian")
                     .andExpect(NO_CONTENT)
@@ -130,7 +130,7 @@ internal class MainControllerIT(
     inner class ReadyNew {
         @Test
         fun `THEN it says not found`() {
-            repository.state = null
+            service.state = null
 
             GET("/greetings/Brian")
                     .andExpect(NOT_FOUND)
@@ -142,7 +142,7 @@ internal class MainControllerIT(
     inner class ReadyInProgress {
         @Test
         fun `THEN it says not found`() {
-            repository.state = PENDING
+            service.state = PENDING
 
             GET("/greetings/Brian")
                     .andExpect(NOT_FOUND)
@@ -154,7 +154,7 @@ internal class MainControllerIT(
     inner class ReadyReady {
         @Test
         fun `THEN it gives warm greetings`() {
-            repository.state = COMPLETE
+            service.state = COMPLETE
 
             val entity = GET("/greetings/Brian")
             assertEquals(OK, entity.statusCode)
@@ -172,7 +172,7 @@ internal class MainControllerIT(
     inner class ReadyDelete {
         @Test
         fun `THEN it says not found`() {
-            repository.state = COMPLETE
+            service.state = COMPLETE
 
             DELETE("/greetings/Brian")
                     .andExpect(NO_CONTENT)

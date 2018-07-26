@@ -20,9 +20,9 @@ class Application
     override fun onApplicationEvent(event: WebServerInitializedEvent) =
             logger.info("Ready on port ${event.webServer.port}")
 
-    /** Sleep to fake a batch job. */
+    /** Sleep to fake a batch job, and be human-visible in the UI. */
     @Bean
-    fun greetingRepository() = SlowGreetingService(60, SECONDS)
+    fun greetingService() = SlowGreetingService(60, SECONDS)
 
     /**
      * @see <a href="https://springfox.github.io/springfox/docs/current/#q13">Q. How does one configure swagger-ui for non-springboot applications?</a>
