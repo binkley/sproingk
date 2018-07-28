@@ -16,8 +16,7 @@ class StatusMetricsFilter(private val service: StatusMetricsService)
     override fun doFilter(
             request: ServletRequest,
             response: ServletResponse,
-            chain: FilterChain
-    ) {
+            chain: FilterChain) {
         chain.doFilter(request, response)
         service.increaseCount((response as HttpServletResponse).status)
     }

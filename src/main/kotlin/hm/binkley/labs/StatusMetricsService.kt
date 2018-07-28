@@ -10,8 +10,7 @@ class StatusMetricsService {
         override operator fun get(key: Int) = super.get(key) ?: 0
     }
 
-    fun increaseCount(status: Int) {
-        (statusCounts as MutableMap<Int, Int>)
-                .merge(status, 1) { a, b -> a + b }
-    }
+    fun increaseCount(status: Int) =
+            (statusCounts as MutableMap<Int, Int>)
+                    .merge(status, 1) { a, b -> a + b }
 }
