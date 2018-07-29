@@ -6,6 +6,7 @@ import org.springframework.boot.runApplication
 import org.springframework.boot.web.context.WebServerInitializedEvent
 import org.springframework.context.ApplicationListener
 import org.springframework.context.annotation.Bean
+import org.springframework.transaction.annotation.EnableTransactionManagement
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import springfox.documentation.swagger2.annotations.EnableSwagger2
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit.SECONDS
 private val logger = getLogger(Application::class.java)!!
 
 @EnableSwagger2
+@EnableTransactionManagement
 @SpringBootApplication
 class Application
     : ApplicationListener<WebServerInitializedEvent> {

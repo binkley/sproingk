@@ -160,8 +160,7 @@ internal class MainControllerIT(
             assertEquals(OK, entity.statusCode)
             assertEquals(
                     objectMapper.writeValueAsString(
-                            Greeting(0,
-                                    "Brian",
+                            Greeting("Brian",
                                     Status("Brian", COMPLETE, 100))),
                     entity.body, STRICT)
         }

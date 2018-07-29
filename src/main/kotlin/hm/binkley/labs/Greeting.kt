@@ -7,8 +7,10 @@ import javax.persistence.Id
 
 @Entity
 data class Greeting(
-        @Id @GeneratedValue
-        val id: Int = 0,
         val content: String,
         @Embedded
-        val status: Status)
+        val status: Status) {
+    @Id
+    @GeneratedValue
+    val id: Int = 0
+}
