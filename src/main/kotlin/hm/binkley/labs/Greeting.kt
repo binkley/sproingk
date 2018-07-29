@@ -12,5 +12,5 @@ data class Greeting(
         val status: Status) {
     @Id
     @GeneratedValue
-    val id: Int = 0
+    val id = 0
 }
