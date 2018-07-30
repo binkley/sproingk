@@ -219,8 +219,7 @@ internal class MainControllerIT(
         return this
     }
 
-    private fun <T> ResponseEntity<T>.andRedirectTo(
-            location: String):
+    private fun <T> ResponseEntity<T>.andRedirectTo(location: String):
             ResponseEntity<T> {
         assertEquals(URI.create(location), this.headers.location)
         return this

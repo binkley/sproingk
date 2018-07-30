@@ -15,8 +15,8 @@ internal class StatusMetricsFilterTest {
         val service = StatusMetricsService()
         val filter = StatusMetricsFilter(service)
 
-        val request: ServletRequest = mockk();
-        val response: HttpServletResponse = mockk();
+        val request: ServletRequest = mockk()
+        val response: HttpServletResponse = mockk()
         every { response.status } returns OK.value()
         val chain: FilterChain = mockk(relaxed = true)
 

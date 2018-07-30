@@ -32,7 +32,7 @@ internal class GreetingRepositoryIT(
             val matcher = ExampleMatcher.matching()
                     .withIgnoreNullValues()
                     .withIgnorePaths("id")
-            val example = Example.of(greeting, matcher);
+            val example = Example.of(greeting, matcher)
 
             assertThat(repository.findOne(example).get()).isEqualTo(greeting)
         }
