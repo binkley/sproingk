@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod.POST
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.net.URI
+import javax.validation.Valid
 
 @RestController
 class MainController(private val service: GreetingBackgroundService) {
@@ -34,7 +35,8 @@ class MainController(private val service: GreetingBackgroundService) {
     @ApiResponses(value = [
         ApiResponse(code = 303, message = "Navigate to completed greeting"),
         ApiResponse(code = 202, message = "Navigate to greeting progress")])
-    fun beginGreeting(@RequestBody greeting: BeginGreeting): ResponseEntity<*> {
+    fun beginGreeting(@Valid @RequestBody greeting: BeginGreeting):
+            ResponseEntity<*> {
         val name = greeting.name
         service.create(name)
         val progress = service[name]
