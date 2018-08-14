@@ -8,5 +8,5 @@ import org.springframework.context.annotation.Primary
 internal class TestingConfiguration {
     @Bean
     @Primary
-    fun greetingService() = TestingGreetingService()
+    fun greetingService() = TestingGreetingBackgroundService()
 }

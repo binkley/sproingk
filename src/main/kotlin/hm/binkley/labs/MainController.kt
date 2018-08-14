@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 
 @RestController
-class MainController(private val service: GreetingService) {
+class MainController(private val service: GreetingBackgroundService) {
     @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
         Timed("timings.greetings"),
         Timed("timings.greetings.begin")])

@@ -8,14 +8,14 @@ import java.util.concurrent.TimeUnit.MILLISECONDS
 import java.util.concurrent.TimeUnit.SECONDS
 
 @DisplayName("GIVEN a slow greeting repository")
-internal class SlowGreetingServiceIT {
+internal class SlowGreetingBackgroundServiceIT {
     @DisplayName("WHEN it is in progress")
     @Nested
     inner class InProgress {
         @DisplayName("THEN it shows progress")
         @Test
         fun shouldBePartDone() {
-            val repository = SlowGreetingService(2000, MILLISECONDS)
+            val repository = SlowGreetingBackgroundService(2000, MILLISECONDS)
             repository.create("Brian")
             SECONDS.sleep(1)
             val percentage = repository["Brian"].percentage
@@ -33,7 +33,7 @@ internal class SlowGreetingServiceIT {
         @DisplayName("THEN it shows 100% progress")
         @Test
         fun shouldBePartDone() {
-            val repository = SlowGreetingService(1, MILLISECONDS)
+            val repository = SlowGreetingBackgroundService(1, MILLISECONDS)
             repository.create("Brian")
             SECONDS.sleep(1)
             val percentage = repository["Brian"].percentage

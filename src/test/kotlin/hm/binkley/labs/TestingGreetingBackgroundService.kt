@@ -3,7 +3,7 @@ package hm.binkley.labs
 import hm.binkley.labs.State.COMPLETE
 import hm.binkley.labs.State.PENDING
 
-class TestingGreetingService : GreetingService {
+class TestingGreetingBackgroundService : GreetingBackgroundService {
     var state: State? = null
 
     override fun create(name: String) {
