@@ -26,26 +26,28 @@ import org.springframework.web.bind.annotation.RestController
 import java.net.URI
 import javax.validation.Valid
 
+// TODO: kotlinc complains about repeated annos without source retention
 @RestController
 class MainController(private val service: GreetingBackgroundService) {
-    @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
+    @TimedSet(value = [
         Timed("timings.greetings"),
         Timed("timings.greetings.begin")])
     @RequestMapping("/greetings", method = [POST])
     @ApiResponses(value = [
         ApiResponse(code = 303, message = "Navigate to completed greeting"),
         ApiResponse(code = 202, message = "Navigate to greeting progress")])
-    fun beginGreeting(@Valid @RequestBody greeting: BeginGreeting):
+    fun beginGreeting(@Valid @RequestBody request: GreetingRequest):
             ResponseEntity<*> {
-        val name = greeting.name
+        val name = request.name
         service.create(name)
         val progress = service[name]
         return if (progress.complete) goToResult(name, progress)
-        else accepted().location(URI.create("/queue/$name")).body(
-                Status(name, PENDING, progress.percentage))
+        else accepted()
+                .location(URI.create("/queue/$name"))
+                .body(Status(name, PENDING, progress.percentage))
     }
 
-    @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
+    @TimedSet(value = [
         Timed("timings.greetings"),
         Timed("timings.greetings.queue")])
     @RequestMapping("/queue/{name}", method = [GET])
@@ -58,19 +60,18 @@ class MainController(private val service: GreetingBackgroundService) {
         else ok().body(Status(name, PENDING, progress.percentage))
     }
 
-    @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
+    @TimedSet(value = [
         Timed("timings.greetings"),
         Timed("timings.greetings.complete")])
     @RequestMapping("/greetings/{name}", method = [GET])
     fun greetings(@PathVariable name: String): ResponseEntity<Greeting> {
         val progress = service[name]
-        return if (null != progress.greeting) ok(Greeting(
-                progress.greeting,
+        return if (null != progress.greeting) ok(Greeting(progress.greeting,
                 Status(name, COMPLETE, progress.percentage)))
         else notFound().build<Greeting>()
     }
 
-    @TimedSet(value = [ // TODO: kotlinc complains about repeated annos
+    @TimedSet(value = [
         Timed("timings.greetings"),
         Timed("timings.greetings.delete")])
     @RequestMapping("/queue/{name}", "/greetings/{name}", method = [DELETE])
@@ -83,8 +84,8 @@ class MainController(private val service: GreetingBackgroundService) {
 
     companion object {
         private fun goToResult(name: String, progress: Progress) =
-                status(SEE_OTHER).location(
-                        URI.create("/greetings/$name")).body(
-                        Status(name, COMPLETE, progress.percentage))
+                status(SEE_OTHER)
+                        .location(URI.create("/greetings/$name"))
+                        .body(Status(name, COMPLETE, progress.percentage))
     }
 }

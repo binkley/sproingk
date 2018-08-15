@@ -190,7 +190,7 @@ internal class MainControllerIT(
     private fun greet(name: String): ResponseEntity<String> {
         return POST("/greetings",
                 objectMapper.writeValueAsString(
-                        BeginGreeting(name)))
+                        GreetingRequest(name)))
     }
 
     private fun GET(path: String) = restTemplate.getForEntity(path,
