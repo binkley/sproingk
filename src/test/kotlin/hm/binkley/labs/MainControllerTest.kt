@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpHeaders.LOCATION
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.ACCEPTED
-import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
@@ -42,16 +41,6 @@ internal class MainControllerTest(
             greet("Brian")
                     .andExpect(ACCEPTED, "Brian", PENDING, 0)
                     .andRedirectTo("/queue/Brian")
-        }
-
-        @DisplayName("AND request is invalid")
-        @Nested
-        inner class BatchNewInvalid {
-            @Test
-            fun `THEN it complains`() {
-                greet("")
-                        .andExpect(BAD_REQUEST) // TODO: 422
-            }
         }
     }
 

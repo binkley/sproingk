@@ -1,5 +1,3 @@
 package hm.binkley.labs
 
-import javax.validation.constraints.NotEmpty
-
-data class GreetingRequest(@get:NotEmpty val name: String)
+data class GreetingRequest(@get:GreetingName val name: String)
