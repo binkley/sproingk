@@ -18,7 +18,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringJUnitConfig(Application::class, TestingConfiguration::class)
 @WebMvcTest
 internal class MainControllerValidationTest(
-        @Autowired val mvc: MockMvc) {
+    @Autowired val mvc: MockMvc
+) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
@@ -28,7 +29,7 @@ internal class MainControllerValidationTest(
             @Test
             fun `THEN it complains`() {
                 POST("/greetings", "{}")
-                        .andExpect(BAD_REQUEST) // TODO: 422
+                    .andExpect(BAD_REQUEST) // TODO: 422
             }
         }
 
@@ -38,7 +39,7 @@ internal class MainControllerValidationTest(
             @Test
             fun `THEN it complains`() {
                 greet("")
-                        .andExpect(BAD_REQUEST) // TODO: 422
+                    .andExpect(BAD_REQUEST) // TODO: 422
             }
         }
 
@@ -48,23 +49,28 @@ internal class MainControllerValidationTest(
             @Test
             fun `THEN it complains`() {
                 greet(" ")
-                        .andExpect(BAD_REQUEST) // TODO: 422
+                    .andExpect(BAD_REQUEST) // TODO: 422
             }
         }
     }
 
     private fun POST(path: String, beginGreeting: String) = mvc.perform(
-            post(path).contentType(APPLICATION_JSON_UTF8).content(
-                    beginGreeting))
+        post(path).contentType(APPLICATION_JSON_UTF8).content(
+            beginGreeting
+        )
+    )
 
     private fun greet(name: String): ResultActions {
-        return POST("/greetings", """
+        return POST(
+            "/greetings", """
 {
     "name": "$name"
 }
-""")
+"""
+        )
     }
 
     private fun ResultActions.andExpect(status: HttpStatus) = andExpect(
-            status().`is`(status.value()))
+        status().`is`(status.value())
+    )
 }

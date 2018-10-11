@@ -11,6 +11,6 @@ class StatusMetricsService {
     }
 
     fun increaseCount(status: Int) =
-            (statusCounts as MutableMap<Int, Int>)
-                    .merge(status, 1) { a, b -> a + b }
+        (statusCounts as MutableMap<Int, Int>)
+            .merge(status, 1) { a, b -> a + b }
 }

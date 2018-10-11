@@ -29,14 +29,24 @@ import javax.validation.Valid
 // TODO: kotlinc complains about repeated annos without source retention
 @RestController
 class MainController(private val cache: GreetingBackgroundService) {
-    @TimedSet(value = [
-        Timed("timings.greetings"),
-        Timed("timings.greetings.begin")])
+    @TimedSet(
+        value = [
+            Timed("timings.greetings"),
+            Timed("timings.greetings.begin")]
+    )
     @RequestMapping("/greetings", method = [POST])
-    @ApiResponses(value = [
-        ApiResponse(code = 303, message = "Navigate to completed greeting"),
-        ApiResponse(code = 202, message = "Navigate to greeting progress"),
-        ApiResponse(code = 422, message = "Invalid request")])
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 303,
+                message = "Navigate to completed greeting"
+            ),
+            ApiResponse(
+                code = 202,
+                message = "Navigate to greeting progress"
+            ),
+            ApiResponse(code = 422, message = "Invalid request")]
+    )
     fun beginGreeting(@Valid @RequestBody request: GreetingRequest):
             ResponseEntity<*> {
         val name = request.name
@@ -44,37 +54,52 @@ class MainController(private val cache: GreetingBackgroundService) {
         val progress = cache[name]
         return if (progress.complete) goToResult(name, progress)
         else accepted()
-                .location(URI.create("/queue/$name"))
-                .body(Status(name, PENDING, progress.percentage))
+            .location(URI.create("/queue/$name"))
+            .body(Status(name, PENDING, progress.percentage))
     }
 
-    @TimedSet(value = [
-        Timed("timings.greetings"),
-        Timed("timings.greetings.queue")])
+    @TimedSet(
+        value = [
+            Timed("timings.greetings"),
+            Timed("timings.greetings.queue")]
+    )
     @RequestMapping("/queue/{name}", method = [GET])
-    @ApiResponses(value = [
-        ApiResponse(code = 303, message = "Navigate to completed greeting"),
-        ApiResponse(code = 200, message = "Continue greeting progress")])
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                code = 303,
+                message = "Navigate to completed greeting"
+            ),
+            ApiResponse(code = 200, message = "Continue greeting progress")]
+    )
     fun queue(@PathVariable name: String): ResponseEntity<Status> {
         val progress = cache[name]
         return if (progress.complete) goToResult(name, progress)
         else ok().body(Status(name, PENDING, progress.percentage))
     }
 
-    @TimedSet(value = [
-        Timed("timings.greetings"),
-        Timed("timings.greetings.complete")])
+    @TimedSet(
+        value = [
+            Timed("timings.greetings"),
+            Timed("timings.greetings.complete")]
+    )
     @RequestMapping("/greetings/{name}", method = [GET])
     fun greetings(@PathVariable name: String): ResponseEntity<Greeting> {
         val progress = cache[name]
-        return if (null != progress.greeting) ok(Greeting(progress.greeting,
-                Status(name, COMPLETE, progress.percentage)))
+        return if (null != progress.greeting) ok(
+            Greeting(
+                progress.greeting,
+                Status(name, COMPLETE, progress.percentage)
+            )
+        )
         else notFound().build<Greeting>()
     }
 
-    @TimedSet(value = [
-        Timed("timings.greetings"),
-        Timed("timings.greetings.delete")])
+    @TimedSet(
+        value = [
+            Timed("timings.greetings"),
+            Timed("timings.greetings.delete")]
+    )
     @RequestMapping("/queue/{name}", "/greetings/{name}", method = [DELETE])
     @ResponseStatus(NO_CONTENT)
     fun delete(@PathVariable name: String) = cache.delete(name)
@@ -85,8 +110,8 @@ class MainController(private val cache: GreetingBackgroundService) {
 
     companion object {
         private fun goToResult(name: String, progress: Progress) =
-                status(SEE_OTHER)
-                        .location(URI.create("/greetings/$name"))
-                        .body(Status(name, COMPLETE, progress.percentage))
+            status(SEE_OTHER)
+                .location(URI.create("/greetings/$name"))
+                .body(Status(name, COMPLETE, progress.percentage))
     }
 }

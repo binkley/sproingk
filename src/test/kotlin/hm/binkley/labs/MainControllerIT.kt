@@ -32,9 +32,10 @@ import java.net.URI
 @SpringJUnitConfig(Application::class, TestingConfiguration::class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 internal class MainControllerIT(
-        @Autowired val restTemplate: TestRestTemplate,
-        @Autowired val service: TestingGreetingBackgroundService,
-        @Autowired val objectMapper: ObjectMapper) {
+    @Autowired val restTemplate: TestRestTemplate,
+    @Autowired val service: TestingGreetingBackgroundService,
+    @Autowired val objectMapper: ObjectMapper
+) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
@@ -43,8 +44,8 @@ internal class MainControllerIT(
             service.state = null
 
             greet("Brian")
-                    .andExpect(ACCEPTED, "Brian", PENDING, 0)
-                    .andRedirectTo("/queue/Brian")
+                .andExpect(ACCEPTED, "Brian", PENDING, 0)
+                .andRedirectTo("/queue/Brian")
         }
     }
 
@@ -56,8 +57,8 @@ internal class MainControllerIT(
             service.state = PENDING
 
             greet("Brian")
-                    .andExpect(ACCEPTED, "Brian", PENDING, 0)
-                    .andRedirectTo("/queue/Brian")
+                .andExpect(ACCEPTED, "Brian", PENDING, 0)
+                .andRedirectTo("/queue/Brian")
         }
     }
 
@@ -69,8 +70,8 @@ internal class MainControllerIT(
             service.state = COMPLETE
 
             greet("Brian")
-                    .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
-                    .andRedirectTo("/greetings/Brian")
+                .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
+                .andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -82,7 +83,7 @@ internal class MainControllerIT(
             service.state = null
 
             GET("/queue/Brian")
-                    .andExpect(NOT_FOUND)
+                .andExpect(NOT_FOUND)
         }
     }
 
@@ -94,7 +95,7 @@ internal class MainControllerIT(
             service.state = PENDING
 
             GET("/queue/Brian")
-                    .andExpect(OK, "Brian", PENDING, 0)
+                .andExpect(OK, "Brian", PENDING, 0)
         }
     }
 
@@ -106,8 +107,8 @@ internal class MainControllerIT(
             service.state = COMPLETE
 
             GET("/queue/Brian")
-                    .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
-                    .andRedirectTo("/greetings/Brian")
+                .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
+                .andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -119,9 +120,9 @@ internal class MainControllerIT(
             service.state = PENDING
 
             DELETE("/queue/Brian")
-                    .andExpect(NO_CONTENT)
+                .andExpect(NO_CONTENT)
             GET("/queue/Brian")
-                    .andExpect(NOT_FOUND)
+                .andExpect(NOT_FOUND)
         }
     }
 
@@ -133,7 +134,7 @@ internal class MainControllerIT(
             service.state = null
 
             GET("/greetings/Brian")
-                    .andExpect(NOT_FOUND)
+                .andExpect(NOT_FOUND)
         }
     }
 
@@ -145,7 +146,7 @@ internal class MainControllerIT(
             service.state = PENDING
 
             GET("/greetings/Brian")
-                    .andExpect(NOT_FOUND)
+                .andExpect(NOT_FOUND)
         }
     }
 
@@ -159,10 +160,14 @@ internal class MainControllerIT(
             val entity = GET("/greetings/Brian")
             assertEquals(OK, entity.statusCode)
             assertEquals(
-                    objectMapper.writeValueAsString(
-                            Greeting("Brian",
-                                    Status("Brian", COMPLETE, 100))),
-                    entity.body, STRICT)
+                objectMapper.writeValueAsString(
+                    Greeting(
+                        "Brian",
+                        Status("Brian", COMPLETE, 100)
+                    )
+                ),
+                entity.body, STRICT
+            )
         }
     }
 
@@ -174,30 +179,47 @@ internal class MainControllerIT(
             service.state = COMPLETE
 
             DELETE("/greetings/Brian")
-                    .andExpect(NO_CONTENT)
+                .andExpect(NO_CONTENT)
             GET("/greetings/Brian")
-                    .andExpect(NOT_FOUND)
+                .andExpect(NOT_FOUND)
         }
     }
 
     private fun POST(path: String, beginGreeting: String):
-            ResponseEntity<String> = restTemplate.postForEntity(path,
-            HttpEntity(beginGreeting,
-                    LinkedMultiValueMap(mapOf(Pair(CONTENT_TYPE,
-                            listOf(APPLICATION_JSON_UTF8_VALUE))))),
-            String::class.java)
+            ResponseEntity<String> = restTemplate.postForEntity(
+        path,
+        HttpEntity(
+            beginGreeting,
+            LinkedMultiValueMap(
+                mapOf(
+                    Pair(
+                        CONTENT_TYPE,
+                        listOf(APPLICATION_JSON_UTF8_VALUE)
+                    )
+                )
+            )
+        ),
+        String::class.java
+    )
 
     private fun greet(name: String): ResponseEntity<String> {
-        return POST("/greetings",
-                objectMapper.writeValueAsString(
-                        GreetingRequest(name)))
+        return POST(
+            "/greetings",
+            objectMapper.writeValueAsString(
+                GreetingRequest(name)
+            )
+        )
     }
 
-    private fun GET(path: String) = restTemplate.getForEntity(path,
-            String::class.java)
+    private fun GET(path: String) = restTemplate.getForEntity(
+        path,
+        String::class.java
+    )
 
-    private fun DELETE(path: String) = restTemplate.exchange(path,
-            HttpMethod.DELETE, null, Void::class.java)
+    private fun DELETE(path: String) = restTemplate.exchange(
+        path,
+        HttpMethod.DELETE, null, Void::class.java
+    )
 
     private fun <T> ResponseEntity<T>.andExpect(status: HttpStatus):
             ResponseEntity<T> {
@@ -206,16 +228,19 @@ internal class MainControllerIT(
     }
 
     private fun <T> ResponseEntity<T>.andExpect(
-            status: HttpStatus,
-            name: String,
-            state: State,
-            percentage: Int):
+        status: HttpStatus,
+        name: String,
+        state: State,
+        percentage: Int
+    ):
             ResponseEntity<T> {
         assertEquals(status, this.statusCode)
         assertEquals(
-                objectMapper.writeValueAsString(
-                        Status(name, state, percentage)),
-                body.toString(), STRICT)
+            objectMapper.writeValueAsString(
+                Status(name, state, percentage)
+            ),
+            body.toString(), STRICT
+        )
         return this
     }
 

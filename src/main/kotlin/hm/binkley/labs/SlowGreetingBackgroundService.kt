@@ -6,8 +6,8 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
 
 class SlowGreetingBackgroundService(
-        private val delay: Int,
-        private val timeUnit: TimeUnit
+    private val delay: Int,
+    private val timeUnit: TimeUnit
 ) : GreetingBackgroundService {
     private val greetings = ConcurrentHashMap<String, ProgressiveGreeting>()
 

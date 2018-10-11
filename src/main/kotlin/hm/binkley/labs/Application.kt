@@ -20,7 +20,7 @@ private val logger = getLogger(Application::class.java)!!
 class Application
     : ApplicationListener<WebServerInitializedEvent> {
     override fun onApplicationEvent(event: WebServerInitializedEvent) =
-            logger.info("Ready on port ${event.webServer.port}")
+        logger.info("Ready on port ${event.webServer.port}")
 
     /** Sleep to fake a batch job, and be human-visible in the UI. */
     @Bean

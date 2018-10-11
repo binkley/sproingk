@@ -9,14 +9,15 @@ import javax.servlet.annotation.WebFilter
 import javax.servlet.http.HttpServletResponse
 
 @WebFilter("/*")
-class StatusMetricsFilter(private val service: StatusMetricsService)
-    : Filter {
+class StatusMetricsFilter(private val service: StatusMetricsService) :
+    Filter {
     override fun init(filterConfig: FilterConfig) {}
 
     override fun doFilter(
-            request: ServletRequest,
-            response: ServletResponse,
-            chain: FilterChain) {
+        request: ServletRequest,
+        response: ServletResponse,
+        chain: FilterChain
+    ) {
         chain.doFilter(request, response)
         service.increaseCount((response as HttpServletResponse).status)
     }

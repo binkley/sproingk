@@ -29,8 +29,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringJUnitConfig(Application::class, TestingConfiguration::class)
 @WebMvcTest
 internal class MainControllerTest(
-        @Autowired val mvc: MockMvc,
-        @Autowired val repository: TestingGreetingBackgroundService) {
+    @Autowired val mvc: MockMvc,
+    @Autowired val repository: TestingGreetingBackgroundService
+) {
     @DisplayName("WHEN greet URL is called for <name> AND is new")
     @Nested
     inner class BatchNew {
@@ -39,8 +40,8 @@ internal class MainControllerTest(
             repository.state = null
 
             greet("Brian")
-                    .andExpect(ACCEPTED, "Brian", PENDING, 0)
-                    .andRedirectTo("/queue/Brian")
+                .andExpect(ACCEPTED, "Brian", PENDING, 0)
+                .andRedirectTo("/queue/Brian")
         }
     }
 
@@ -52,8 +53,8 @@ internal class MainControllerTest(
             repository.state = PENDING
 
             greet("Brian")
-                    .andExpect(ACCEPTED, "Brian", PENDING, 0)
-                    .andRedirectTo("/queue/Brian")
+                .andExpect(ACCEPTED, "Brian", PENDING, 0)
+                .andRedirectTo("/queue/Brian")
         }
     }
 
@@ -65,8 +66,8 @@ internal class MainControllerTest(
             repository.state = COMPLETE
 
             greet("Brian")
-                    .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
-                    .andRedirectTo("/greetings/Brian")
+                .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
+                .andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -78,7 +79,7 @@ internal class MainControllerTest(
             repository.state = null
 
             GET("/queue/Brian")
-                    .andExpect(NOT_FOUND)
+                .andExpect(NOT_FOUND)
         }
     }
 
@@ -90,7 +91,7 @@ internal class MainControllerTest(
             repository.state = PENDING
 
             GET("/queue/Brian")
-                    .andExpect(OK, "Brian", PENDING, 0)
+                .andExpect(OK, "Brian", PENDING, 0)
         }
     }
 
@@ -102,8 +103,8 @@ internal class MainControllerTest(
             repository.state = COMPLETE
 
             GET("/queue/Brian")
-                    .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
-                    .andRedirectTo("/greetings/Brian")
+                .andExpect(SEE_OTHER, "Brian", COMPLETE, 100)
+                .andRedirectTo("/greetings/Brian")
         }
     }
 
@@ -115,9 +116,9 @@ internal class MainControllerTest(
             repository.state = PENDING
 
             DELETE("/queue/Brian")
-                    .andExpect(NO_CONTENT)
+                .andExpect(NO_CONTENT)
             GET("/queue/Brian")
-                    .andExpect(NOT_FOUND)
+                .andExpect(NOT_FOUND)
         }
     }
 
@@ -129,7 +130,7 @@ internal class MainControllerTest(
             repository.state = null
 
             GET("/greetings/Brian")
-                    .andExpect(NOT_FOUND)
+                .andExpect(NOT_FOUND)
         }
     }
 
@@ -141,7 +142,7 @@ internal class MainControllerTest(
             repository.state = PENDING
 
             GET("/greetings/Brian")
-                    .andExpect(NOT_FOUND)
+                .andExpect(NOT_FOUND)
         }
     }
 
@@ -153,12 +154,16 @@ internal class MainControllerTest(
             repository.state = COMPLETE
 
             GET("/greetings/Brian")
-                    .andExpect(status().isOk)
-                    .andExpect(content().json("""
+                .andExpect(status().isOk)
+                .andExpect(
+                    content().json(
+                        """
 {
   content: "Brian"
 }
-"""))
+"""
+                    )
+                )
         }
     }
 
@@ -170,43 +175,53 @@ internal class MainControllerTest(
             repository.state = COMPLETE
 
             DELETE("/greetings/Brian")
-                    .andExpect(NO_CONTENT)
+                .andExpect(NO_CONTENT)
             GET("/greetings/Brian")
-                    .andExpect(NOT_FOUND)
+                .andExpect(NOT_FOUND)
         }
     }
 
     private fun POST(path: String, beginGreeting: String) = mvc.perform(
-            post(path).contentType(APPLICATION_JSON_UTF8).content(
-                    beginGreeting))
+        post(path).contentType(APPLICATION_JSON_UTF8).content(
+            beginGreeting
+        )
+    )
 
     private fun greet(name: String): ResultActions {
-        return POST("/greetings", """
+        return POST(
+            "/greetings", """
 {
     "name": "$name"
 }
-""")
+"""
+        )
     }
 
     private fun GET(path: String) = mvc.perform(get(path))
     private fun DELETE(path: String) = mvc.perform(delete(path))
 
     private fun ResultActions.andExpect(status: HttpStatus) = andExpect(
-            status().`is`(status.value()))
+        status().`is`(status.value())
+    )
 
     private fun ResultActions.andExpect(
-            status: HttpStatus,
-            name: String,
-            state: State,
-            percentage: Int
+        status: HttpStatus,
+        name: String,
+        state: State,
+        percentage: Int
     ) = andExpect(
-            status().`is`(status.value())).andExpect(content().json("""
+        status().`is`(status.value())
+    ).andExpect(
+        content().json(
+            """
 {
   "name": "$name",
   "state": "$state",
   "percentage": $percentage
 }
-"""))
+"""
+        )
+    )
 
     private fun ResultActions.andRedirectTo(location: String): ResultActions {
         andExpect(header().string(LOCATION, location))

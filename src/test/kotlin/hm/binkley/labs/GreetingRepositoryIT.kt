@@ -16,22 +16,25 @@ import javax.persistence.EntityManager
 @DataJpaTest
 @ExtendWith(SpringExtension::class)
 internal class GreetingRepositoryIT(
-        @Autowired val repository: GreetingRepository,
-        @Autowired val entityManager: EntityManager) {
+    @Autowired val repository: GreetingRepository,
+    @Autowired val entityManager: EntityManager
+) {
     @DisplayName("WHEN saving a greeting properly annotated")
     @Nested
     inner class Roundtrip {
         @Test
         fun `THEN is can be read back`() {
-            val greeting = Greeting("Hello, world!",
-                    Status("world", COMPLETE, 100))
+            val greeting = Greeting(
+                "Hello, world!",
+                Status("world", COMPLETE, 100)
+            )
 
             repository.saveAndFlush(greeting.copy())
             entityManager.clear()
 
             val matcher = ExampleMatcher.matching()
-                    .withIgnoreNullValues()
-                    .withIgnorePaths("id")
+                .withIgnoreNullValues()
+                .withIgnorePaths("id")
             val example = Example.of(greeting, matcher)
 
             assertThat(repository.findOne(example).get()).isEqualTo(greeting)

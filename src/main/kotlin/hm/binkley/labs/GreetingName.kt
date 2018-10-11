@@ -17,28 +17,32 @@ import kotlin.reflect.KClass
 @Constraint(validatedBy = [GreetingNameValidator::class])
 @MustBeDocumented
 annotation class GreetingName(
-        val groups: Array<KClass<*>> = [],
-        val payload: Array<KClass<out Payload>> = [],
-        val message: String = "") {
-}
+    val groups: Array<KClass<*>> = [],
+    val payload: Array<KClass<out Payload>> = [],
+    val message: String = ""
+)
 
 enum class ValidationErrorType {
     REQUIRED
 }
 
 class GreetingNameValidator : ConstraintValidator<GreetingName, String> {
-    override fun isValid(value: String?,
-            context: ConstraintValidatorContext): Boolean {
+    override fun isValid(
+        value: String?,
+        context: ConstraintValidatorContext
+    ): Boolean {
         if (null == value) return context.failedBecause(REQUIRED)
         if (value.isBlank()) return context.failedBecause(REQUIRED)
         return true
     }
 }
 
-fun ConstraintValidatorContext.failedBecause(errorType:
-ValidationErrorType): Boolean {
+fun ConstraintValidatorContext.failedBecause(
+    errorType:
+    ValidationErrorType
+): Boolean {
     this.disableDefaultConstraintViolation()
     this.buildConstraintViolationWithTemplate(errorType.toString())
-            .addConstraintViolation()
+        .addConstraintViolation()
     return false
 }

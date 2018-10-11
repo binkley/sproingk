@@ -22,8 +22,8 @@ internal class SlowGreetingBackgroundServiceIT {
             repository.delete("Brian")
 
             assertThat(percentage in 1 until 100)
-                    .`as`("$percentage not between 0 and 100")
-                    .isTrue()
+                .`as`("$percentage not between 0 and 100")
+                .isTrue()
         }
     }
 
