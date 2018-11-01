@@ -14,6 +14,10 @@ management:
 spring:
   application:
     name: Bob
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
   jpa:
     show-sql=true
   main:
